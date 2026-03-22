@@ -16,6 +16,7 @@ Usage:
 """
 
 import argparse
+import datetime
 import json
 import sys
 from pathlib import Path
@@ -28,6 +29,31 @@ from src.ontology_graph import OntologyGraph
 from src.grammar_builder import GrammarBuilder
 from src.validator import OntologyValidator
 from src.constrained_client import ConstrainedClient
+from hooks.post_tool_call import write_map_file
+
+
+def log_entities(config, graph, entities: list[str], tool_name: str = "demo.py"):
+    """Append visited entities to validation_log.jsonl and refresh .live_map."""
+    if not entities:
+        return
+    entry = {
+        "timestamp": datetime.datetime.now().isoformat(),
+        "session_id": "demo-interactive",
+        "tool_name": tool_name,
+        "ontology": graph.metadata.get("name", "Ontology"),
+        "validation_score": 1.0,
+        "valid": True,
+        "errors": [],
+        "warnings": [],
+        "entities_mentioned": entities,
+        "triple_count": 0,
+    }
+    try:
+        with open(config.log_path, "a", encoding="utf-8") as f:
+            f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+    write_map_file(graph, config.log_path, entities, ROOT)
 
 
 def print_section(title: str):
@@ -112,13 +138,14 @@ def demo_grammar(builder: GrammarBuilder, graph: OntologyGraph):
     print("  [...]")
 
 
-def demo_subgraph(graph: OntologyGraph, node_id: str):
+def demo_subgraph(graph: OntologyGraph, node_id: str) -> list[str]:
+    """Inspect a node and return all entity IDs found in the subgraph."""
     print_section(f"SUBGRAPH AROUND '{node_id}'")
     node = graph.get_node(node_id)
     if not node:
         print(f"  Node '{node_id}' not found. Available entities:")
         print(f"  {list(graph.nodes.keys())[:20]}...")
-        return
+        return []
 
     print(f"  Node: {node.label} ({node.cls})")
     if node.wikidata:
@@ -126,12 +153,18 @@ def demo_subgraph(graph: OntologyGraph, node_id: str):
 
     subgraph = graph.subgraph_around(node_id, depth=1)
     print(f"\n  Direct neighbors ({len(subgraph['edges'])} edges):")
+    entities_seen = {node_id}
     for edge in subgraph["edges"]:
         src = graph.get_node(edge["subject"])
         tgt = graph.get_node(edge["object"])
         src_label = src.label if src else edge["subject"]
         tgt_label = tgt.label if tgt else edge["object"]
         print(f"    {src_label}  ─[{edge['predicate']}]→  {tgt_label}")
+        if src:
+            entities_seen.add(edge["subject"])
+        if tgt:
+            entities_seen.add(edge["object"])
+    return list(entities_seen)
 
 
 def demo_export_schemas(builder: GrammarBuilder):
@@ -144,10 +177,11 @@ def demo_export_schemas(builder: GrammarBuilder):
         print(f"    {Path(path).name:<35} {size} bytes")
 
 
-def demo_query(client: ConstrainedClient, question: str):
+def demo_query(client: ConstrainedClient, question: str) -> list[str]:
     """Output ontology context and schema for a query.
 
     Claude Code is the LLM — this provides the constraints it must follow.
+    Returns the list of valid entity IDs for logging.
     """
     name = client.builder.ontology_name
     print_section(f"CONSTRAINED QUERY — {name}")
@@ -175,8 +209,12 @@ def demo_query(client: ConstrainedClient, question: str):
     print(f"\n  📦 Full schema:")
     print(json.dumps(schema, indent=2))
 
+    # Return focus entities for logging
+    focus = result.get("focus_node")
+    return [focus] if focus else result.get("valid_entities", [])[:5]
 
-def interactive_mode(client: ConstrainedClient, graph: OntologyGraph):
+
+def interactive_mode(client: ConstrainedClient, graph: OntologyGraph, config):
     name = graph.metadata.get("name", "Ontology")
     print_section(f"INTERACTIVE MODE — Structured Decoding — {name}")
     print("\n  Available commands:")
@@ -207,7 +245,8 @@ def interactive_mode(client: ConstrainedClient, graph: OntologyGraph):
         cmd = parts[0].lower()
 
         if cmd == "inspect" and len(parts) >= 2:
-            demo_subgraph(graph, parts[1])
+            entities = demo_subgraph(graph, parts[1])
+            log_entities(config, graph, entities, tool_name="demo interactive inspect")
 
         elif cmd == "check" and len(parts) >= 4:
             s, p, o = parts[1], parts[2], parts[3]
@@ -225,7 +264,8 @@ def interactive_mode(client: ConstrainedClient, graph: OntologyGraph):
                 print(f"  No results for '{term}'")
 
         else:
-            demo_query(client, user_input)
+            entities = demo_query(client, user_input)
+            log_entities(config, graph, entities, tool_name="demo interactive query")
 
 
 def main():
@@ -268,15 +308,17 @@ def main():
         demo_export_schemas(builder)
 
     if args.inspect:
-        demo_subgraph(graph, args.inspect)
+        entities = demo_subgraph(graph, args.inspect)
+        log_entities(config, graph, entities, tool_name="demo.py --inspect")
 
     if args.query:
-        demo_query(client, args.query)
+        entities = demo_query(client, args.query)
+        log_entities(config, graph, entities, tool_name="demo.py --query")
 
     # No options: interactive mode
     if not any([args.query, args.inspect, args.check_triple,
                 args.export_schemas, args.summary, args.grammar, args.all]):
-        interactive_mode(client, graph)
+        interactive_mode(client, graph, config)
 
 
 if __name__ == "__main__":

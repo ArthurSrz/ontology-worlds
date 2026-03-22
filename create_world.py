@@ -51,24 +51,20 @@ def create_world(
     world_dir.mkdir(parents=True)
     print(f"\n🌍 Creating world: {world_dir.name}/\n", file=sys.stderr)
 
-    # 2. Copy enforcement engine source
-    src_source = root / "src"
-    src_dest = world_dir / "src"
-    shutil.copytree(src_source, src_dest, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
-    print(f"  📦 Copied enforcement engine → src/", file=sys.stderr)
+    # 2. Symlink enforcement engine source (bidirectional sync with parent)
+    (world_dir / "src").symlink_to(Path("..") / "src")
+    print(f"  📦 Linked enforcement engine → src/", file=sys.stderr)
 
-    # 3. Copy hooks
-    hooks_source = root / "hooks"
-    hooks_dest = world_dir / "hooks"
-    shutil.copytree(hooks_source, hooks_dest, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
-    print(f"  🪝 Copied hooks → hooks/", file=sys.stderr)
+    # 3. Symlink hooks
+    (world_dir / "hooks").symlink_to(Path("..") / "hooks")
+    print(f"  🪝 Linked hooks → hooks/", file=sys.stderr)
 
-    # 4. Copy demo.py, map.py, log_entities.py
-    shutil.copy2(root / "demo.py", world_dir / "demo.py")
+    # 4. Symlink demo.py, map.py, log_entities.py
+    (world_dir / "demo.py").symlink_to(Path("..") / "demo.py")
     if (root / "map.py").exists():
-        shutil.copy2(root / "map.py", world_dir / "map.py")
+        (world_dir / "map.py").symlink_to(Path("..") / "map.py")
     if (root / "log_entities.py").exists():
-        shutil.copy2(root / "log_entities.py", world_dir / "log_entities.py")
+        (world_dir / "log_entities.py").symlink_to(Path("..") / "log_entities.py")
 
     # 5. Copy .claude/settings.json (hooks config)
     claude_dir = world_dir / ".claude"

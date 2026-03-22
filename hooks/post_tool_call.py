@@ -142,22 +142,18 @@ def render_live_map(graph: OntologyGraph, log_path: Path, current_entities: list
 
 
 def refresh_live_map_if_stale(world_root: Path):
-    """Reload the ontology from disk and regenerate .live_map if the node count
-    in .live_map doesn't match the current ontology (or .live_map doesn't exist)."""
-    import re
+    """Reload the ontology from disk and regenerate .live_map if the ontology
+    file is newer than the current .live_map (or .live_map doesn't exist)."""
     live_map = world_root / ".live_map"
     try:
         config = load_config(world_root)
         onto_path = config.ontology_path
         if not onto_path.exists():
             return
+        # Check if ontology is newer than .live_map
+        if live_map.exists() and live_map.stat().st_mtime >= onto_path.stat().st_mtime:
+            return  # .live_map is up to date
         graph = OntologyGraph(onto_path)
-        # Check if node count in .live_map matches current graph
-        if live_map.exists():
-            content = live_map.read_text()
-            m = re.search(r'\((\d+)/(\d+)\)', content)
-            if m and int(m.group(2)) == len(graph.nodes):
-                return  # already up to date
         write_map_file(graph, config.log_path, [], world_root)
     except Exception:
         pass
