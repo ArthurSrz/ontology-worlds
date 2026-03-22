@@ -63,8 +63,10 @@ def create_world(
     shutil.copytree(hooks_source, hooks_dest, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
     print(f"  🪝 Copied hooks → hooks/", file=sys.stderr)
 
-    # 4. Copy demo.py
+    # 4. Copy demo.py and map.py
     shutil.copy2(root / "demo.py", world_dir / "demo.py")
+    if (root / "map.py").exists():
+        shutil.copy2(root / "map.py", world_dir / "map.py")
 
     # 5. Copy .claude/settings.json (hooks config)
     claude_dir = world_dir / ".claude"
