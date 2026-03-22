@@ -165,12 +165,18 @@ exceeds the ontology scope, without attempting to supplement from general knowle
 - Use `src.validator.OntologyValidator.validate_triple()` before any manual assertion
 - If a fact exceeds the ontology scope → signal it explicitly (`out_of_scope=True`)
 - Call `python demo.py --summary` at session start to load context
-- **After EVERY constrained query response**, show the world map to the user:
+- **After EVERY ontology-grounded answer**, log the entities you discussed:
+  ```bash
+  python3 log_entities.py EntityId1 EntityId2 ...
+  ```
+  Use the exact entity IDs from the ontology table above.
+  This writes to `validation_log.jsonl` and refreshes `.live_map`.
+- **Then show the updated map**:
   ```bash
   cat .live_map
   ```
-  The `.live_map` file is updated automatically by the PostToolUse hook after each interaction.
-  This shows the user where you are in the ontology. ALWAYS do this — never skip.
+  ALWAYS do both steps — never skip. This is how exploration progress is tracked.
+
 
 ### Self-correction loop
 If the PostToolUse hook returns an error (exit 2), you must:
