@@ -153,6 +153,21 @@ def demo_query(client: ConstrainedClient, question: str):
 
     result = client.query(question)
 
+    # Write to validation log so the PostToolUse hook can track visited nodes
+    import datetime
+    try:
+        log_path = ROOT / client.config.log_file if hasattr(client.config, "log_file") else ROOT / "validation_log.jsonl"
+        entry = {
+            "timestamp": datetime.datetime.utcnow().isoformat(),
+            "query": question,
+            "entities_mentioned": result.get("entities_mentioned", []),
+            "score": result.get("_validation", {}).get("score", 0),
+        }
+        with open(log_path, "a") as lf:
+            lf.write(json.dumps(entry) + "\n")
+    except Exception:
+        pass
+
     print(f"  📝 Answer:")
     print(f"     {result.get('answer', '[empty]')}")
 
