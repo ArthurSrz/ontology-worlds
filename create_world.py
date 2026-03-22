@@ -95,7 +95,29 @@ def create_world(
     with open(claude_dir / "settings.local.json", "w") as f:
         json.dump(settings_local, f, indent=2)
 
-    print(f"  ⚙️  Configured .claude/settings.json", file=sys.stderr)
+    # 5b. Symlink mcp/ from parent so MCP servers are available in this world
+    mcp_link = world_dir / "mcp"
+    mcp_link.symlink_to(Path("..") / "mcp")
+
+    # 5c. Create .mcp.json — same config as root (mcp/ is now local via symlink)
+    mcp_config = {
+        "mcpServers": {
+            "okg": {
+                "type": "stdio",
+                "command": "bash",
+                "args": ["-c", "export PATH=\"$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/bin:$PATH\" && cd mcp && uv run python -m okg_mcp"],
+            },
+            "mcp-wikidata": {
+                "type": "stdio",
+                "command": "bash",
+                "args": ["-c", "export PATH=\"$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/bin:$PATH\" && cd mcp && uv run python -m wikidata_mcp"],
+            },
+        }
+    }
+    with open(world_dir / ".mcp.json", "w") as f:
+        json.dump(mcp_config, f, indent=2)
+
+    print(f"  ⚙️  Configured .claude/settings.json + .mcp.json + mcp/ symlink", file=sys.stderr)
 
     # 6. Build the ontology via OKG + Wikidata
     # Import from the root src (not the copy)

@@ -3,12 +3,12 @@
     "okg": {
       "type": "stdio",
       "command": "bash",
-      "args": ["-lc", "cd mcp && uv run python -m okg_mcp"]
+      "args": ["-c", "export PATH=\"$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/bin:$PATH\" && cd mcp && uv run python -m okg_mcp"]
     },
     "mcp-wikidata": {
       "type": "stdio",
       "command": "bash",
-      "args": ["-lc", "cd mcp && uv run python -m wikidata_mcp"]
+      "args": ["-c", "export PATH=\"$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/bin:$PATH\" && cd mcp && uv run python -m wikidata_mcp"]
     }
   }
 }
