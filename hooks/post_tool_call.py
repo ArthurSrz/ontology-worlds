@@ -181,8 +181,7 @@ def main():
     threshold = config.validation_threshold
     log_path = config.log_path
 
-    if tool_name != ontology_tool_name:
-        sys.exit(0)
+
 
     try:
         graph = OntologyGraph(config.ontology_path)
