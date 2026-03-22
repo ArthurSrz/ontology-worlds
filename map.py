@@ -45,6 +45,14 @@ def main():
     else:
         render_map(graph, log_data, focus=args.focus)
 
+    # Always refresh .live_map from the current ontology on disk
+    # This ensures it stays in sync after enrichment or manual edits
+    try:
+        from hooks.post_tool_call import write_map_file
+        write_map_file(graph, config.log_path, log_data.get("current", []), ROOT)
+    except Exception:
+        pass
+
 
 if __name__ == "__main__":
     main()

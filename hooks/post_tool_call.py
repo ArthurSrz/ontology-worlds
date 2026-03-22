@@ -141,6 +141,24 @@ def render_live_map(graph: OntologyGraph, log_path: Path, current_entities: list
     print(f"{D}└──────────────────────────────────────────────────┘{R}\n", file=sys.stderr)
 
 
+def refresh_live_map_if_stale(world_root: Path):
+    """Reload the ontology from disk and regenerate .live_map if the ontology
+    file is newer than the current .live_map (or .live_map doesn't exist)."""
+    live_map = world_root / ".live_map"
+    try:
+        config = load_config(world_root)
+        onto_path = config.ontology_path
+        if not onto_path.exists():
+            return
+        # Check if ontology is newer than .live_map
+        if live_map.exists() and live_map.stat().st_mtime >= onto_path.stat().st_mtime:
+            return  # .live_map is up to date
+        graph = OntologyGraph(onto_path)
+        write_map_file(graph, config.log_path, [], world_root)
+    except Exception:
+        pass
+
+
 def write_map_file(graph: OntologyGraph, log_path: Path, current_entities: list[str], world_root: Path):
     """Write a plain-text map (no ANSI) to .live_map for Claude to read."""
     visited: Counter = Counter()

@@ -96,6 +96,13 @@ def main():
 
     log(f"session={session_id} tool={tool_name}")
 
+    # Refresh .live_map if the ontology file has been modified
+    try:
+        from hooks.post_tool_call import refresh_live_map_if_stale
+        refresh_live_map_if_stale(ROOT)
+    except Exception:
+        pass
+
     # Charger la configuration
     config = load_config(ROOT)
     ontology_tool_name = config.tool_name
