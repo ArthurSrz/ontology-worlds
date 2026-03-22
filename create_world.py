@@ -181,6 +181,17 @@ def create_world(
     print(f"    cd {world_dir.name} && python demo.py --summary", file=sys.stderr)
     print(f"{'='*60}\n", file=sys.stderr)
 
+    # Render initial live map (0% coverage — blank canvas)
+    try:
+        import importlib.util
+        _spec = importlib.util.spec_from_file_location("hook", world_dir / "hooks" / "post_tool_call.py")
+        _hook = importlib.util.module_from_spec(_spec)
+        _spec.loader.exec_module(_hook)
+        _hook.render_live_map(graph, world_dir / "validation_log.jsonl", [])
+        _hook.write_map_file(graph, world_dir / "validation_log.jsonl", [], world_dir)
+    except Exception:
+        pass
+
     return world_dir
 
 
