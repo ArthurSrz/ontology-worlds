@@ -107,16 +107,13 @@ def _quickstart() -> str:
 # Install dependencies
 pip install -r requirements.txt
 
-# Set API key
-export ANTHROPIC_API_KEY=sk-ant-...
-
 # Graph summary
 python demo.py --summary
 
 # Full demo (validation, grammars, schemas)
 python demo.py --all
 
-# Constrained query
+# Constrained query (outputs ontology context for Claude Code)
 python demo.py --query "Your question here"
 
 # Inspect a node
@@ -125,6 +122,9 @@ python demo.py --inspect <node_id>
 # Interactive mode
 python demo.py
 ```
+
+> **No API key needed** — this world runs inside Claude Code, which is the LLM.
+> Ontology enforcement happens through hooks and JSON Schema constraints.
 
 ---
 """

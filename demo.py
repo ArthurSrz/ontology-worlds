@@ -17,7 +17,6 @@ Usage:
 
 import argparse
 import json
-import os
 import sys
 from pathlib import Path
 
@@ -146,71 +145,42 @@ def demo_export_schemas(builder: GrammarBuilder):
 
 
 def demo_query(client: ConstrainedClient, question: str):
+    """Output ontology context and schema for a query.
+
+    Claude Code is the LLM — this provides the constraints it must follow.
+    """
     name = client.builder.ontology_name
     print_section(f"CONSTRAINED QUERY — {name}")
     print(f"  Q: {question[:60]}...")
-    print(f"\n  ⏳ Generating (structured decoding)...\n")
 
     result = client.query(question)
 
-    # Write to validation log so the PostToolUse hook can track visited nodes
-    import datetime
-    try:
-        log_path = ROOT / client.config.log_file if hasattr(client.config, "log_file") else ROOT / "validation_log.jsonl"
-        entry = {
-            "timestamp": datetime.datetime.utcnow().isoformat(),
-            "query": question,
-            "entities_mentioned": result.get("entities_mentioned", []),
-            "score": result.get("_validation", {}).get("score", 0),
-        }
-        with open(log_path, "a") as lf:
-            lf.write(json.dumps(entry) + "\n")
-    except Exception:
-        pass
+    print(f"\n  📋 Ontology context loaded.")
+    print(f"  Valid entities: {len(result['valid_entities'])}")
+    print(f"  Valid predicates: {result['valid_predicates']}")
+    if result.get("focus_node"):
+        print(f"  Focus node: {result['focus_node']}")
 
-    # Render live ASCII graph map to stderr
-    try:
-        import importlib.util
-        _spec = importlib.util.spec_from_file_location("hook", ROOT / "hooks" / "post_tool_call.py")
-        _hook = importlib.util.module_from_spec(_spec)
-        _spec.loader.exec_module(_hook)
-        _hook.render_live_map(client.graph, log_path, result.get("entities_mentioned", []))
-    except Exception:
-        pass
+    print(f"\n  📐 Response schema (required fields):")
+    schema = result["schema"]
+    if "required" in schema:
+        print(f"     {schema['required']}")
 
-    print(f"  📝 Answer:")
-    print(f"     {result.get('answer', '[empty]')}")
+    print(f"\n  💡 System prompt fragment (first 10 lines):")
+    for line in result["system_prompt"].split('\n')[:10]:
+        print(f"     {line}")
+    print("     [...]")
 
-    entities = result.get("entities_mentioned", [])
-    if entities:
-        print(f"\n  🔖 Entities mentioned ({len(entities)}):")
-        for eid in entities:
-            node = client.graph.get_node(eid)
-            label = node.label if node else eid
-            print(f"     • {label} ({eid})")
-
-    triples = result.get("supporting_triples", [])
-    if triples:
-        print(f"\n  🔗 Supporting triples ({len(triples)}):")
-        for t in triples:
-            print(f"     ({t['subject']}, {t['predicate']}, {t['object']})")
-
-    validation = result.get("_validation", {})
-    score = validation.get("score", 0)
-    valid = validation.get("valid", False)
-    attempts = validation.get("attempts", 1)
-    print(f"\n  {'✅' if valid else '⚠️'} Validation: score={score:.2f}  attempts={attempts}")
-
-    if validation.get("warnings"):
-        for w in validation["warnings"]:
-            print(f"     ⚠️  {w}")
+    # Output full schema as JSON for Claude Code to use
+    print(f"\n  📦 Full schema:")
+    print(json.dumps(schema, indent=2))
 
 
 def interactive_mode(client: ConstrainedClient, graph: OntologyGraph):
     name = graph.metadata.get("name", "Ontology")
     print_section(f"INTERACTIVE MODE — Structured Decoding — {name}")
     print("\n  Available commands:")
-    print("    <question>              Ontology-constrained query")
+    print("    <question>              Ontology-constrained query (outputs context)")
     print("    inspect <id>            Inspect a graph node")
     print("    check <s> <p> <o>       Validate a triple")
     print("    search <term>           Search the ontology")
@@ -255,13 +225,7 @@ def interactive_mode(client: ConstrainedClient, graph: OntologyGraph):
                 print(f"  No results for '{term}'")
 
         else:
-            # LLM query
-            if not os.environ.get("ANTHROPIC_API_KEY"):
-                print("\n  ⚠️  ANTHROPIC_API_KEY not set.")
-                print("     Demo without API call:\n")
-                demo_validation(validator, graph)
-            else:
-                demo_query(client, user_input)
+            demo_query(client, user_input)
 
 
 def main():
@@ -276,7 +240,6 @@ def main():
     parser.add_argument("--summary", "-s", action="store_true", help="Graph summary")
     parser.add_argument("--grammar", "-g", action="store_true", help="Grammar compilation demo")
     parser.add_argument("--all", "-a", action="store_true", help="Run all demos")
-    parser.add_argument("--model", default="claude-opus-4-6", help="Claude model to use")
     args = parser.parse_args()
 
     # Load the graph
@@ -288,11 +251,8 @@ def main():
     summary = graph.summary()
     print(f"   {summary['total_nodes']} nodes, {summary['total_edges']} edges loaded.\n")
 
-    # Create client (only if API key available)
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
-    client = None
-    if api_key:
-        client = ConstrainedClient(graph, model=args.model, verbose=True, config=config)
+    # Create client (no API key needed — runs inside Claude Code)
+    client = ConstrainedClient(graph, verbose=True, config=config)
 
     # Dispatch commands
     if args.summary or args.all:
@@ -311,22 +271,12 @@ def main():
         demo_subgraph(graph, args.inspect)
 
     if args.query:
-        if not client:
-            print("⚠️  ANTHROPIC_API_KEY not set — cannot call LLM.")
-            sys.exit(1)
         demo_query(client, args.query)
 
     # No options: interactive mode
     if not any([args.query, args.inspect, args.check_triple,
                 args.export_schemas, args.summary, args.grammar, args.all]):
-        if not client and not api_key:
-            # Demo mode without API
-            demo_graph_summary(graph)
-            demo_grammar(builder, graph)
-            demo_validation(validator, graph)
-            demo_export_schemas(builder)
-        else:
-            interactive_mode(client, graph)
+        interactive_mode(client, graph)
 
 
 if __name__ == "__main__":

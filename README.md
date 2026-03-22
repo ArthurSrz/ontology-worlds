@@ -221,9 +221,9 @@ python init.py --ontology path/to/my_ontology.json --language en
 ## Requirements
 
 - Python 3.11+
-- `anthropic` (for constrained LLM queries)
 - `httpx` (for OKG + Wikidata API calls)
-- [Claude Code](https://claude.ai/claude-code) (for the constrained environment)
+- `jsonschema` (for JSON Schema validation)
+- [Claude Code](https://claude.ai/claude-code) — **Claude Code is the LLM**. No API key needed.
 
 ## License
 
