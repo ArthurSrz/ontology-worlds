@@ -87,21 +87,45 @@ def render_live_map(graph: OntologyGraph, log_path: Path, current_entities: list
         current_labels.append(node.label if node else eid)
     pos = f" → {G}{', '.join(current_labels)}{R}" if current_labels else ""
 
-    # Edges from current
-    edge_strs = []
+    def trunc(s: str, n: int = 14) -> str:
+        return s if len(s) <= n else s[:n - 1] + "…"
+
+    def node_color(eid: str) -> str:
+        if eid in current_entities:
+            return G
+        return B if eid in visited else D
+
+    def node_str(eid: str) -> str:
+        node = graph.get_node(eid)
+        label = trunc(node.label if node else eid)
+        marker = "*" if eid in current_entities else ""
+        return f"{node_color(eid)}[{label}]{marker}{R}"
+
+    # Build ASCII graph lines
+    graph_lines = []
     for eid in current_entities[:2]:
-        for pred, target in graph.get_neighbors_out(eid)[:2]:
-            tgt = graph.get_node(target)
-            tgt_label = tgt.label if tgt else target
-            color = B if target in visited else D
-            edge_strs.append(f"  {D}└{R} {G}{graph.get_node(eid).label if graph.get_node(eid) else eid}{R} ─[{Y}{pred}{R}]→ {color}{tgt_label}{R}")
+        out_edges = graph.get_neighbors_out(eid)[:2]
+        if not out_edges:
+            graph_lines.append(f"  {node_str(eid)}")
+            continue
+        for i, (pred, target) in enumerate(out_edges):
+            # For first target, optionally show one second-hop inline
+            second_hop = ""
+            if i == 0:
+                hops = graph.get_neighbors_out(target)[:1]
+                if hops:
+                    hp, ht = hops[0]
+                    second_hop = f" {D}──{hp}──>{R} {node_str(ht)}"
+            prefix = f"  " if i == 0 else f"  {D}└──{R}"
+            src = node_str(eid) if i == 0 else ""
+            graph_lines.append(f"{prefix}{src} {D}──{pred}──>{R} {node_str(target)}{second_hop}")
 
     # Render to stderr (visible in verbose mode)
     print(f"\n{D}┌──────────────────────────────────────────────────┐{R}", file=sys.stderr)
     print(f"{D}│{R} {BOLD}🌍 {name}{R}  {bar} {Y}{coverage:.0f}%{R}  {D}({visited_count}/{total}){R}", file=sys.stderr)
     print(f"{D}│{R} {W}#{interactions}{R}{pos}", file=sys.stderr)
-    for es in edge_strs[:3]:
-        print(f"{D}│{R}{es}", file=sys.stderr)
+    for gl in graph_lines:
+        print(f"{D}│{R}{gl}", file=sys.stderr)
     print(f"{D}└──────────────────────────────────────────────────┘{R}\n", file=sys.stderr)
 
 
