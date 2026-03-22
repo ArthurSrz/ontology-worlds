@@ -5,6 +5,12 @@
       "args": ["-m", "okg_mcp"],
       "cwd": "mcp",
       "env": {}
+    },
+    "mcp-wikidata": {
+      "command": "python",
+      "args": ["-m", "wikidata_mcp"],
+      "cwd": "mcp",
+      "env": {}
     }
   }
 }
