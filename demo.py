@@ -168,6 +168,16 @@ def demo_query(client: ConstrainedClient, question: str):
     except Exception:
         pass
 
+    # Render live ASCII graph map to stderr
+    try:
+        import importlib.util
+        _spec = importlib.util.spec_from_file_location("hook", ROOT / "hooks" / "post_tool_call.py")
+        _hook = importlib.util.module_from_spec(_spec)
+        _spec.loader.exec_module(_hook)
+        _hook.render_live_map(client.graph, log_path, result.get("entities_mentioned", []))
+    except Exception:
+        pass
+
     print(f"  📝 Answer:")
     print(f"     {result.get('answer', '[empty]')}")
 
