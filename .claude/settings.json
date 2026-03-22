@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "okg": {
+      "command": "python",
+      "args": ["-m", "okg_mcp"],
+      "cwd": "mcp",
+      "env": {}
+    }
+  }
+}

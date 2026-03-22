@@ -1,0 +1,456 @@
+{
+  "@context": {
+    "wd": "http://www.wikidata.org/entity/",
+    "wdt": "http://www.wikidata.org/prop/direct/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "schema": "http://schema.org/"
+  },
+  "metadata": {
+    "name": "Open Data France",
+    "name_short": "OpenData FR",
+    "description": "Ontologie de l'écosystème des données ouvertes en France",
+    "language": "fr",
+    "version": "1.0.0",
+    "domain": "open-data-france"
+  },
+  "classes": [
+    {
+      "id": "OpenData",
+      "label": "Données Ouvertes",
+      "label_en": "Open Data",
+      "wikidata": "Q309901",
+      "description": "Données publiées sous une licence ouverte permettant la réutilisation libre"
+    },
+    {
+      "id": "OpenGovernmentData",
+      "label": "Données Publiques Ouvertes",
+      "label_en": "Open Government Data",
+      "wikidata": "Q136996230",
+      "description": "Données administratives accessibles au public, sous-classe de Données Ouvertes",
+      "subClassOf": "OpenData"
+    },
+    {
+      "id": "OpenDataPortal",
+      "label": "Portail de Données Ouvertes",
+      "label_en": "Open Data Portal",
+      "wikidata": "Q27031827",
+      "description": "Site web servant à diffuser et cataloguer des jeux de données ouvertes"
+    },
+    {
+      "id": "Institution",
+      "label": "Institution",
+      "description": "Organisme public ou gouvernemental impliqué dans l'open data"
+    },
+    {
+      "id": "Legislation",
+      "label": "Texte Législatif",
+      "description": "Loi, directive ou règlement encadrant l'open data"
+    },
+    {
+      "id": "Licence",
+      "label": "Licence Ouverte",
+      "description": "Licence autorisant la réutilisation des données"
+    },
+    {
+      "id": "DataProducer",
+      "label": "Producteur de Données",
+      "description": "Entité qui produit et publie des données ouvertes"
+    },
+    {
+      "id": "DataType",
+      "label": "Type de Données",
+      "description": "Catégorie thématique de données ouvertes"
+    },
+    {
+      "id": "OpenDataPrinciple",
+      "label": "Principe Open Data",
+      "description": "Principe fondamental caractérisant les données ouvertes"
+    }
+  ],
+  "instances": [
+    {
+      "id": "Etalab",
+      "class": "Institution",
+      "label": "Etalab",
+      "wikidata": "Q16635111",
+      "founded": "2011-02-21",
+      "country": "France",
+      "website": "https://www.etalab.gouv.fr/",
+      "description": "Agence gouvernementale française chargée de l'open data et du gouvernement ouvert",
+      "properties": {
+        "partOf": "DINUM",
+        "fieldOfWork": "OpenGovernmentData",
+        "manages": ["DataGouvFr", "CodeGouvFr"]
+      }
+    },
+    {
+      "id": "DINUM",
+      "class": "Institution",
+      "label": "Direction Interministérielle du Numérique",
+      "label_short": "DINUM",
+      "wikidata": "Q72587257",
+      "founded": "2019",
+      "country": "France",
+      "description": "Direction interministérielle supervisant Etalab et la transformation numérique de l'État",
+      "properties": {
+        "supervises": ["Etalab"],
+        "previousName": "DINSIC"
+      }
+    },
+    {
+      "id": "DINSIC",
+      "class": "Institution",
+      "label": "Direction Interministérielle du Numérique et du Système d'Information",
+      "label_short": "DINSIC",
+      "wikidata": "Q3029579",
+      "description": "Prédécesseur de la DINUM",
+      "properties": {
+        "successor": "DINUM"
+      }
+    },
+    {
+      "id": "CodeGouvFr",
+      "class": "Institution",
+      "label": "code.gouv.fr",
+      "wikidata": "Q115329121",
+      "description": "Mission Logiciels Libres de l'État, composante d'Etalab",
+      "properties": {
+        "partOf": "Etalab"
+      }
+    },
+    {
+      "id": "CADA",
+      "class": "Institution",
+      "label": "Commission d'Accès aux Documents Administratifs",
+      "label_short": "CADA",
+      "description": "Autorité administrative indépendante contrôlant l'accès aux documents administratifs",
+      "properties": {
+        "controls": ["OpenGovernmentData"]
+      }
+    },
+    {
+      "id": "CNIL",
+      "class": "Institution",
+      "label": "Commission Nationale de l'Informatique et des Libertés",
+      "label_short": "CNIL",
+      "description": "Autorité de protection des données personnelles",
+      "properties": {
+        "protects": ["PersonalData"],
+        "regulatesIn": ["OpenGovernmentData"]
+      }
+    },
+    {
+      "id": "DataGouvFr",
+      "class": "OpenDataPortal",
+      "label": "data.gouv.fr",
+      "wikidata": "Q3016893",
+      "url": "https://www.data.gouv.fr/",
+      "country": "France",
+      "description": "Portail national des données ouvertes de la France",
+      "properties": {
+        "operatedBy": "Etalab",
+        "scope": "national"
+      }
+    },
+    {
+      "id": "InspireGouvFr",
+      "class": "OpenDataPortal",
+      "label": "inspire.gouv.fr",
+      "url": "https://www.inspire.gouv.fr/",
+      "description": "Portail de données géographiques, conformité Directive INSPIRE",
+      "properties": {
+        "scope": "national",
+        "thematic": "Géographique"
+      }
+    },
+    {
+      "id": "PortailARA",
+      "class": "OpenDataPortal",
+      "label": "opendata.auvergnerhonealpes.eu",
+      "wikidata": "Q109997094",
+      "url": "https://opendata.auvergnerhonealpes.eu/",
+      "properties": {
+        "scope": "regional",
+        "region": "Auvergne-Rhône-Alpes"
+      }
+    },
+    {
+      "id": "PortailNormandie",
+      "class": "OpenDataPortal",
+      "label": "opendata.normandie.fr",
+      "properties": {
+        "scope": "regional",
+        "region": "Normandie"
+      }
+    },
+    {
+      "id": "PortailHDF",
+      "class": "OpenDataPortal",
+      "label": "opendata.hautsdefrance.fr",
+      "wikidata": "Q109997176",
+      "url": "https://opendata.hautsdefrance.fr/",
+      "properties": {
+        "scope": "regional",
+        "region": "Hauts-de-France"
+      }
+    },
+    {
+      "id": "PortailGrandEst",
+      "class": "OpenDataPortal",
+      "label": "data.grandest.fr",
+      "wikidata": "Q109997174",
+      "url": "https://data.grandest.fr/",
+      "properties": {
+        "scope": "regional",
+        "region": "Grand Est"
+      }
+    },
+    {
+      "id": "PortailNantes",
+      "class": "OpenDataPortal",
+      "label": "data.nantesmetropole.fr",
+      "wikidata": "Q97317513",
+      "url": "https://data.nantesmetropole.fr/",
+      "properties": {
+        "scope": "local",
+        "city": "Nantes"
+      }
+    },
+    {
+      "id": "LicenceOuverte",
+      "class": "Licence",
+      "label": "Licence Ouverte",
+      "label_short": "LO v2.0",
+      "description": "Licence libre créée par Etalab, réutilisation libre avec attribution",
+      "properties": {
+        "createdBy": "Etalab",
+        "attribution": true,
+        "shareAlike": false,
+        "commercialUse": true
+      }
+    },
+    {
+      "id": "ODbL",
+      "class": "Licence",
+      "label": "Open Database License",
+      "label_short": "ODbL",
+      "wikidata": "Q1224853",
+      "description": "Licence copyleft pour les bases de données, partage à l'identique requis",
+      "properties": {
+        "attribution": true,
+        "shareAlike": true,
+        "commercialUse": true
+      }
+    },
+    {
+      "id": "CCBY",
+      "class": "Licence",
+      "label": "Creative Commons Attribution 4.0",
+      "label_short": "CC-BY 4.0",
+      "description": "Licence Creative Commons avec attribution requise",
+      "properties": {
+        "attribution": true,
+        "shareAlike": false,
+        "commercialUse": true
+      }
+    },
+    {
+      "id": "LoiLemaire",
+      "class": "Legislation",
+      "label": "Loi pour une République Numérique",
+      "label_short": "Loi Lemaire",
+      "year": 2016,
+      "country": "France",
+      "description": "Impose l'ouverture par défaut des données publiques (open data par défaut)",
+      "properties": {
+        "transposes": "DirectivePSI",
+        "governs": ["OpenGovernmentData"],
+        "keyPrinciple": "open-by-default"
+      }
+    },
+    {
+      "id": "LoiValter",
+      "class": "Legislation",
+      "label": "Loi Valter",
+      "year": 2015,
+      "country": "France",
+      "description": "Garantit la gratuité de la réutilisation des données publiques",
+      "properties": {
+        "governs": ["OpenGovernmentData"],
+        "keyPrinciple": "free-of-charge"
+      }
+    },
+    {
+      "id": "LoiCADA",
+      "class": "Legislation",
+      "label": "Loi CADA",
+      "year": 1978,
+      "country": "France",
+      "description": "Fonde le droit d'accès aux documents administratifs",
+      "properties": {
+        "governs": ["OpenGovernmentData"]
+      }
+    },
+    {
+      "id": "DirectivePSI",
+      "class": "Legislation",
+      "label": "Directive PSI",
+      "year": 2003,
+      "revised": 2019,
+      "country": "Union Européenne",
+      "description": "Directive européenne sur la réutilisation des informations du secteur public",
+      "properties": {
+        "governs": ["OpenGovernmentData"]
+      }
+    },
+    {
+      "id": "ReglementOpenData",
+      "class": "Legislation",
+      "label": "Règlement Open Data UE 2022/868",
+      "year": 2022,
+      "country": "Union Européenne",
+      "description": "Règlement européen créant les espaces de données et renforçant l'open data",
+      "properties": {
+        "governs": ["OpenGovernmentData"]
+      }
+    },
+    {
+      "id": "Etat",
+      "class": "DataProducer",
+      "label": "État",
+      "description": "Ministères et administrations centrales françaises",
+      "properties": {
+        "produces": ["OpenGovernmentData"]
+      }
+    },
+    {
+      "id": "CollectivitesTerritoriales",
+      "class": "DataProducer",
+      "label": "Collectivités Territoriales",
+      "description": "Régions, départements, communes et métropoles",
+      "properties": {
+        "produces": ["OpenGovernmentData"],
+        "manages": ["PortailARA", "PortailNormandie", "PortailNantes"]
+      }
+    },
+    {
+      "id": "EtablissementsPublics",
+      "class": "DataProducer",
+      "label": "Établissements Publics",
+      "examples": ["INSEE", "IGN", "SNCF", "RATP", "EDF"],
+      "properties": {
+        "produces": ["OpenGovernmentData"]
+      }
+    },
+    {
+      "id": "DonneesGeographiques",
+      "class": "DataType",
+      "label": "Données Géographiques",
+      "description": "Cartographie, cadastre, adresses, limites administratives"
+    },
+    {
+      "id": "DonneesSociales",
+      "class": "DataType",
+      "label": "Données Sociales",
+      "description": "Population, emploi, logement, éducation"
+    },
+    {
+      "id": "DonneesEconomiques",
+      "class": "DataType",
+      "label": "Données Économiques",
+      "description": "Budget, marchés publics, entreprises, commerce"
+    },
+    {
+      "id": "DonneesSante",
+      "class": "DataType",
+      "label": "Données de Santé",
+      "description": "Hôpitaux, médicaments, épidémiologie"
+    },
+    {
+      "id": "DonneesEnvironnementales",
+      "class": "DataType",
+      "label": "Données Environnementales",
+      "description": "Qualité de l'air, eau, biodiversité, climat"
+    },
+    {
+      "id": "DonneesTransport",
+      "class": "DataType",
+      "label": "Données Transport",
+      "description": "GTFS, horaires, trafic, mobilité"
+    },
+    {
+      "id": "Accessibilite",
+      "class": "OpenDataPrinciple",
+      "label": "Accessibilité",
+      "description": "Les données doivent être accessibles librement, sans barrière technique ou juridique"
+    },
+    {
+      "id": "Interoperabilite",
+      "class": "OpenDataPrinciple",
+      "label": "Interopérabilité",
+      "description": "Les données doivent être publiées dans des formats ouverts et standardisés"
+    },
+    {
+      "id": "Reutilisabilite",
+      "class": "OpenDataPrinciple",
+      "label": "Réutilisabilité",
+      "description": "Les données doivent être publiées sous une licence permettant la réutilisation libre"
+    },
+    {
+      "id": "Gratuite",
+      "class": "OpenDataPrinciple",
+      "label": "Gratuité",
+      "description": "Les données publiques doivent être accessibles sans redevance (Loi Valter)"
+    }
+  ],
+  "relations": [
+    {"subject": "OpenGovernmentData", "predicate": "subClassOf", "object": "OpenData"},
+    {"subject": "OpenDataPortal", "predicate": "diffuses", "object": "OpenData"},
+    {"subject": "OpenGovernmentData", "predicate": "publishedVia", "object": "OpenDataPortal"},
+    {"subject": "Etalab", "predicate": "partOf", "object": "DINUM"},
+    {"subject": "CodeGouvFr", "predicate": "partOf", "object": "Etalab"},
+    {"subject": "DINUM", "predicate": "supervises", "object": "Etalab"},
+    {"subject": "Etalab", "predicate": "manages", "object": "DataGouvFr"},
+    {"subject": "Etalab", "predicate": "created", "object": "LicenceOuverte"},
+    {"subject": "CADA", "predicate": "controls", "object": "OpenGovernmentData"},
+    {"subject": "CNIL", "predicate": "regulates", "object": "OpenGovernmentData"},
+    {"subject": "DataGouvFr", "predicate": "instanceOf", "object": "OpenDataPortal"},
+    {"subject": "InspireGouvFr", "predicate": "instanceOf", "object": "OpenDataPortal"},
+    {"subject": "PortailARA", "predicate": "instanceOf", "object": "OpenDataPortal"},
+    {"subject": "PortailNormandie", "predicate": "instanceOf", "object": "OpenDataPortal"},
+    {"subject": "PortailHDF", "predicate": "instanceOf", "object": "OpenDataPortal"},
+    {"subject": "PortailGrandEst", "predicate": "instanceOf", "object": "OpenDataPortal"},
+    {"subject": "PortailNantes", "predicate": "instanceOf", "object": "OpenDataPortal"},
+    {"subject": "Etat", "predicate": "produces", "object": "OpenGovernmentData"},
+    {"subject": "CollectivitesTerritoriales", "predicate": "produces", "object": "OpenGovernmentData"},
+    {"subject": "CollectivitesTerritoriales", "predicate": "manages", "object": "PortailARA"},
+    {"subject": "CollectivitesTerritoriales", "predicate": "manages", "object": "PortailNantes"},
+    {"subject": "EtablissementsPublics", "predicate": "produces", "object": "OpenGovernmentData"},
+    {"subject": "OpenGovernmentData", "predicate": "publishedUnder", "object": "LicenceOuverte"},
+    {"subject": "OpenGovernmentData", "predicate": "publishedUnder", "object": "ODbL"},
+    {"subject": "OpenGovernmentData", "predicate": "publishedUnder", "object": "CCBY"},
+    {"subject": "LoiLemaire", "predicate": "governs", "object": "OpenGovernmentData"},
+    {"subject": "LoiValter", "predicate": "governs", "object": "OpenGovernmentData"},
+    {"subject": "LoiCADA", "predicate": "governs", "object": "OpenGovernmentData"},
+    {"subject": "DirectivePSI", "predicate": "governs", "object": "OpenGovernmentData"},
+    {"subject": "ReglementOpenData", "predicate": "governs", "object": "OpenGovernmentData"},
+    {"subject": "LoiLemaire", "predicate": "transposes", "object": "DirectivePSI"},
+    {"subject": "DonneesGeographiques", "predicate": "typeOf", "object": "OpenGovernmentData"},
+    {"subject": "DonneesSociales", "predicate": "typeOf", "object": "OpenGovernmentData"},
+    {"subject": "DonneesEconomiques", "predicate": "typeOf", "object": "OpenGovernmentData"},
+    {"subject": "DonneesSante", "predicate": "typeOf", "object": "OpenGovernmentData"},
+    {"subject": "DonneesEnvironnementales", "predicate": "typeOf", "object": "OpenGovernmentData"},
+    {"subject": "DonneesTransport", "predicate": "typeOf", "object": "OpenGovernmentData"},
+    {"subject": "Accessibilite", "predicate": "characterizes", "object": "OpenData"},
+    {"subject": "Interoperabilite", "predicate": "characterizes", "object": "OpenData"},
+    {"subject": "Reutilisabilite", "predicate": "characterizes", "object": "OpenData"},
+    {"subject": "Gratuite", "predicate": "characterizes", "object": "OpenData"}
+  ],
+  "valid_predicates": [
+    "subClassOf", "instanceOf", "partOf", "supervises", "manages",
+    "produces", "publishedUnder", "governs", "transposes", "created",
+    "controls", "regulates", "diffuses", "publishedVia", "typeOf",
+    "characterizes", "operatedBy", "successor", "relatedTo"
+  ]
+}

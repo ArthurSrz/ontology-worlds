@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ontological Assertion",
+  "description": "RDF triple constrained to values in the Economics ontology",
+  "type": "object",
+  "required": [
+    "subject",
+    "predicate",
+    "object",
+    "confidence"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "subject": {
+      "type": "string",
+      "enum": [
+        "FinanceBusiness",
+        "LifeSciencesHealthcare",
+        "EconomicsOntology",
+        "EconomicsDepartmentsInstitutesAndResearchCentersInTheWorld",
+        "StwThesaurusForEconomics",
+        "GlossaryOfEconomics",
+        "RepecAuthorService",
+        "Goodrelations",
+        "StatisticalClassificationOfEconomicActivitiesInTheEuropeanCommunityRev22008",
+        "StatisticalClassificationOfEconomicActivitiesInTheEuropeanCommunityRev212025",
+        "BankOntology",
+        "FederalReserveSubjectTaxonomy",
+        "PetrochemicalOntology",
+        "CoreOntologyForBiologyAndBiomedicine",
+        "EvolutionOntology",
+        "EthereumOntology",
+        "MathematicalModelingOntology",
+        "Uberon",
+        "ColeopteraAnatomyOntology",
+        "OntologyForNutritionalStudies",
+        "PhysicochemicalMethodsAndProperties",
+        "AmphibianGrossAnatomy",
+        "CellExpressionLocalizationDevelopmentAndAnatomyOntology",
+        "OntologyForBiobanking",
+        "OntologyOfExperimentalVariablesAndValues",
+        "BiomedicalEthicsOntology",
+        "ObstetricAndNeonatalOntology"
+      ],
+      "description": "Subject identifier in the ontology"
+    },
+    "predicate": {
+      "type": "string",
+      "enum": [
+        "followedBy",
+        "follows",
+        "instanceOf",
+        "replacedBy",
+        "replaces"
+      ],
+      "description": "Relation predicate"
+    },
+    "object": {
+      "type": "string",
+      "enum": [
+        "FinanceBusiness",
+        "LifeSciencesHealthcare",
+        "EconomicsOntology",
+        "EconomicsDepartmentsInstitutesAndResearchCentersInTheWorld",
+        "StwThesaurusForEconomics",
+        "GlossaryOfEconomics",
+        "RepecAuthorService",
+        "Goodrelations",
+        "StatisticalClassificationOfEconomicActivitiesInTheEuropeanCommunityRev22008",
+        "StatisticalClassificationOfEconomicActivitiesInTheEuropeanCommunityRev212025",
+        "BankOntology",
+        "FederalReserveSubjectTaxonomy",
+        "PetrochemicalOntology",
+        "CoreOntologyForBiologyAndBiomedicine",
+        "EvolutionOntology",
+        "EthereumOntology",
+        "MathematicalModelingOntology",
+        "Uberon",
+        "ColeopteraAnatomyOntology",
+        "OntologyForNutritionalStudies",
+        "PhysicochemicalMethodsAndProperties",
+        "AmphibianGrossAnatomy",
+        "CellExpressionLocalizationDevelopmentAndAnatomyOntology",
+        "OntologyForBiobanking",
+        "OntologyOfExperimentalVariablesAndValues",
+        "BiomedicalEthicsOntology",
+        "ObstetricAndNeonatalOntology"
+      ],
+      "description": "Object identifier in the ontology"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Assertion confidence score (0.0 to 1.0)"
+    },
+    "grounded_in_wikidata": {
+      "type": "boolean",
+      "description": "Is the assertion verifiable on Wikidata?"
+    }
+  }
+}

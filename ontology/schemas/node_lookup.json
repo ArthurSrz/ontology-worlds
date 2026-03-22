@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Node Identification",
+  "type": "object",
+  "required": [
+    "node_id",
+    "confidence"
+  ],
+  "properties": {
+    "node_id": {
+      "type": "string",
+      "enum": [
+        "FinanceBusiness",
+        "LifeSciencesHealthcare",
+        "EconomicsOntology",
+        "EconomicsDepartmentsInstitutesAndResearchCentersInTheWorld",
+        "StwThesaurusForEconomics",
+        "GlossaryOfEconomics",
+        "RepecAuthorService",
+        "Goodrelations",
+        "StatisticalClassificationOfEconomicActivitiesInTheEuropeanCommunityRev22008",
+        "StatisticalClassificationOfEconomicActivitiesInTheEuropeanCommunityRev212025",
+        "BankOntology",
+        "FederalReserveSubjectTaxonomy",
+        "PetrochemicalOntology",
+        "CoreOntologyForBiologyAndBiomedicine",
+        "EvolutionOntology",
+        "EthereumOntology",
+        "MathematicalModelingOntology",
+        "Uberon",
+        "ColeopteraAnatomyOntology",
+        "OntologyForNutritionalStudies",
+        "PhysicochemicalMethodsAndProperties",
+        "AmphibianGrossAnatomy",
+        "CellExpressionLocalizationDevelopmentAndAnatomyOntology",
+        "OntologyForBiobanking",
+        "OntologyOfExperimentalVariablesAndValues",
+        "BiomedicalEthicsOntology",
+        "ObstetricAndNeonatalOntology"
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "reasoning": {
+      "type": "string"
+    }
+  }
+}

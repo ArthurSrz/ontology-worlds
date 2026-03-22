@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ontology-Constrained Response",
+  "description": "LLM response fully grounded in the Economics graph",
+  "type": "object",
+  "required": [
+    "answer",
+    "entities_mentioned",
+    "supporting_triples",
+    "out_of_scope"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "answer": {
+      "type": "string",
+      "description": "Natural language answer grounded in the ontology",
+      "maxLength": 2000
+    },
+    "entities_mentioned": {
+      "type": "array",
+      "description": "List of ontology entity identifiers mentioned in the answer",
+      "items": {
+        "type": "string",
+        "enum": [
+          "FinanceBusiness",
+          "LifeSciencesHealthcare",
+          "EconomicsOntology",
+          "EconomicsDepartmentsInstitutesAndResearchCentersInTheWorld",
+          "StwThesaurusForEconomics",
+          "GlossaryOfEconomics",
+          "RepecAuthorService",
+          "Goodrelations",
+          "StatisticalClassificationOfEconomicActivitiesInTheEuropeanCommunityRev22008",
+          "StatisticalClassificationOfEconomicActivitiesInTheEuropeanCommunityRev212025",
+          "BankOntology",
+          "FederalReserveSubjectTaxonomy",
+          "PetrochemicalOntology",
+          "CoreOntologyForBiologyAndBiomedicine",
+          "EvolutionOntology",
+          "EthereumOntology",
+          "MathematicalModelingOntology",
+          "Uberon",
+          "ColeopteraAnatomyOntology",
+          "OntologyForNutritionalStudies",
+          "PhysicochemicalMethodsAndProperties",
+          "AmphibianGrossAnatomy",
+          "CellExpressionLocalizationDevelopmentAndAnatomyOntology",
+          "OntologyForBiobanking",
+          "OntologyOfExperimentalVariablesAndValues",
+          "BiomedicalEthicsOntology",
+          "ObstetricAndNeonatalOntology"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "supporting_triples": {
+      "type": "array",
+      "description": "Graph triples supporting the answer",
+      "items": {
+        "type": "object",
+        "required": [
+          "subject",
+          "predicate",
+          "object"
+        ],
+        "properties": {
+          "subject": {
+            "type": "string",
+            "enum": [
+              "FinanceBusiness",
+              "LifeSciencesHealthcare",
+              "EconomicsOntology",
+              "EconomicsDepartmentsInstitutesAndResearchCentersInTheWorld",
+              "StwThesaurusForEconomics",
+              "GlossaryOfEconomics",
+              "RepecAuthorService",
+              "Goodrelations",
+              "StatisticalClassificationOfEconomicActivitiesInTheEuropeanCommunityRev22008",
+              "StatisticalClassificationOfEconomicActivitiesInTheEuropeanCommunityRev212025",
+              "BankOntology",
+              "FederalReserveSubjectTaxonomy",
+              "PetrochemicalOntology",
+              "CoreOntologyForBiologyAndBiomedicine",
+              "EvolutionOntology",
+              "EthereumOntology",
+              "MathematicalModelingOntology",
+              "Uberon",
+              "ColeopteraAnatomyOntology",
+              "OntologyForNutritionalStudies",
+              "PhysicochemicalMethodsAndProperties",
+              "AmphibianGrossAnatomy",
+              "CellExpressionLocalizationDevelopmentAndAnatomyOntology",
+              "OntologyForBiobanking",
+              "OntologyOfExperimentalVariablesAndValues",
+              "BiomedicalEthicsOntology",
+              "ObstetricAndNeonatalOntology"
+            ]
+          },
+          "predicate": {
+            "type": "string",
+            "enum": [
+              "followedBy",
+              "follows",
+              "instanceOf",
+              "replacedBy",
+              "replaces"
+            ]
+          },
+          "object": {
+            "type": "string",
+            "enum": [
+              "FinanceBusiness",
+              "LifeSciencesHealthcare",
+              "EconomicsOntology",
+              "EconomicsDepartmentsInstitutesAndResearchCentersInTheWorld",
+              "StwThesaurusForEconomics",
+              "GlossaryOfEconomics",
+              "RepecAuthorService",
+              "Goodrelations",
+              "StatisticalClassificationOfEconomicActivitiesInTheEuropeanCommunityRev22008",
+              "StatisticalClassificationOfEconomicActivitiesInTheEuropeanCommunityRev212025",
+              "BankOntology",
+              "FederalReserveSubjectTaxonomy",
+              "PetrochemicalOntology",
+              "CoreOntologyForBiologyAndBiomedicine",
+              "EvolutionOntology",
+              "EthereumOntology",
+              "MathematicalModelingOntology",
+              "Uberon",
+              "ColeopteraAnatomyOntology",
+              "OntologyForNutritionalStudies",
+              "PhysicochemicalMethodsAndProperties",
+              "AmphibianGrossAnatomy",
+              "CellExpressionLocalizationDevelopmentAndAnatomyOntology",
+              "OntologyForBiobanking",
+              "OntologyOfExperimentalVariablesAndValues",
+              "BiomedicalEthicsOntology",
+              "ObstetricAndNeonatalOntology"
+            ]
+          }
+        }
+      }
+    },
+    "out_of_scope": {
+      "type": "boolean",
+      "description": "True if the question exceeds the ontology scope"
+    },
+    "wikidata_ids": {
+      "type": "array",
+      "description": "Wikidata Q-numbers of cited entities (for external validation)",
+      "items": {
+        "type": "string",
+        "pattern": "^Q[0-9]+$"
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de OpenGovernmentData",
+  "description": "Valeur contrainte aux instances de la classe OpenGovernmentData dans l'ontologie Open Data France",
+  "type": "string",
+  "enum": [],
+  "x-labels": [],
+  "x-labels-short": []
+}
