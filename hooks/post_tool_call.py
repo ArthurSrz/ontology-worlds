@@ -103,6 +103,18 @@ def render_live_map(graph: OntologyGraph, log_path: Path, current_entities: list
 
     # Build ASCII graph lines
     graph_lines = []
+
+    # If no current entities (e.g. world just created), show class overview
+    if not current_entities:
+        for cls_id, cls_node in list(graph.classes.items())[:6]:
+            instances = graph.get_instances_of(cls_id)
+            if not instances:
+                continue
+            labels = [trunc(n.label, 12) for n in instances[:5]]
+            more = f" +{len(instances)-5}" if len(instances) > 5 else ""
+            cls_label = trunc(cls_node.label, 18)
+            graph_lines.append(f"  {D}{cls_label}{R}  {D}{', '.join(labels)}{more}{R}")
+
     for eid in current_entities[:2]:
         out_edges = graph.get_neighbors_out(eid)[:2]
         if not out_edges:
