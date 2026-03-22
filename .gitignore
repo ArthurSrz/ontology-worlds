@@ -12,3 +12,4 @@ validation_log.jsonl
 .claude/settings.local.json
 *_world/
 uv.lock
+mcp/.venv/

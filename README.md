@@ -131,9 +131,11 @@ Clone → Ask for a domain → Enter the world → Constrained conversation
 ```bash
 git clone https://github.com/ArthurSrz/ontology-worlds.git
 cd ontology-worlds
-pip install -r requirements.txt
+uv pip install -r requirements.txt   # or: pip install -r requirements.txt
 claude
 ```
+
+> **Note:** The bundled MCP servers (`mcp/`) are auto-bootstrapped by `uv` on first Claude Code startup — no manual install needed.
 
 ### 2. Ask for a world
 
@@ -221,6 +223,7 @@ python init.py --ontology path/to/my_ontology.json --language en
 ## Requirements
 
 - Python 3.11+
+- [`uv`](https://docs.astral.sh/uv/) (recommended — auto-bootstraps MCP server dependencies)
 - `httpx` (for OKG + Wikidata API calls)
 - `jsonschema` (for JSON Schema validation)
 - [Claude Code](https://claude.ai/claude-code) — **Claude Code is the LLM**. No API key needed.
