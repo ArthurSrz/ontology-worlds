@@ -6,14 +6,31 @@ Each world is a self-contained Claude Code environment where **every LLM respons
 
 ## Watch an LLM navigate a formal world
 
-As Claude explores the ontology, a **live map renders automatically** in your terminal after each interaction:
+As Claude explores the ontology, a **live map renders automatically** in your terminal after each interaction.
 
-```diff
+**On world creation** — a full class/concept overview appears immediately:
+
+```
 ┌──────────────────────────────────────────────────┐
-│ 🌍 Economics  ████████░░░░░░░░░░░░ 44%  (12/27) │
-+ #5 → Bank Ontology, Petrochemical Ontology
-+  └ Bank Ontology ─[instanceOf]→ Finance & Biz
-+  └ Petrochemical ─[instanceOf]→ Finance & Biz
+│ 🌍 Economics  ░░░░░░░░░░░░░░░░░░░░ 0%  (0/69)
+│ #0
+│  Macroeconomics    Inflation, Deflation, Gross Domes…, Economic Gr… +13
+│  Microeconomics    Supply and…, Market Equi…, Elasticity +1
+│  Monetary & Finance  Central Bank, Interest Ra…, Exchange Ra…
+│  International Tra…  Comparative…, Balance of…, Trade Balan…
+└──────────────────────────────────────────────────┘
+```
+
+**After each query** — an inline ASCII concept graph shows where Claude is and how concepts connect:
+
+```
+┌──────────────────────────────────────────────────┐
+│ 🌍 Economics  ██████░░░░░░░░░░░░░░ 33%  (23/69)
+│ #5 → Inflation, Central Bank
+│  [Inflation]*  ──instanceOf──>  [Macroeconomics]* ──instanceOf──>  [Finance & Biz]
+│       └──  ──measuredBy──>  [Consumer Pric…]*
+│  [Central Bank]*  ──implements──>  [Monetary Poli…]* ──affects──>  [Inflation]*
+│       └──  ──setBy──>  [Interest Rate]*
 └──────────────────────────────────────────────────┘
 ```
 
@@ -72,11 +89,11 @@ No command needed — it just appears. Run `python map.py` for the full view:
 
 | Symbol | Meaning |
 |--------|---------|
-| 🟢 `← HERE` | Claude's current focus |
-| 🔵 `(3x)` | Previously visited (with count) |
-| ⚫ | Unexplored territory |
-| ◆ | Class node |
-| `└ ─[pred]→` | Edge to neighbor (bold = both visited) |
+| `[Label]*` green | Claude's current focus (this turn) |
+| `[Label]` blue | Previously visited concept |
+| `[Label]` dim | Unexplored concept |
+| `──pred──>` | Edge between concepts |
+| `+N` | Additional concepts in class not shown |
 | `████░░░░` | Coverage bar (% of ontology explored) |
 
 The map reads from `validation_log.jsonl`, written by the PostToolUse hook after every constrained generation. Coverage grows as Claude traverses the ontology.
