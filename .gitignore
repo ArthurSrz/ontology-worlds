@@ -8,6 +8,7 @@ __pycache__/
 dist/
 build/
 validation_log.jsonl
+.live_map
 .claude/settings.local.json
 *_world/
 uv.lock

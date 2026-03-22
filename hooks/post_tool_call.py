@@ -96,13 +96,68 @@ def render_live_map(graph: OntologyGraph, log_path: Path, current_entities: list
             color = B if target in visited else D
             edge_strs.append(f"  {D}└{R} {G}{graph.get_node(eid).label if graph.get_node(eid) else eid}{R} ─[{Y}{pred}{R}]→ {color}{tgt_label}{R}")
 
-    # Render
+    # Render to stderr (visible in verbose mode)
     print(f"\n{D}┌──────────────────────────────────────────────────┐{R}", file=sys.stderr)
     print(f"{D}│{R} {BOLD}🌍 {name}{R}  {bar} {Y}{coverage:.0f}%{R}  {D}({visited_count}/{total}){R}", file=sys.stderr)
     print(f"{D}│{R} {W}#{interactions}{R}{pos}", file=sys.stderr)
     for es in edge_strs[:3]:
         print(f"{D}│{R}{es}", file=sys.stderr)
     print(f"{D}└──────────────────────────────────────────────────┘{R}\n", file=sys.stderr)
+
+
+def write_map_file(graph: OntologyGraph, log_path: Path, current_entities: list[str], world_root: Path):
+    """Write a plain-text map (no ANSI) to .live_map for Claude to read."""
+    visited: Counter = Counter()
+    interactions = 0
+    if log_path.exists():
+        with open(log_path, "r") as f:
+            for line in f:
+                if not line.strip():
+                    continue
+                try:
+                    entry = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                interactions += 1
+                for eid in entry.get("entities_mentioned", []):
+                    visited[eid] += 1
+
+    total = len(graph.nodes)
+    visited_count = len(visited)
+    coverage = (visited_count / total * 100) if total > 0 else 0
+    name = graph.metadata.get("name", "Ontology")
+
+    bar_w = 20
+    filled = int(coverage / 100 * bar_w)
+    bar = f"{'█' * filled}{'░' * (bar_w - filled)}"
+
+    current_labels = []
+    for eid in current_entities[:3]:
+        node = graph.get_node(eid)
+        current_labels.append(node.label if node else eid)
+
+    lines = [
+        f"┌──────────────────────────────────────────────────┐",
+        f"│ 🌍 {name}  {bar} {coverage:.0f}%  ({visited_count}/{total})",
+        f"│ #{interactions} → {', '.join(current_labels)}" if current_labels else f"│ #{interactions}",
+    ]
+
+    for eid in current_entities[:2]:
+        node = graph.get_node(eid)
+        label = node.label if node else eid
+        for pred, target in graph.get_neighbors_out(eid)[:2]:
+            tgt = graph.get_node(target)
+            tgt_label = tgt.label if tgt else target
+            marker = "🔵" if target in visited else "⚫"
+            lines.append(f"│  └ 🟢 {label} ─[{pred}]→ {marker} {tgt_label}")
+
+    lines.append(f"└──────────────────────────────────────────────────┘")
+
+    try:
+        with open(world_root / ".live_map", "w", encoding="utf-8") as f:
+            f.write("\n".join(lines) + "\n")
+    except Exception:
+        pass
 
 
 # ---------------------------------------------------------------------------
@@ -183,6 +238,7 @@ def main():
     # ─── LIVE MAP ─── renders after every valid interaction
     current_entities = response_to_validate.get("entities_mentioned", [])
     render_live_map(graph, log_path, current_entities)
+    write_map_file(graph, log_path, current_entities, ROOT)
 
     sys.exit(0)
 

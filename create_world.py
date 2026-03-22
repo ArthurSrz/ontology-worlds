@@ -80,6 +80,10 @@ def create_world(
             "PostToolUse": [{
                 "matcher": ".*",
                 "hooks": [{"type": "command", "command": "python hooks/post_tool_call.py", "timeout": 10}]
+            }],
+            "SessionStart": [{
+                "matcher": ".*",
+                "hooks": [{"type": "command", "command": "python map.py 2>/dev/null || true", "timeout": 5}]
             }]
         }
     }
