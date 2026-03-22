@@ -1,6 +1,26 @@
-# ontology-worlds
+```
+ ██████╗ ███╗   ██╗████████╗ ██████╗ ██╗      ██████╗  ██████╗██╗   ██╗
+██╔═══██╗████╗  ██║╚══██╔══╝██╔═══██╗██║     ██╔═══██╗██╔════╝╚██╗ ██╔╝
+██║   ██║██╔██╗ ██║   ██║   ██║   ██║██║     ██║   ██║██║  ███╗╚████╔╝
+██║   ██║██║╚██╗██║   ██║   ██║   ██║██║     ██║   ██║██║   ██║ ╚██╔╝
+╚██████╔╝██║ ╚████║   ██║   ╚██████╔╝███████╗╚██████╔╝╚██████╔╝  ██║
+ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚══════╝ ╚═════╝  ╚═════╝   ╚═╝
+                         W O R L D S
+```
 
-Create small worlds of meaning and have constrained conversations with Claude Code inside them.
+<div align="center">
+
+[![GitHub stars](https://img.shields.io/github/stars/ArthurSrz/ontology-worlds?style=flat-square&color=yellow)](https://github.com/ArthurSrz/ontology-worlds/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/ArthurSrz/ontology-worlds?style=flat-square&color=blue)](https://github.com/ArthurSrz/ontology-worlds/network)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue?style=flat-square&logo=python)](https://www.python.org)
+[![Claude Code](https://img.shields.io/badge/Claude_Code-compatible-blueviolet?style=flat-square)](https://claude.ai/claude-code)
+
+**Create small worlds of meaning. Have constrained conversations inside them.**
+
+</div>
+
+---
 
 Each world is a self-contained Claude Code environment where **every LLM response is grounded in a closed ontology**. No hallucination — only facts that exist in the knowledge graph.
 
