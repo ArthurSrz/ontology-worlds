@@ -2,12 +2,14 @@
   "mcpServers": {
     "okg": {
       "command": "uv",
-      "args": ["run", "--directory", "mcp", "python", "-m", "okg_mcp"],
+      "args": ["run", "python", "-m", "okg_mcp"],
+      "cwd": "mcp",
       "env": {}
     },
     "mcp-wikidata": {
       "command": "uv",
-      "args": ["run", "--directory", "mcp", "python", "-m", "wikidata_mcp"],
+      "args": ["run", "python", "-m", "wikidata_mcp"],
+      "cwd": "mcp",
       "env": {}
     }
   }
