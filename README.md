@@ -16,7 +16,7 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue?style=flat-square&logo=python)](https://www.python.org)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-compatible-blueviolet?style=flat-square)](https://claude.ai/claude-code)
 
-**Create small worlds of meaning. Have constrained conversations inside them.**
+**Create mini worlds of meaning. Have constrained conversations inside them.**
 
 </div>
 
