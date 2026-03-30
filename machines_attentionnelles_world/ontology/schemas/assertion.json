@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Assertion Ontologique",
+  "description": "Triple RDF contraint aux valeurs de l'ontologie Machines attentionnelles",
+  "type": "object",
+  "required": [
+    "subject",
+    "predicate",
+    "object",
+    "confidence"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "subject": {
+      "type": "string",
+      "enum": [
+        "ConceptAttentionnel",
+        "MecanismeAttentionnel",
+        "SourceDeDonnees",
+        "ActeurTheorique",
+        "ProblemeEpistemologique",
+        "MachineAttentionnelle",
+        "FiltreIndividuel",
+        "FiltreReseau",
+        "BoucleDeRetroaction",
+        "AlgorithmeRecommandation",
+        "FenetreAttention",
+        "EconomieAttention",
+        "CaptationAttention",
+        "SusceptibiliteAttentionnelle",
+        "TracesNumeriques",
+        "MetadonneesYoutube",
+        "PostsLinkedin",
+        "ArticlesDePresse",
+        "ReseauxSociaux",
+        "BigData",
+        "YvesCitton",
+        "SethStephensDavidowitz",
+        "StatutEpistemologique",
+        "BesoinVsAttention",
+        "ContexteDeProduction"
+      ],
+      "description": "Subject identifier in the ontology"
+    },
+    "predicate": {
+      "type": "string",
+      "enum": [
+        "claims",
+        "critiques",
+        "feedsInto",
+        "hasPart",
+        "influences",
+        "instanceOf",
+        "partOf",
+        "produces",
+        "proposes",
+        "revealNot",
+        "reveals",
+        "studiedBy",
+        "subClassOf"
+      ],
+      "description": "Relation predicate"
+    },
+    "object": {
+      "type": "string",
+      "enum": [
+        "ConceptAttentionnel",
+        "MecanismeAttentionnel",
+        "SourceDeDonnees",
+        "ActeurTheorique",
+        "ProblemeEpistemologique",
+        "MachineAttentionnelle",
+        "FiltreIndividuel",
+        "FiltreReseau",
+        "BoucleDeRetroaction",
+        "AlgorithmeRecommandation",
+        "FenetreAttention",
+        "EconomieAttention",
+        "CaptationAttention",
+        "SusceptibiliteAttentionnelle",
+        "TracesNumeriques",
+        "MetadonneesYoutube",
+        "PostsLinkedin",
+        "ArticlesDePresse",
+        "ReseauxSociaux",
+        "BigData",
+        "YvesCitton",
+        "SethStephensDavidowitz",
+        "StatutEpistemologique",
+        "BesoinVsAttention",
+        "ContexteDeProduction"
+      ],
+      "description": "Object identifier in the ontology"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Assertion confidence score (0.0 to 1.0)"
+    },
+    "grounded_in_wikidata": {
+      "type": "boolean",
+      "description": "Is the assertion verifiable on Wikidata?"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de ActeurTheorique",
+  "description": "Valeur contrainte aux instances de la classe ActeurTheorique dans l'ontologie Machines attentionnelles",
+  "type": "string",
+  "enum": [
+    "YvesCitton",
+    "SethStephensDavidowitz"
+  ],
+  "x-labels": [
+    "Yves Citton",
+    "Seth Stephens-Davidowitz"
+  ],
+  "x-labels-short": []
+}

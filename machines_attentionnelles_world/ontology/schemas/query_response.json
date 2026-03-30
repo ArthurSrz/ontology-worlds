@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Réponse Contrainte par l'Ontologie",
+  "description": "Réponse du LLM entièrement ancrée dans le graphe Machines attentionnelles",
+  "type": "object",
+  "required": [
+    "answer",
+    "entities_mentioned",
+    "supporting_triples",
+    "out_of_scope"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "answer": {
+      "type": "string",
+      "description": "Natural language answer grounded in the ontology",
+      "maxLength": 2000
+    },
+    "entities_mentioned": {
+      "type": "array",
+      "description": "List of ontology entity identifiers mentioned in the answer",
+      "items": {
+        "type": "string",
+        "enum": [
+          "ConceptAttentionnel",
+          "MecanismeAttentionnel",
+          "SourceDeDonnees",
+          "ActeurTheorique",
+          "ProblemeEpistemologique",
+          "MachineAttentionnelle",
+          "FiltreIndividuel",
+          "FiltreReseau",
+          "BoucleDeRetroaction",
+          "AlgorithmeRecommandation",
+          "FenetreAttention",
+          "EconomieAttention",
+          "CaptationAttention",
+          "SusceptibiliteAttentionnelle",
+          "TracesNumeriques",
+          "MetadonneesYoutube",
+          "PostsLinkedin",
+          "ArticlesDePresse",
+          "ReseauxSociaux",
+          "BigData",
+          "YvesCitton",
+          "SethStephensDavidowitz",
+          "StatutEpistemologique",
+          "BesoinVsAttention",
+          "ContexteDeProduction"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "supporting_triples": {
+      "type": "array",
+      "description": "Graph triples supporting the answer",
+      "items": {
+        "type": "object",
+        "required": [
+          "subject",
+          "predicate",
+          "object"
+        ],
+        "properties": {
+          "subject": {
+            "type": "string",
+            "enum": [
+              "ConceptAttentionnel",
+              "MecanismeAttentionnel",
+              "SourceDeDonnees",
+              "ActeurTheorique",
+              "ProblemeEpistemologique",
+              "MachineAttentionnelle",
+              "FiltreIndividuel",
+              "FiltreReseau",
+              "BoucleDeRetroaction",
+              "AlgorithmeRecommandation",
+              "FenetreAttention",
+              "EconomieAttention",
+              "CaptationAttention",
+              "SusceptibiliteAttentionnelle",
+              "TracesNumeriques",
+              "MetadonneesYoutube",
+              "PostsLinkedin",
+              "ArticlesDePresse",
+              "ReseauxSociaux",
+              "BigData",
+              "YvesCitton",
+              "SethStephensDavidowitz",
+              "StatutEpistemologique",
+              "BesoinVsAttention",
+              "ContexteDeProduction"
+            ]
+          },
+          "predicate": {
+            "type": "string",
+            "enum": [
+              "claims",
+              "critiques",
+              "feedsInto",
+              "hasPart",
+              "influences",
+              "instanceOf",
+              "partOf",
+              "produces",
+              "proposes",
+              "revealNot",
+              "reveals",
+              "studiedBy",
+              "subClassOf"
+            ]
+          },
+          "object": {
+            "type": "string",
+            "enum": [
+              "ConceptAttentionnel",
+              "MecanismeAttentionnel",
+              "SourceDeDonnees",
+              "ActeurTheorique",
+              "ProblemeEpistemologique",
+              "MachineAttentionnelle",
+              "FiltreIndividuel",
+              "FiltreReseau",
+              "BoucleDeRetroaction",
+              "AlgorithmeRecommandation",
+              "FenetreAttention",
+              "EconomieAttention",
+              "CaptationAttention",
+              "SusceptibiliteAttentionnelle",
+              "TracesNumeriques",
+              "MetadonneesYoutube",
+              "PostsLinkedin",
+              "ArticlesDePresse",
+              "ReseauxSociaux",
+              "BigData",
+              "YvesCitton",
+              "SethStephensDavidowitz",
+              "StatutEpistemologique",
+              "BesoinVsAttention",
+              "ContexteDeProduction"
+            ]
+          }
+        }
+      }
+    },
+    "out_of_scope": {
+      "type": "boolean",
+      "description": "True if the question exceeds the ontology scope"
+    },
+    "wikidata_ids": {
+      "type": "array",
+      "description": "Wikidata Q-numbers of cited entities (for external validation)",
+      "items": {
+        "type": "string",
+        "pattern": "^Q[0-9]+$"
+      }
+    }
+  }
+}

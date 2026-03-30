@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de ProblemeEpistemologique",
+  "description": "Valeur contrainte aux instances de la classe ProblemeEpistemologique dans l'ontologie Machines attentionnelles",
+  "type": "string",
+  "enum": [
+    "StatutEpistemologique",
+    "BesoinVsAttention",
+    "ContexteDeProduction"
+  ],
+  "x-labels": [
+    "Statut épistémologique des données",
+    "Besoin vs susceptibilité attentionnelle",
+    "Contexte de production des données"
+  ],
+  "x-labels-short": []
+}

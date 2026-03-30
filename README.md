@@ -228,6 +228,61 @@ python init.py --ontology path/to/my_ontology.json --language en
 - `jsonschema` (for JSON Schema validation)
 - [Claude Code](https://claude.ai/claude-code) — **Claude Code is the LLM**. No API key needed.
 
+---
+
+## Available mini-worlds
+
+### `machines_attentionnelles_world` — Second-order attention machines
+
+**Companion to:** [the Substack article on digital traces, attention windows, and the epistemology of social media data](https://arthursarazin.substack.com)
+
+This mini-world encodes the theory developed in the article as a formal ontology that Claude must navigate. The core argument: social media data does not reveal what people *need* — it reveals what they are *likely to pay attention to* within a group. This distinction is formalized here as a knowledge graph.
+
+**Key concepts in the ontology:**
+
+| Concept | What it represents |
+|---|---|
+| Machine attentionnelle (2nd order) | The feedback loop between individual attention filters and network algorithms |
+| Filtre individuel / Filtre reseau | The two attentional filters that amplify each other |
+| Boucle de retroaction | The closed loop that distorts data away from actual needs |
+| Fenetre d'attention | Attention windows — what the data actually maps |
+| Besoin vs susceptibilite attentionnelle | The epistemological problem: needs vs. attention susceptibility |
+| Traces numeriques | Digital traces — the raw material under scrutiny |
+
+**Theoretical references:** Yves Citton (*Pour une ecologie de l'attention*), Seth Stephens-Davidowitz (*Everybody Lies*)
+
+### How to use this mini-world
+
+```bash
+# 1. Clone the subscribers branch
+git clone -b subscribers https://github.com/ArthurSrz/ontology-worlds.git
+cd ontology-worlds
+
+# 2. Install dependencies
+cd machines_attentionnelles_world
+pip install -r requirements.txt   # or: uv pip install -r requirements.txt
+
+# 3. Launch Claude Code inside the world
+claude
+```
+
+Once inside, Claude is constrained to the ontology. Try:
+
+```bash
+# Get an overview of the ontology
+python demo.py --summary
+
+# Ask a grounded question
+python demo.py --query "What does social media data actually reveal?"
+
+# View the world map
+python map.py
+```
+
+Every response Claude gives is validated against the knowledge graph. If a claim falls outside the ontology, it is flagged as `out_of_scope` rather than hallucinated.
+
+---
+
 ## License
 
 MIT

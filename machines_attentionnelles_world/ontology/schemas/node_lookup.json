@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Node Identification",
+  "type": "object",
+  "required": [
+    "node_id",
+    "confidence"
+  ],
+  "properties": {
+    "node_id": {
+      "type": "string",
+      "enum": [
+        "ConceptAttentionnel",
+        "MecanismeAttentionnel",
+        "SourceDeDonnees",
+        "ActeurTheorique",
+        "ProblemeEpistemologique",
+        "MachineAttentionnelle",
+        "FiltreIndividuel",
+        "FiltreReseau",
+        "BoucleDeRetroaction",
+        "AlgorithmeRecommandation",
+        "FenetreAttention",
+        "EconomieAttention",
+        "CaptationAttention",
+        "SusceptibiliteAttentionnelle",
+        "TracesNumeriques",
+        "MetadonneesYoutube",
+        "PostsLinkedin",
+        "ArticlesDePresse",
+        "ReseauxSociaux",
+        "BigData",
+        "YvesCitton",
+        "SethStephensDavidowitz",
+        "StatutEpistemologique",
+        "BesoinVsAttention",
+        "ContexteDeProduction"
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "reasoning": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de SourceDeDonnees",
+  "description": "Valeur contrainte aux instances de la classe SourceDeDonnees dans l'ontologie Machines attentionnelles",
+  "type": "string",
+  "enum": [
+    "TracesNumeriques",
+    "MetadonneesYoutube",
+    "PostsLinkedin",
+    "ArticlesDePresse",
+    "ReseauxSociaux",
+    "BigData"
+  ],
+  "x-labels": [
+    "Traces numériques",
+    "Métadonnées YouTube",
+    "Posts LinkedIn",
+    "Articles de presse",
+    "Réseaux sociaux",
+    "Big data"
+  ],
+  "x-labels-short": []
+}
