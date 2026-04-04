@@ -222,9 +222,24 @@ python init.py --ontology path/to/my_ontology.json --language en
 
 ## Available worlds (subscribers branch)
 
-### `machines_attentionnelles_world`
+### `machines_attentionnelles_world` — Second-order attention machines
 
-Ontology of attentional machines — how interfaces capture and direct human attention.
+**Companion to:** [the Substack article on digital traces, attention windows, and the epistemology of social media data](https://arthursarazin.substack.com)
+
+This mini-world encodes the theory developed in the article as a formal ontology that Claude must navigate. The core argument: social media data does not reveal what people *need* — it reveals what they are *likely to pay attention to* within a group. This distinction is formalized here as a knowledge graph.
+
+**Key concepts in the ontology:**
+
+| Concept | What it represents |
+|---|---|
+| Machine attentionnelle (2nd order) | The feedback loop between individual attention filters and network algorithms |
+| Filtre individuel / Filtre reseau | The two attentional filters that amplify each other |
+| Boucle de retroaction | The closed loop that distorts data away from actual needs |
+| Fenetre d'attention | Attention windows — what the data actually maps |
+| Besoin vs susceptibilite attentionnelle | The epistemological problem: needs vs. attention susceptibility |
+| Traces numeriques | Digital traces — the raw material under scrutiny |
+
+**Theoretical references:** Yves Citton (*Pour une ecologie de l'attention*), Seth Stephens-Davidowitz (*Everybody Lies*)
 
 ### `data_design_interfaces_world`
 
