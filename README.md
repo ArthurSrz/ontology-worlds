@@ -220,52 +220,6 @@ You can also bring your own ontology:
 python init.py --ontology path/to/my_ontology.json --language en
 ```
 
-## Available worlds (subscribers branch)
-
-### `machines_attentionnelles_world` — Second-order attention machines
-
-**Companion to:** [the Substack article on digital traces, attention windows, and the epistemology of social media data](https://arthursarazin.substack.com)
-
-This mini-world encodes the theory developed in the article as a formal ontology that Claude must navigate. The core argument: social media data does not reveal what people *need* — it reveals what they are *likely to pay attention to* within a group. This distinction is formalized here as a knowledge graph.
-
-**Key concepts in the ontology:**
-
-| Concept | What it represents |
-|---|---|
-| Machine attentionnelle (2nd order) | The feedback loop between individual attention filters and network algorithms |
-| Filtre individuel / Filtre reseau | The two attentional filters that amplify each other |
-| Boucle de retroaction | The closed loop that distorts data away from actual needs |
-| Fenetre d'attention | Attention windows — what the data actually maps |
-| Besoin vs susceptibilite attentionnelle | The epistemological problem: needs vs. attention susceptibility |
-| Traces numeriques | Digital traces — the raw material under scrutiny |
-
-**Theoretical references:** Yves Citton (*Pour une ecologie de l'attention*), Seth Stephens-Davidowitz (*Everybody Lies*)
-
-### `data_design_interfaces_world`
-
-**Ontology-isomorphic apps** — two Streamlit applications that are structurally identical to their ontology. Every UI component, user action, and data state maps 1:1 to an ontology node or relation.
-
-| | Consumption app | Construction app |
-|---|---|---|
-| **Architecture** | `ArchitectureConsommation` | `ArchitectureConstruction` |
-| **Temporality** | Continuous (infinite scroll) | Discrete (5-stage pipeline) |
-| **User role** | Passive consumer | Active builder |
-| **Attention** | Consumed | Preserved |
-| **Data** | Flux (feed_items) | Stock (datasets) |
-| **Mechanism** | Algorithm + scroll | Pipeline I-T-O |
-| **Components** | Feed, Cards, Notifications, Recommendations | Form, Editable table, Query panel, Terminal |
-| **Actions** | Scroll, Like, Share, Save | Create, Transform, Query, Validate, Export |
-
-**74 nodes · 229 edges · 19 predicates · 40 bijective couplings**
-
-Run the apps:
-```bash
-cd data_design_interfaces_world
-streamlit run apps/app.py
-```
-
-View the bijection: open `couplage_suisse.html` or visit [arthursrz.github.io/ontology-worlds](https://arthursrz.github.io/ontology-worlds/)
-
 ## Requirements
 
 - Python 3.11+
