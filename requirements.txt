@@ -14,3 +14,8 @@ httpx>=0.27.0
 # Utilitaires
 python-dotenv>=1.0.0       # Chargement des variables d'environnement
 jsonschema>=4.20.0         # Validation JSON Schema
+
+# Apps (consommation + construction)
+streamlit>=1.30.0
+duckdb>=0.9.0
+pandas>=2.0.0
