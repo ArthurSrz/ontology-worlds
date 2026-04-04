@@ -220,6 +220,37 @@ You can also bring your own ontology:
 python init.py --ontology path/to/my_ontology.json --language en
 ```
 
+## Available worlds (subscribers branch)
+
+### `machines_attentionnelles_world`
+
+Ontology of attentional machines — how interfaces capture and direct human attention.
+
+### `data_design_interfaces_world`
+
+**Ontology-isomorphic apps** — two Streamlit applications that are structurally identical to their ontology. Every UI component, user action, and data state maps 1:1 to an ontology node or relation.
+
+| | Consumption app | Construction app |
+|---|---|---|
+| **Architecture** | `ArchitectureConsommation` | `ArchitectureConstruction` |
+| **Temporality** | Continuous (infinite scroll) | Discrete (5-stage pipeline) |
+| **User role** | Passive consumer | Active builder |
+| **Attention** | Consumed | Preserved |
+| **Data** | Flux (feed_items) | Stock (datasets) |
+| **Mechanism** | Algorithm + scroll | Pipeline I-T-O |
+| **Components** | Feed, Cards, Notifications, Recommendations | Form, Editable table, Query panel, Terminal |
+| **Actions** | Scroll, Like, Share, Save | Create, Transform, Query, Validate, Export |
+
+**74 nodes · 229 edges · 19 predicates · 40 bijective couplings**
+
+Run the apps:
+```bash
+cd data_design_interfaces_world
+streamlit run apps/app.py
+```
+
+View the bijection: open `couplage_suisse.html` or visit [arthursrz.github.io/ontology-worlds](https://arthursrz.github.io/ontology-worlds/)
+
 ## Requirements
 
 - Python 3.11+
