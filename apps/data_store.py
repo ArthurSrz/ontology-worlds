@@ -89,8 +89,7 @@ def init_db():
 
     # Interaction log (both apps)
     con.execute("""
-        CREATE TABLE IF NOT EXISTS interaction_log (
-            id INTEGER PRIMARY KEY,
+        CREATE OR REPLACE TABLE interaction_log (
             app VARCHAR,
             action VARCHAR,
             entity_id VARCHAR,
