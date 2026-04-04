@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de ConceptFondamental",
+  "description": "Valeur contrainte aux instances de la classe ConceptFondamental dans l'ontologie Data Design Interfaces",
+  "type": "string",
+  "enum": [
+    "Interface",
+    "ArchitectureInformation",
+    "EconomieAttention",
+    "Donnee",
+    "Attention",
+    "FluxDonnees",
+    "StockDonnees",
+    "DesignInterface",
+    "VisualisationDonnees"
+  ],
+  "x-labels": [
+    "Interface",
+    "Architecture de l'information",
+    "Économie de l'attention",
+    "Donnée",
+    "Attention",
+    "Flux de données",
+    "Stock de données",
+    "Design d'interface",
+    "Visualisation de données"
+  ],
+  "x-labels-short": []
+}

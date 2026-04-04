@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Couplage de Graphe — Ontologie ↔ Application</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Caveat', cursive;
+  min-height: 100vh;
+  background:
+    repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(139,90,43,0.03) 2px, rgba(139,90,43,0.03) 4px),
+    repeating-linear-gradient(-45deg, transparent, transparent 3px, rgba(160,110,60,0.02) 3px, rgba(160,110,60,0.02) 5px),
+    linear-gradient(135deg, #c4a265 0%, #d4b078 15%, #c9a56a 30%, #d6b580 45%, #c1a060 60%, #d0ad72 75%, #c7a366 90%, #d2b07a 100%);
+  background-color: #c9a56a;
+  padding: 30px 20px;
+  overflow-x: hidden;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.8rem;
+  color: #3a1f0a;
+  margin-bottom: 8px;
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 1.4rem;
+  color: #5a3a1a;
+  margin-bottom: 30px;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 25px;
+  font-size: 1.3rem;
+  color: #3a1f0a;
+}
+.legend span { display:flex; align-items:center; gap:8px; }
+.legend .dot { width:14px; height:14px; border-radius:50%; display:inline-block; }
+.legend .dot.blue { background: #3b6fa0; }
+.legend .dot.green { background: #4a8f5c; }
+.legend .dot.red { background: #c0392b; border:1px solid #8b1a1a; }
+
+.category-section {
+  margin-bottom: 35px;
+}
+
+.category-title {
+  font-size: 2rem;
+  color: #4a2510;
+  text-align: center;
+  margin-bottom: 15px;
+  position: relative;
+}
+.category-title::after {
+  content:'';
+  display:block;
+  width:120px;
+  height:2px;
+  background:#8b5e3c;
+  margin:4px auto 0;
+  opacity:0.5;
+}
+
+.pairs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.pair-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  position: relative;
+  min-height: 70px;
+}
+
+.card {
+  background: #fffef8;
+  border-radius: 3px;
+  padding: 10px 16px;
+  width: 320px;
+  min-height: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 2px 3px 8px rgba(0,0,0,0.18), 0 1px 2px rgba(0,0,0,0.1);
+  position: relative;
+  transition: transform 0.15s, box-shadow 0.15s;
+  cursor: default;
+}
+.card.left { border-left: 5px solid #3b6fa0; }
+.card.right { border-left: 5px solid #4a8f5c; }
+
+.card .label {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #2a1505;
+  line-height: 1.2;
+}
+.card .detail {
+  font-size: 1.05rem;
+  color: #6b4a2a;
+  margin-top: 2px;
+}
+
+.card .pin {
+  position: absolute;
+  top: -8px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,0,0,0.2);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  z-index: 2;
+}
+.card.left .pin { right: -6px; background: #3b6fa0; }
+.card.right .pin { left: -6px; background: #4a8f5c; }
+
+.thread-zone {
+  width: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.thread-zone svg {
+  width: 160px;
+  height: 50px;
+}
+
+.thread-line {
+  stroke: #c0392b;
+  stroke-width: 2.2;
+  fill: none;
+  opacity: 0.85;
+  filter: url(#roughen);
+}
+
+.thread-zone .thread-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1rem;
+  color: #8b1a1a;
+  background: rgba(255,254,248,0.75);
+  padding: 1px 6px;
+  border-radius: 2px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Tape strip decoration on some cards */
+.tape {
+  position: absolute;
+  width: 50px;
+  height: 16px;
+  background: rgba(255,235,180,0.7);
+  border: 1px solid rgba(200,180,120,0.4);
+  top: -8px;
+  left: 20px;
+  transform: rotate(-3deg);
+  z-index: 1;
+}
+
+/* Hover highlight */
+.pair-row.highlight .card {
+  transform: scale(1.03);
+  box-shadow: 3px 5px 14px rgba(0,0,0,0.28);
+}
+.pair-row.highlight .thread-line {
+  stroke-width: 3.5;
+  opacity: 1;
+}
+.pair-row.highlight .thread-label {
+  font-weight: 700;
+  color: #5a0a0a;
+  background: rgba(255,254,248,0.95);
+}
+
+/* Tooltip */
+.tooltip {
+  display: none;
+  position: fixed;
+  background: #fffef0;
+  border: 2px solid #c0392b;
+  border-radius: 5px;
+  padding: 8px 14px;
+  font-size: 1.2rem;
+  color: #3a1f0a;
+  box-shadow: 3px 4px 12px rgba(0,0,0,0.25);
+  z-index: 100;
+  pointer-events: none;
+  max-width: 350px;
+}
+</style>
+</head>
+<body>
+
+<svg style="position:absolute;width:0;height:0;">
+  <defs>
+    <filter id="roughen">
+      <feTurbulence type="turbulence" baseFrequency="0.04" numOctaves="2" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5"/>
+    </filter>
+  </defs>
+</svg>
+
+<h1>Couplage de Graphe — Ontologie &#8596; Application</h1>
+<p class="subtitle">Bijection entre le graphe conceptuel et son instanciation computationnelle</p>
+
+<div class="legend">
+  <span><span class="dot blue"></span> Ontologie (conceptuel)</span>
+  <span><span class="dot red"></span> Fil de couplage</span>
+  <span><span class="dot green"></span> Application (code)</span>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<div id="board"></div>
+
+<script>
+const DATA = [
+  { category: "Architectures", pairs: [
+    ["ArchitectureConsommation", "app_consommation.py", "L'app entiere instancie l'architecture"],
+    ["ArchitectureConstruction", "app_construction.py", "L'app entiere instancie l'architecture"],
+  ]},
+  { category: "Roles", pairs: [
+    ["ConsommateurDonnees", "consumed_ids, liked_ids", "Sets passifs"],
+    ["ConstructeurDonnees", "dataset_id, pipeline_stage", "Etat actif"],
+  ]},
+  { category: "Concepts", pairs: [
+    ["Attention", "scroll drain / conscious intent", "consomme() vs preserve()"],
+    ["FluxDonnees", "feed_items table", "opereSur(Consommation)"],
+    ["StockDonnees", "datasets + dataset_rows", "opereSur(Construction)"],
+    ["TemporaliteContinue", "infinite scroll loop", "induit(Consommation)"],
+    ["TemporaliteDiscrete", "5-stage pipeline", "induit(Construction)"],
+  ]},
+  { category: "Mecanismes", pairs: [
+    ["AlgorithmeFlux", "algorithme_flux()", "Trie par score/tendance"],
+    ["ScrollInfini", "feed_offset pagination", "Charger plus"],
+    ["Categories", "st.multiselect(\"Categories\")", "Filtre"],
+    ["PipelineITO", "advance_pipeline()", "I-T-O discret"],
+  ]},
+  { category: "Composants Consommation", pairs: [
+    ["Feed", "visible_items loop", "Flux central"],
+    ["CarteContenu", "render_carte_contenu()", "Unite atomique"],
+    ["Notification", "render_notification_bar()", "Interruption push"],
+    ["BarreRecherche", "render_search_bar()", "Filtrage"],
+    ["Recommandation", "render_recommandations()", "Prolonge la session"],
+  ]},
+  { category: "Composants Construction", pairs: [
+    ["Formulaire", "render_formulaire()", "Saisie structuree"],
+    ["TableauEditable", "render_tableau_editable()", "Grille CRUD"],
+    ["PanneauRequete", "render_panneau_requete()", "SQL DuckDB"],
+    ["Canvas", "st.data_editor()", "Espace 2D"],
+    ["Terminal", "SQL text_area", "Ligne de commande"],
+  ]},
+  { category: "Actions Consommation", pairs: [
+    ["Scroller", "feed_offset + \"Charger plus\"", "Effort faible"],
+    ["Liker", "handle_like()", "Feedback minimal"],
+    ["Partager", "handle_share()", "Redistribuer"],
+    ["Sauvegarder", "handle_save()", "Flux → Stock"],
+  ]},
+  { category: "Actions Construction", pairs: [
+    ["Creer", "st.form(\"create_dataset\")", "Effort eleve"],
+    ["Transformer", "pipeline nettoyee→transformee", "Restructuration"],
+    ["Requeter", "duckdb.sql(query)", "Interrogation"],
+    ["Valider", "advance_pipeline(\"publiee\")", "Fin de cycle"],
+    ["Exporter", "st.download_button()", "CSV/JSON/Parquet"],
+  ]},
+  { category: "Etats Consommation", pairs: [
+    ["DonneeBrute", "etat='brute'", "Non traitee"],
+    ["DonneeAlgorithmisee", "etat='algorithmisee'", "Filtree"],
+    ["DonneeAffichee", "etat='affichee'", "Rendue"],
+    ["DonneeConsommee", "etat='consommee'", "Terminal"],
+  ]},
+  { category: "Etats Construction", pairs: [
+    ["DonneeBrute", "etat='brute'", "Ingeree"],
+    ["DonneeNettoyee", "etat='nettoyee'", "Nettoyee"],
+    ["DonneeTransformee", "etat='transformee'", "Restructuree"],
+    ["DonneeStructuree", "etat='structuree'", "Schema formel"],
+    ["DonneePubliee", "etat='publiee'", "Stock finalise"],
+  ]},
+];
+
+function rng(seed) {
+  let s = seed;
+  return () => { s = (s * 16807 + 0) % 2147483647; return (s - 1) / 2147483646; };
+}
+
+const rand = rng(42);
+const board = document.getElementById('board');
+const tooltip = document.getElementById('tooltip');
+
+DATA.forEach((section, si) => {
+  const sec = document.createElement('div');
+  sec.className = 'category-section';
+  sec.innerHTML = `<div class="category-title">${section.category}</div>`;
+  const container = document.createElement('div');
+  container.className = 'pairs-container';
+
+  section.pairs.forEach((p, pi) => {
+    const rotL = ((rand() - 0.5) * 4).toFixed(1);
+    const rotR = ((rand() - 0.5) * 4).toFixed(1);
+    const showTape = rand() > 0.7;
+    const cy = 25 + (rand() - 0.5) * 16;
+    const row = document.createElement('div');
+    row.className = 'pair-row';
+    row.dataset.tip = `${p[0]} ↔ ${p[1]}  —  ${p[2]}`;
+
+    row.innerHTML = `
+      <div class="card left" style="transform:rotate(${rotL}deg)">
+        ${showTape ? '<div class="tape"></div>' : ''}
+        <div class="pin"></div>
+        <div class="label">${p[0]}</div>
+      </div>
+      <div class="thread-zone">
+        <svg viewBox="0 0 160 50">
+          <path class="thread-line" d="M0,25 C50,${cy} 110,${50-cy} 160,25"/>
+        </svg>
+        <div class="thread-label">${p[2]}</div>
+      </div>
+      <div class="card right" style="transform:rotate(${rotR}deg)">
+        <div class="pin"></div>
+        <div class="label">${p[1]}</div>
+      </div>
+    `;
+
+    row.addEventListener('mouseenter', () => {
+      row.classList.add('highlight');
+      tooltip.style.display = 'block';
+      tooltip.textContent = row.dataset.tip;
+    });
+    row.addEventListener('mousemove', e => {
+      tooltip.style.left = (e.clientX + 16) + 'px';
+      tooltip.style.top = (e.clientY - 10) + 'px';
+    });
+    row.addEventListener('mouseleave', () => {
+      row.classList.remove('highlight');
+      tooltip.style.display = 'none';
+    });
+
+    container.appendChild(row);
+  });
+
+  sec.appendChild(container);
+  board.appendChild(sec);
+});
+</script>
+</body>
+</html>

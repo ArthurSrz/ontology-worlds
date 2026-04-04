@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de ExempleInterface",
+  "description": "Valeur contrainte aux instances de la classe ExempleInterface dans l'ontologie Data Design Interfaces",
+  "type": "string",
+  "enum": [
+    "ReseauxSociaux",
+    "PresseEnLigne",
+    "ChatGPT",
+    "ParisSportifs",
+    "Tableurs",
+    "EditeurTexte",
+    "OutilsVisualisation"
+  ],
+  "x-labels": [
+    "Réseaux sociaux",
+    "Presse en ligne",
+    "ChatGPT",
+    "Sites de paris sportifs",
+    "Tableurs (Excel, LibreOffice)",
+    "Éditeurs de texte et de code",
+    "Outils de visualisation de données"
+  ],
+  "x-labels-short": []
+}

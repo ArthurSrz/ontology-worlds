@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de MecanismeInteraction",
+  "description": "Valeur contrainte aux instances de la classe MecanismeInteraction dans l'ontologie Data Design Interfaces",
+  "type": "string",
+  "enum": [
+    "ScrollInfini",
+    "PipelineITO",
+    "AlgorithmeFlux",
+    "Categories"
+  ],
+  "x-labels": [
+    "Scroll infini",
+    "Pipeline Input-Traitement-Output",
+    "Algorithme de flux",
+    "Catégories"
+  ],
+  "x-labels-short": []
+}

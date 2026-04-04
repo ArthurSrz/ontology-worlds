@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de EtatDonnee",
+  "description": "Valeur contrainte aux instances de la classe EtatDonnee dans l'ontologie Data Design Interfaces",
+  "type": "string",
+  "enum": [
+    "DonneeBrute",
+    "DonneeAlgorithmisee",
+    "DonneeAffichee",
+    "DonneeConsommee",
+    "DonneeNettoyee",
+    "DonneeTransformee",
+    "DonneeStructuree",
+    "DonneePubliee"
+  ],
+  "x-labels": [
+    "Donnée brute",
+    "Donnée algorithmisée",
+    "Donnée affichée",
+    "Donnée consommée",
+    "Donnée nettoyée",
+    "Donnée transformée",
+    "Donnée structurée",
+    "Donnée publiée"
+  ],
+  "x-labels-short": []
+}

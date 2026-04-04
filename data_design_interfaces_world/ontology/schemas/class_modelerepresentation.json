@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de ModeleRepresentation",
+  "description": "Valeur contrainte aux instances de la classe ModeleRepresentation dans l'ontologie Data Design Interfaces",
+  "type": "string",
+  "enum": [
+    "ListeVerticale",
+    "GrilleCartes",
+    "Tableau",
+    "Graphe",
+    "Chronologie",
+    "Diagramme"
+  ],
+  "x-labels": [
+    "Liste verticale",
+    "Grille de cartes",
+    "Tableau de données",
+    "Graphe / Réseau",
+    "Chronologie",
+    "Diagramme"
+  ],
+  "x-labels-short": []
+}

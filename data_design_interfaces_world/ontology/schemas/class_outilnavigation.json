@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de OutilNavigation",
+  "description": "Valeur contrainte aux instances de la classe OutilNavigation dans l'ontologie Data Design Interfaces",
+  "type": "string",
+  "enum": [
+    "DataButton",
+    "DuckDB",
+    "Streamlit",
+    "GitHubCodespaces"
+  ],
+  "x-labels": [
+    "DataButton",
+    "DuckDB",
+    "Streamlit",
+    "GitHub Codespaces"
+  ],
+  "x-labels-short": []
+}

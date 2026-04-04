@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Couplage de Graphe — Ontologie ↔ Application</title>
+<script src="https://cdn.jsdelivr.net/npm/roughjs@4.6.6/bundled/rough.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@400;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #ede6d6;
+    font-family: 'EB Garamond', 'Georgia', serif;
+    color: #3a2f1e;
+    display: flex;
+    justify-content: center;
+    padding: 30px 10px;
+  }
+
+  .page {
+    background: #f5f0e8;
+    max-width: 1400px;
+    width: 100%;
+    padding: 60px 80px 80px;
+    border: 2px solid #c4b89a;
+    box-shadow:
+      inset 0 0 60px rgba(139,119,80,0.08),
+      4px 4px 20px rgba(0,0,0,0.15);
+    position: relative;
+  }
+
+  .page::before {
+    content: '';
+    position: absolute;
+    top: 20px; left: 20px; right: 20px; bottom: 20px;
+    border: 1px solid #d4c9b0;
+    pointer-events: none;
+  }
+
+  .page-number {
+    position: absolute;
+    bottom: 30px;
+    right: 50%;
+    transform: translateX(50%);
+    font-style: italic;
+    color: #9a8b6e;
+    font-size: 14px;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+    color: #2a1f0e;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-style: italic;
+    font-size: 15px;
+    color: #6b5d47;
+    margin-bottom: 30px;
+  }
+
+  .fig-label {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #8a7a5e;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .margin-note {
+    font-family: 'Caveat', cursive;
+    color: #9a7a4a;
+    font-size: 14px;
+    position: absolute;
+    max-width: 120px;
+    line-height: 1.3;
+  }
+
+  .margin-note.left { left: 25px; text-align: right; }
+  .margin-note.right { right: 25px; text-align: left; }
+
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-style: italic;
+    color: #6b5d47;
+  }
+
+  .legend span { display: flex; align-items: center; gap: 6px; }
+  .legend .swatch {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border-radius: 2px;
+    border: 1px solid #b0a48a;
+  }
+
+  .graph-container {
+    position: relative;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  #coupling-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .columns {
+    display: flex;
+    gap: 0;
+    position: relative;
+    z-index: 3;
+  }
+
+  .column {
+    flex: 1;
+    padding: 0 10px;
+  }
+
+  .column.left { padding-right: 60px; }
+  .column.right { padding-left: 60px; }
+
+  .group-label {
+    font-family: 'Caveat', cursive;
+    font-size: 16px;
+    color: #7a6a4e;
+    margin: 18px 0 6px;
+    padding-bottom: 2px;
+    border-bottom: 1px dashed #c4b89a;
+  }
+
+  .node {
+    display: inline-block;
+    padding: 4px 10px;
+    margin: 3px 0;
+    font-size: 13px;
+    border-radius: 2px;
+    cursor: default;
+    position: relative;
+    transition: opacity 0.2s;
+    line-height: 1.4;
+    max-width: 100%;
+    word-break: break-word;
+  }
+
+  .node.onto {
+    background: rgba(70,90,130,0.08);
+    border: 1.5px solid rgba(70,90,130,0.35);
+    color: #3a4f70;
+  }
+
+  .node.code {
+    background: rgba(60,110,70,0.08);
+    border: 1.5px solid rgba(60,110,70,0.35);
+    color: #2e5a35;
+    font-family: 'EB Garamond', serif;
+  }
+
+  .node code {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    background: rgba(0,0,0,0.04);
+    padding: 0 3px;
+    border-radius: 2px;
+  }
+
+  .node:hover {
+    border-color: #7a5a2a !important;
+    box-shadow: 0 0 8px rgba(122,90,42,0.25);
+  }
+
+  body.dimmed .node { opacity: 0.15; }
+  body.dimmed .node.highlight { opacity: 1; }
+
+  .tooltip {
+    position: fixed;
+    background: #f5f0e8;
+    border: 1px solid #b0a48a;
+    padding: 6px 12px;
+    font-family: 'Caveat', cursive;
+    font-size: 15px;
+    color: #5a4a30;
+    pointer-events: none;
+    z-index: 100;
+    display: none;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.12);
+    max-width: 280px;
+  }
+
+  .col-header {
+    text-align: center;
+    font-size: 15px;
+    font-style: italic;
+    color: #6b5d47;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+
+  .col-header.left-h { color: #3a4f70; }
+  .col-header.right-h { color: #2e5a35; }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <h1>Couplage de Graphe &mdash; Ontologie &#8596; Application</h1>
+  <p class="subtitle">Bijection entre le graphe conceptuel et le graphe computationnel</p>
+  <p class="fig-label">Fig. 1 &mdash; Correspondance structurelle entre les entit&eacute;s ontologiques et leurs impl&eacute;mentations</p>
+
+  <div class="legend">
+    <span><span class="swatch" style="background:rgba(70,90,130,0.2)"></span> Graphe conceptuel (ontologie)</span>
+    <span><span class="swatch" style="background:rgba(60,110,70,0.2)"></span> Graphe computationnel (code)</span>
+    <span><span class="swatch" style="background:rgba(139,110,60,0.3)"></span> Ar&ecirc;te de couplage</span>
+  </div>
+
+  <div class="margin-note left" style="top:180px;">Les deux colonnes forment une bijection compl&egrave;te &mdash; chaque concept est instanci&eacute;.</div>
+  <div class="margin-note right" style="top:250px;">cf. Le Bateau Ivre des Donn&eacute;es, ch. 3</div>
+  <div class="margin-note left" style="top:650px;">Les &eacute;tats forment deux cha&icirc;nes parall&egrave;les de transformation.</div>
+  <div class="margin-note right" style="top:900px;">Notons la sym&eacute;trie consommation / construction.</div>
+  <div class="margin-note left" style="top:1100px;">Chaque action modifie l'&eacute;tat de la donn&eacute;e dans le pipeline.</div>
+
+  <div class="graph-container" id="graphContainer">
+    <canvas id="coupling-canvas"></canvas>
+    <div class="columns" id="columns">
+      <div class="column left" id="colLeft">
+        <div class="col-header left-h">Graphe conceptuel</div>
+      </div>
+      <div class="column right" id="colRight">
+        <div class="col-header right-h">Graphe computationnel</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-number">~ 1 ~</div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+const DATA = [
+  { group: "Architectures", pairs: [
+    ["ArchitectureConsommation", "app_consommation.py", "L'app enti\u00e8re instancie l'architecture"],
+    ["ArchitectureConstruction", "app_construction.py", "L'app enti\u00e8re instancie l'architecture"],
+  ]},
+  { group: "R\u00f4les", pairs: [
+    ["ConsommateurDonnees", "consumed_ids, liked_ids", "Sets passifs"],
+    ["ConstructeurDonnees", "dataset_id, pipeline_stage", "\u00c9tat actif"],
+  ]},
+  { group: "Concepts", pairs: [
+    ["Attention", "scroll drain / conscious intent", "consomme() vs preserve()"],
+    ["FluxDonnees", "feed_items table", "opereSur(Consommation)"],
+    ["StockDonnees", "datasets + dataset_rows", "opereSur(Construction)"],
+    ["TemporaliteContinue", "infinite scroll loop", "induit(Consommation)"],
+    ["TemporaliteDiscrete", "5-stage pipeline", "induit(Construction)"],
+  ]},
+  { group: "M\u00e9canismes", pairs: [
+    ["AlgorithmeFlux", "algorithme_flux()", "Trie par score/tendance"],
+    ["ScrollInfini", "feed_offset pagination", "Charger plus"],
+    ["Categories", "st.multiselect(\"Cat\u00e9gories\")", "Filtre"],
+    ["PipelineITO", "advance_pipeline()", "I-T-O discret"],
+  ]},
+  { group: "Composants \u2014 Consommation", pairs: [
+    ["Feed", "visible_items loop", "Flux central"],
+    ["CarteContenu", "render_carte_contenu()", "Unit\u00e9 atomique"],
+    ["Notification", "render_notification_bar()", "Interruption push"],
+    ["BarreRecherche", "render_search_bar()", "Filtrage"],
+    ["Recommandation", "render_recommandations()", "Prolonge la session"],
+  ]},
+  { group: "Composants \u2014 Construction", pairs: [
+    ["Formulaire", "render_formulaire()", "Saisie structur\u00e9e"],
+    ["TableauEditable", "render_tableau_editable()", "Grille CRUD"],
+    ["PanneauRequete", "render_panneau_requete()", "SQL DuckDB"],
+    ["Canvas", "st.data_editor()", "Espace 2D"],
+    ["Terminal", "SQL text_area", "Ligne de commande"],
+  ]},
+  { group: "Actions \u2014 Consommation", pairs: [
+    ["Scroller", "feed_offset + \"Charger plus\"", "Effort faible"],
+    ["Liker", "handle_like()", "Feedback minimal"],
+    ["Partager", "handle_share()", "Redistribuer"],
+    ["Sauvegarder", "handle_save()", "Flux \u2192 Stock"],
+  ]},
+  { group: "Actions \u2014 Construction", pairs: [
+    ["Cr\u00e9er", "st.form(\"create_dataset\")", "Effort \u00e9lev\u00e9"],
+    ["Transformer", "pipeline nettoyee\u2192transformee", "Restructuration"],
+    ["Requ\u00eater", "duckdb.sql(query)", "Interrogation"],
+    ["Valider", "advance_pipeline(\"publiee\")", "Fin de cycle"],
+    ["Exporter", "st.download_button()", "CSV/JSON/Parquet"],
+  ]},
+  { group: "\u00c9tats \u2014 Consommation", pairs: [
+    ["DonneeBrute", "etat='brute'", "Non trait\u00e9e"],
+    ["DonneeAlgorithmisee", "etat='algorithmisee'", "Filtr\u00e9e"],
+    ["DonneeAffichee", "etat='affichee'", "Rendue"],
+    ["DonneeConsommee", "etat='consommee'", "Terminal"],
+  ]},
+  { group: "\u00c9tats \u2014 Construction", pairs: [
+    ["DonneeBrute", "etat='brute'", "Ing\u00e9r\u00e9e"],
+    ["DonneeNettoyee", "etat='nettoyee'", "Nettoy\u00e9e"],
+    ["DonneeTransformee", "etat='transformee'", "Restructur\u00e9e"],
+    ["DonneeStructuree", "etat='structuree'", "Sch\u00e9ma formel"],
+    ["DonneePubliee", "etat='publiee'", "Stock finalis\u00e9"],
+  ]},
+];
+
+const colLeft = document.getElementById('colLeft');
+const colRight = document.getElementById('colRight');
+const tooltip = document.getElementById('tooltip');
+const pairElements = [];
+
+DATA.forEach(section => {
+  const gL = document.createElement('div');
+  gL.className = 'group-label';
+  gL.textContent = section.group;
+  colLeft.appendChild(gL);
+
+  const gR = document.createElement('div');
+  gR.className = 'group-label';
+  gR.textContent = section.group;
+  colRight.appendChild(gR);
+
+  section.pairs.forEach(([onto, code, annot]) => {
+    const id = 'p' + pairElements.length;
+
+    const nL = document.createElement('div');
+    nL.className = 'node onto';
+    nL.textContent = onto;
+    nL.dataset.pair = id;
+    colLeft.appendChild(nL);
+
+    const nR = document.createElement('div');
+    nR.className = 'node code';
+    nR.innerHTML = '<code>' + code.replace(/</g,'&lt;') + '</code>';
+    nR.dataset.pair = id;
+    colRight.appendChild(nR);
+
+    pairElements.push({ left: nL, right: nR, annot });
+  });
+});
+
+// Draw coupling edges with rough.js
+function drawEdges(highlightIdx) {
+  const container = document.getElementById('graphContainer');
+  const canvas = document.getElementById('coupling-canvas');
+  const rect = container.getBoundingClientRect();
+  canvas.width = container.scrollWidth;
+  canvas.height = container.scrollHeight;
+  canvas.style.width = container.scrollWidth + 'px';
+  canvas.style.height = container.scrollHeight + 'px';
+
+  const rc = rough.canvas(canvas);
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const cRect = container.getBoundingClientRect();
+
+  pairElements.forEach((p, i) => {
+    const lR = p.left.getBoundingClientRect();
+    const rR = p.right.getBoundingClientRect();
+
+    const x1 = lR.right - cRect.left;
+    const y1 = lR.top + lR.height / 2 - cRect.top;
+    const x2 = rR.left - cRect.left;
+    const y2 = rR.top + rR.height / 2 - cRect.top;
+
+    const isHl = highlightIdx === i;
+    const opacity = highlightIdx === -1 ? 0.35 : (isHl ? 0.9 : 0.07);
+    const sw = isHl ? 1.8 : 1;
+
+    rc.line(x1, y1, x2, y2, {
+      stroke: `rgba(139,100,40,${opacity})`,
+      strokeWidth: sw,
+      roughness: 1.5,
+      strokeLineDash: [5, 4],
+    });
+  });
+}
+
+let currentHL = -1;
+
+function handleHover(e) {
+  const node = e.target.closest('.node');
+  if (node) {
+    const idx = parseInt(node.dataset.pair.substring(1));
+    if (idx !== currentHL) {
+      currentHL = idx;
+      document.body.classList.add('dimmed');
+      pairElements.forEach((p, i) => {
+        p.left.classList.toggle('highlight', i === idx);
+        p.right.classList.toggle('highlight', i === idx);
+      });
+      drawEdges(idx);
+      tooltip.style.display = 'block';
+      tooltip.textContent = pairElements[idx].annot;
+    }
+    tooltip.style.left = (e.clientX + 14) + 'px';
+    tooltip.style.top = (e.clientY - 10) + 'px';
+  } else {
+    if (currentHL !== -1) {
+      currentHL = -1;
+      document.body.classList.remove('dimmed');
+      pairElements.forEach(p => {
+        p.left.classList.remove('highlight');
+        p.right.classList.remove('highlight');
+      });
+      drawEdges(-1);
+      tooltip.style.display = 'none';
+    }
+  }
+}
+
+document.addEventListener('mousemove', handleHover);
+window.addEventListener('resize', () => drawEdges(currentHL));
+requestAnimationFrame(() => drawEdges(-1));
+</script>
+</body>
+</html>

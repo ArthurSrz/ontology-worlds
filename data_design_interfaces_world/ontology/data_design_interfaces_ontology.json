@@ -1,0 +1,731 @@
+{
+  "@context": {
+    "wd": "http://www.wikidata.org/entity/",
+    "wdt": "http://www.wikidata.org/prop/direct/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "schema": "http://schema.org/"
+  },
+  "metadata": {
+    "name": "Data Design Interfaces",
+    "name_short": "data-design-interfaces",
+    "description": "Ontologie des interfaces comme architectures de nos interactions avec les données — d'après Arthur Sarazin (Le Bateau Ivre des Données, 2023)",
+    "language": "fr",
+    "version": "1.0.0",
+    "domain": "data-design-interfaces",
+    "source": "Article LinkedIn + Wikidata"
+  },
+  "classes": [
+    {
+      "id": "ConceptFondamental",
+      "label": "Concept fondamental",
+      "description": "Concepts théoriques structurants du cadre d'analyse"
+    },
+    {
+      "id": "ArchitectureInterface",
+      "label": "Architecture d'interface",
+      "description": "Type d'architecture qui cadre et oriente les interactions avec les données"
+    },
+    {
+      "id": "MecanismeInteraction",
+      "label": "Mécanisme d'interaction",
+      "description": "Modalité concrète d'interaction entre l'utilisateur et les données via l'interface"
+    },
+    {
+      "id": "DimensionTemporelle",
+      "label": "Dimension temporelle",
+      "description": "Type de temporalité induite par une architecture d'interface"
+    },
+    {
+      "id": "ExempleInterface",
+      "label": "Exemple d'interface",
+      "description": "Instance concrète d'interface illustrant une architecture"
+    },
+    {
+      "id": "RoleUtilisateur",
+      "label": "Rôle de l'utilisateur",
+      "description": "Posture de l'utilisateur face aux données selon l'architecture"
+    },
+    {
+      "id": "OutilNavigation",
+      "label": "Outil de navigation",
+      "description": "Instrument concret pour manipuler, créer et interagir avec des données"
+    },
+    {
+      "id": "ComposantInterface",
+      "label": "Composant d'interface",
+      "description": "Brique UI constitutive d'une application — incarne une architecture"
+    },
+    {
+      "id": "ActionUtilisateur",
+      "label": "Action utilisateur",
+      "description": "Geste ou opération que l'utilisateur effectue dans une application"
+    },
+    {
+      "id": "ModeleRepresentation",
+      "label": "Modèle de représentation",
+      "description": "Forme visuelle sous laquelle les données apparaissent à l'utilisateur"
+    },
+    {
+      "id": "EtatDonnee",
+      "label": "État de la donnée",
+      "description": "Étape du cycle de vie de la donnée au sein d'une application"
+    }
+  ],
+  "instances": [
+    {
+      "id": "Interface",
+      "class": "ConceptFondamental",
+      "label": "Interface",
+      "wikidata": "Q47146",
+      "description": "Architecture qui cadre et oriente nos interactions avec les données",
+      "properties": {
+        "definition": "Moyen par lequel un utilisateur interagit avec les données"
+      }
+    },
+    {
+      "id": "ArchitectureInformation",
+      "class": "ConceptFondamental",
+      "label": "Architecture de l'information",
+      "wikidata": "Q845921",
+      "description": "Conception structurelle de l'information partagée",
+      "properties": {
+        "definition": "Design structurel qui organise l'accès à l'information"
+      }
+    },
+    {
+      "id": "EconomieAttention",
+      "class": "ConceptFondamental",
+      "label": "Économie de l'attention",
+      "wikidata": "Q295287",
+      "description": "Vision économique de l'attention humaine comme marchandise",
+      "properties": {
+        "definition": "L'attention est une ressource finie que les interfaces consomment ou préservent"
+      }
+    },
+    {
+      "id": "Donnee",
+      "class": "ConceptFondamental",
+      "label": "Donnée",
+      "wikidata": "Q42848",
+      "description": "Élément d'information — objet central de toute interaction via une interface",
+      "properties": {
+        "dualite": "Peut être consommée (flux) ou construite (stock)"
+      }
+    },
+    {
+      "id": "Attention",
+      "class": "ConceptFondamental",
+      "label": "Attention",
+      "description": "Ressource cognitive finie — consommée par les architectures de consommation, préservée par celles de construction",
+      "properties": {
+        "nature": "Ressource finie, monnayable"
+      }
+    },
+    {
+      "id": "FluxDonnees",
+      "class": "ConceptFondamental",
+      "label": "Flux de données",
+      "description": "Données en mouvement continu — le flux devient stock quand capté par l'interface",
+      "properties": {
+        "dualite": "Le flux est revendu comme stock (attention monétisée)"
+      }
+    },
+    {
+      "id": "StockDonnees",
+      "class": "ConceptFondamental",
+      "label": "Stock de données",
+      "description": "Données persistantes, organisées — résultat du processus de construction",
+      "properties": {
+        "dualite": "Le stock est le produit de la construction consciente"
+      }
+    },
+    {
+      "id": "DesignInterface",
+      "class": "ConceptFondamental",
+      "label": "Design d'interface",
+      "wikidata": "Q135707",
+      "description": "Discipline de conception — les designers installent l'utilisateur dans une temporalité",
+      "properties": {
+        "pouvoir": "Le designer choisit si l'utilisateur consomme ou construit"
+      }
+    },
+    {
+      "id": "VisualisationDonnees",
+      "class": "ConceptFondamental",
+      "label": "Visualisation de données",
+      "wikidata": "Q6504956",
+      "description": "Création et étude de la représentation visuelle des données",
+      "properties": {
+        "role": "Rend les données intelligibles et manipulables"
+      }
+    },
+    {
+      "id": "ArchitectureConsommation",
+      "class": "ArchitectureInterface",
+      "label": "Architecture de consommation de données",
+      "description": "Architecture où l'utilisateur consomme des données dans un flux continu et supposé infini",
+      "properties": {
+        "temporalite": "Continue et infinie",
+        "posture_utilisateur": "Consommateur passif",
+        "effet": "Le flux devient stock, l'attention est revendue"
+      }
+    },
+    {
+      "id": "ArchitectureConstruction",
+      "class": "ArchitectureInterface",
+      "label": "Architecture de construction de données",
+      "description": "Architecture où l'utilisateur construit activement des données via un cycle input-traitement-output",
+      "properties": {
+        "temporalite": "Discrète et séquencée",
+        "posture_utilisateur": "Constructeur actif",
+        "effet": "L'utilisateur maîtrise le temps et le processus"
+      }
+    },
+    {
+      "id": "TemporaliteContinue",
+      "class": "DimensionTemporelle",
+      "label": "Temporalité continue",
+      "wikidata": "Q3517747",
+      "description": "Temps d'interaction supposé continu et infini — scroll sans fin",
+      "properties": {
+        "caracteristique": "Infinie, instinctive, non-maîtrisée"
+      }
+    },
+    {
+      "id": "TemporaliteDiscrete",
+      "class": "DimensionTemporelle",
+      "label": "Temporalité discrète",
+      "wikidata": "Q3517747",
+      "description": "Temps d'interaction séquencé et maîtrisé — chaque action a un début et une fin",
+      "properties": {
+        "caracteristique": "Finie, consciente, contrôlée"
+      }
+    },
+    {
+      "id": "ScrollInfini",
+      "class": "MecanismeInteraction",
+      "label": "Scroll infini",
+      "wikidata": "Q109316840",
+      "description": "Pattern de design web où le contenu se charge indéfiniment au défilement",
+      "properties": {
+        "boucle": "Scroller - insérer du texte - scroller à nouveau"
+      }
+    },
+    {
+      "id": "PipelineITO",
+      "class": "MecanismeInteraction",
+      "label": "Pipeline Input-Traitement-Output",
+      "description": "Chaque action utilisateur se décompose en : un input, un traitement, un output",
+      "properties": {
+        "etapes": "Input - Traitement conscient - Output"
+      }
+    },
+    {
+      "id": "AlgorithmeFlux",
+      "class": "MecanismeInteraction",
+      "label": "Algorithme de flux",
+      "wikidata": "Q136936092",
+      "description": "Algorithme qui détermine quel contenu est montré et dans quel ordre",
+      "properties": {
+        "role": "Organise et priorise les données consommées"
+      }
+    },
+    {
+      "id": "Categories",
+      "class": "MecanismeInteraction",
+      "label": "Catégories",
+      "description": "Système de classement organisant les données dans une architecture de consommation",
+      "properties": {
+        "role": "Naviguer entre les sections de données exposées"
+      }
+    },
+    {
+      "id": "ConsommateurDonnees",
+      "class": "RoleUtilisateur",
+      "label": "Consommateur de données",
+      "description": "Posture passive — l'utilisateur consomme des données pré-organisées par l'interface",
+      "properties": {
+        "agency": "Faible — l'interface guide"
+      }
+    },
+    {
+      "id": "ConstructeurDonnees",
+      "class": "RoleUtilisateur",
+      "label": "Constructeur de données",
+      "description": "Posture active — l'utilisateur crée des données via des opérations conscientes",
+      "properties": {
+        "agency": "Forte — l'utilisateur guide"
+      }
+    },
+    {
+      "id": "ReseauxSociaux",
+      "class": "ExempleInterface",
+      "label": "Réseaux sociaux",
+      "description": "Exemple archétypal d'architecture de consommation — LinkedIn, Twitter",
+      "properties": {
+        "architecture": "Consommation"
+      }
+    },
+    {
+      "id": "PresseEnLigne",
+      "class": "ExempleInterface",
+      "label": "Presse en ligne",
+      "description": "Sites d'information en continu — architecture de consommation",
+      "properties": {
+        "architecture": "Consommation"
+      }
+    },
+    {
+      "id": "ChatGPT",
+      "class": "ExempleInterface",
+      "label": "ChatGPT",
+      "description": "Interface conversationnelle IA — citée comme architecture de consommation",
+      "properties": {
+        "architecture": "Consommation",
+        "particularite": "Flux généré à la demande mais consommé en continu"
+      }
+    },
+    {
+      "id": "ParisSportifs",
+      "class": "ExempleInterface",
+      "label": "Sites de paris sportifs",
+      "description": "Interfaces de paris en ligne — consommation de données en temps réel",
+      "properties": {
+        "architecture": "Consommation"
+      }
+    },
+    {
+      "id": "Tableurs",
+      "class": "ExempleInterface",
+      "label": "Tableurs (Excel, LibreOffice)",
+      "wikidata": "Q183197",
+      "description": "Logiciel pour organiser et analyser des données — architecture de construction",
+      "properties": {
+        "architecture": "Construction"
+      }
+    },
+    {
+      "id": "EditeurTexte",
+      "class": "ExempleInterface",
+      "label": "Éditeurs de texte et de code",
+      "description": "Interfaces d'édition — architecture de construction",
+      "properties": {
+        "architecture": "Construction"
+      }
+    },
+    {
+      "id": "OutilsVisualisation",
+      "class": "ExempleInterface",
+      "label": "Outils de visualisation de données",
+      "wikidata": "Q5597177",
+      "description": "Logiciels de visualisation — architecture de construction",
+      "properties": {
+        "architecture": "Construction"
+      }
+    },
+    {
+      "id": "DataButton",
+      "class": "OutilNavigation",
+      "label": "DataButton",
+      "description": "Environnement de développement pour construire des produits IA",
+      "properties": {
+        "type": "Environnement de développement"
+      }
+    },
+    {
+      "id": "DuckDB",
+      "class": "OutilNavigation",
+      "label": "DuckDB",
+      "description": "Interface pour interroger de grandes bases de données depuis un navigateur",
+      "properties": {
+        "type": "Système de gestion de base de données"
+      }
+    },
+    {
+      "id": "Streamlit",
+      "class": "OutilNavigation",
+      "label": "Streamlit",
+      "description": "Environnement pour créer des applications de données interactives",
+      "properties": {
+        "type": "Framework d'applications de données"
+      }
+    },
+    {
+      "id": "GitHubCodespaces",
+      "class": "OutilNavigation",
+      "label": "GitHub Codespaces",
+      "description": "Environnement de développement cloud intégré",
+      "properties": {
+        "type": "Environnement de développement"
+      }
+    },
+
+    {"id": "Feed", "class": "ComposantInterface", "label": "Feed", "description": "Flux vertical de contenus ordonnés par un algorithme — composant central de la consommation", "properties": {"architecture": "Consommation", "pattern": "Liste verticale infinie"}},
+    {"id": "CarteContenu", "class": "ComposantInterface", "label": "Carte de contenu", "description": "Unité visuelle résumant un élément de donnée dans un feed", "properties": {"architecture": "Consommation", "pattern": "Aperçu cliquable"}},
+    {"id": "Notification", "class": "ComposantInterface", "label": "Notification", "description": "Signal push qui ramène l'utilisateur dans le flux de consommation", "properties": {"architecture": "Consommation", "pattern": "Interruption attentionnelle"}},
+    {"id": "BarreRecherche", "class": "ComposantInterface", "label": "Barre de recherche", "description": "Champ de saisie pour filtrer ou chercher dans les données exposées", "properties": {"architecture": "Les deux", "pattern": "Input textuel"}},
+    {"id": "Recommandation", "class": "ComposantInterface", "label": "Recommandation", "description": "Suggestion algorithmique de contenu — prolonge le temps de consommation", "properties": {"architecture": "Consommation", "pattern": "Suggestion contextuelle"}},
+
+    {"id": "Formulaire", "class": "ComposantInterface", "label": "Formulaire de saisie", "description": "Interface structurée pour créer ou modifier des données — composant central de la construction", "properties": {"architecture": "Construction", "pattern": "Champs typés avec validation"}},
+    {"id": "Canvas", "class": "ComposantInterface", "label": "Canvas", "description": "Espace libre de manipulation visuelle des données", "properties": {"architecture": "Construction", "pattern": "Espace 2D interactif"}},
+    {"id": "Terminal", "class": "ComposantInterface", "label": "Terminal / Console", "description": "Interface textuelle pour exécuter des commandes sur les données", "properties": {"architecture": "Construction", "pattern": "Ligne de commande"}},
+    {"id": "TableauEditable", "class": "ComposantInterface", "label": "Tableau éditable", "description": "Grille de données modifiable — vue et édition simultanées", "properties": {"architecture": "Construction", "pattern": "Grille CRUD"}},
+    {"id": "PanneauRequete", "class": "ComposantInterface", "label": "Panneau de requête", "description": "Éditeur de requêtes SQL ou filtre avancé pour interroger les données", "properties": {"architecture": "Construction", "pattern": "Éditeur de requêtes"}},
+
+    {"id": "Scroller", "class": "ActionUtilisateur", "label": "Scroller", "description": "Défiler dans un flux — action passive et continue", "properties": {"architecture": "Consommation", "effort_cognitif": "Faible"}},
+    {"id": "Liker", "class": "ActionUtilisateur", "label": "Liker / Réagir", "description": "Marquer un contenu d'une réaction — feedback minimal", "properties": {"architecture": "Consommation", "effort_cognitif": "Faible"}},
+    {"id": "Partager", "class": "ActionUtilisateur", "label": "Partager", "description": "Redistribuer un contenu dans le flux — amplification", "properties": {"architecture": "Consommation", "effort_cognitif": "Faible"}},
+    {"id": "Sauvegarder", "class": "ActionUtilisateur", "label": "Sauvegarder / Bookmarker", "description": "Extraire un élément du flux vers un stock personnel", "properties": {"architecture": "Consommation", "effort_cognitif": "Moyen", "transition": "Flux vers stock"}},
+
+    {"id": "Creer", "class": "ActionUtilisateur", "label": "Créer", "description": "Produire une nouvelle donnée structurée — acte fondamental de construction", "properties": {"architecture": "Construction", "effort_cognitif": "Élevé"}},
+    {"id": "Transformer", "class": "ActionUtilisateur", "label": "Transformer", "description": "Modifier la forme ou la structure d'une donnée existante", "properties": {"architecture": "Construction", "effort_cognitif": "Élevé"}},
+    {"id": "Requeter", "class": "ActionUtilisateur", "label": "Requêter", "description": "Interroger un stock de données via une requête structurée", "properties": {"architecture": "Construction", "effort_cognitif": "Élevé"}},
+    {"id": "Valider", "class": "ActionUtilisateur", "label": "Valider / Publier", "description": "Confirmer et rendre disponible une donnée construite", "properties": {"architecture": "Construction", "effort_cognitif": "Moyen"}},
+    {"id": "Exporter", "class": "ActionUtilisateur", "label": "Exporter", "description": "Sortir les données d'une application vers un autre format ou système", "properties": {"architecture": "Construction", "effort_cognitif": "Moyen"}},
+
+    {"id": "ListeVerticale", "class": "ModeleRepresentation", "label": "Liste verticale", "description": "Représentation séquentielle infinie — modèle du feed", "properties": {"architecture": "Consommation"}},
+    {"id": "GrilleCartes", "class": "ModeleRepresentation", "label": "Grille de cartes", "description": "Mosaïque de cartes de contenu — exploration visuelle", "properties": {"architecture": "Consommation"}},
+    {"id": "Tableau", "class": "ModeleRepresentation", "label": "Tableau de données", "description": "Lignes et colonnes structurées — modèle du tableur", "properties": {"architecture": "Construction"}},
+    {"id": "Graphe", "class": "ModeleRepresentation", "label": "Graphe / Réseau", "description": "Nœuds et arêtes — relations entre données", "properties": {"architecture": "Construction"}},
+    {"id": "Chronologie", "class": "ModeleRepresentation", "label": "Chronologie", "description": "Représentation temporelle ordonnée des données", "properties": {"architecture": "Les deux"}},
+    {"id": "Diagramme", "class": "ModeleRepresentation", "label": "Diagramme", "description": "Représentation synthétique — barres, camemberts, courbes", "properties": {"architecture": "Construction"}},
+
+    {"id": "DonneeBrute", "class": "EtatDonnee", "label": "Donnée brute", "description": "Donnée non traitée, telle qu'ingérée par le système", "properties": {"ordre": 1}},
+    {"id": "DonneeAlgorithmisee", "class": "EtatDonnee", "label": "Donnée algorithmisée", "description": "Donnée filtrée, triée et priorisée par un algorithme de flux", "properties": {"ordre": 2, "architecture": "Consommation"}},
+    {"id": "DonneeAffichee", "class": "EtatDonnee", "label": "Donnée affichée", "description": "Donnée rendue visible à l'utilisateur dans l'interface", "properties": {"ordre": 3, "architecture": "Consommation"}},
+    {"id": "DonneeConsommee", "class": "EtatDonnee", "label": "Donnée consommée", "description": "Donnée vue par l'utilisateur — attention captée, métrique enregistrée", "properties": {"ordre": 4, "architecture": "Consommation"}},
+    {"id": "DonneeNettoyee", "class": "EtatDonnee", "label": "Donnée nettoyée", "description": "Donnée brute après nettoyage — erreurs corrigées, doublons supprimés", "properties": {"ordre": 2, "architecture": "Construction"}},
+    {"id": "DonneeTransformee", "class": "EtatDonnee", "label": "Donnée transformée", "description": "Donnée restructurée selon le modèle cible de l'utilisateur", "properties": {"ordre": 3, "architecture": "Construction"}},
+    {"id": "DonneeStructuree", "class": "EtatDonnee", "label": "Donnée structurée", "description": "Donnée organisée dans un schéma formel — prête à être interrogée", "properties": {"ordre": 4, "architecture": "Construction"}},
+    {"id": "DonneePubliee", "class": "EtatDonnee", "label": "Donnée publiée", "description": "Donnée validée et rendue accessible — stock finalisé", "properties": {"ordre": 5, "architecture": "Construction"}}
+  ],
+  "relations": [
+    {
+      "subject": "ArchitectureConsommation",
+      "predicate": "estUnType",
+      "object": "Interface",
+      "attributes": {
+        "distinction": "Cadre l'interaction comme consommation"
+      }
+    },
+    {
+      "subject": "ArchitectureConstruction",
+      "predicate": "estUnType",
+      "object": "Interface",
+      "attributes": {
+        "distinction": "Cadre l'interaction comme construction"
+      }
+    },
+    {
+      "subject": "ArchitectureConsommation",
+      "predicate": "induit",
+      "object": "TemporaliteContinue",
+      "attributes": {
+        "mecanisme": "Le scroll installe dans un temps infini"
+      }
+    },
+    {
+      "subject": "ArchitectureConstruction",
+      "predicate": "induit",
+      "object": "TemporaliteDiscrete",
+      "attributes": {
+        "mecanisme": "Chaque action a input, traitement, output"
+      }
+    },
+    {
+      "subject": "ArchitectureConsommation",
+      "predicate": "consomme",
+      "object": "Attention",
+      "attributes": {
+        "effet": "L'attention offerte est revendue"
+      }
+    },
+    {
+      "subject": "ArchitectureConstruction",
+      "predicate": "preserve",
+      "object": "Attention",
+      "attributes": {
+        "effet": "L'utilisateur contrôle son investissement attentionnel"
+      }
+    },
+    {
+      "subject": "ArchitectureConsommation",
+      "predicate": "utilise",
+      "object": "ScrollInfini",
+      "attributes": {
+        "role": "Mécanisme principal"
+      }
+    },
+    {
+      "subject": "ArchitectureConsommation",
+      "predicate": "utilise",
+      "object": "AlgorithmeFlux",
+      "attributes": {
+        "role": "Organise le contenu"
+      }
+    },
+    {
+      "subject": "ArchitectureConsommation",
+      "predicate": "utilise",
+      "object": "Categories",
+      "attributes": {
+        "role": "Organise les données exposées"
+      }
+    },
+    {
+      "subject": "ArchitectureConstruction",
+      "predicate": "utilise",
+      "object": "PipelineITO",
+      "attributes": {
+        "role": "Mécanisme principal"
+      }
+    },
+    {
+      "subject": "ArchitectureConsommation",
+      "predicate": "installeComme",
+      "object": "ConsommateurDonnees",
+      "attributes": {
+        "posture": "Passif, guidé par l'interface"
+      }
+    },
+    {
+      "subject": "ArchitectureConstruction",
+      "predicate": "installeComme",
+      "object": "ConstructeurDonnees",
+      "attributes": {
+        "posture": "Actif, guidé par son intention"
+      }
+    },
+    {
+      "subject": "ReseauxSociaux",
+      "predicate": "illustre",
+      "object": "ArchitectureConsommation",
+      "attributes": {
+        "exemple": "LinkedIn, Twitter"
+      }
+    },
+    {
+      "subject": "PresseEnLigne",
+      "predicate": "illustre",
+      "object": "ArchitectureConsommation",
+      "attributes": {
+        "exemple": "Sites d'info en continu"
+      }
+    },
+    {
+      "subject": "ChatGPT",
+      "predicate": "illustre",
+      "object": "ArchitectureConsommation",
+      "attributes": {
+        "exemple": "Flux conversationnel continu"
+      }
+    },
+    {
+      "subject": "ParisSportifs",
+      "predicate": "illustre",
+      "object": "ArchitectureConsommation",
+      "attributes": {
+        "exemple": "Données temps réel"
+      }
+    },
+    {
+      "subject": "Tableurs",
+      "predicate": "illustre",
+      "object": "ArchitectureConstruction",
+      "attributes": {
+        "exemple": "Excel, LibreOffice"
+      }
+    },
+    {
+      "subject": "EditeurTexte",
+      "predicate": "illustre",
+      "object": "ArchitectureConstruction",
+      "attributes": {
+        "exemple": "Éditeurs de texte et code"
+      }
+    },
+    {
+      "subject": "OutilsVisualisation",
+      "predicate": "illustre",
+      "object": "ArchitectureConstruction",
+      "attributes": {
+        "exemple": "Transformation données en visuels"
+      }
+    },
+    {
+      "subject": "FluxDonnees",
+      "predicate": "estTransformeEn",
+      "object": "StockDonnees",
+      "attributes": {
+        "processus": "Le flux capté devient stock revendu"
+      }
+    },
+    {
+      "subject": "ArchitectureConsommation",
+      "predicate": "opereSur",
+      "object": "FluxDonnees",
+      "attributes": {
+        "mode": "Données en mouvement continu"
+      }
+    },
+    {
+      "subject": "ArchitectureConstruction",
+      "predicate": "opereSur",
+      "object": "StockDonnees",
+      "attributes": {
+        "mode": "Données persistantes transformées"
+      }
+    },
+    {
+      "subject": "DesignInterface",
+      "predicate": "determine",
+      "object": "Interface",
+      "attributes": {
+        "pouvoir": "Le designer choisit la posture utilisateur"
+      }
+    },
+    {
+      "subject": "EconomieAttention",
+      "predicate": "sousJacente",
+      "object": "ArchitectureConsommation",
+      "attributes": {
+        "lien": "Produit de l'économie de l'attention"
+      }
+    },
+    {
+      "subject": "DataButton",
+      "predicate": "illustre",
+      "object": "ArchitectureConstruction",
+      "attributes": {
+        "type": "Outil recommandé"
+      }
+    },
+    {
+      "subject": "DuckDB",
+      "predicate": "illustre",
+      "object": "ArchitectureConstruction",
+      "attributes": {
+        "type": "Outil recommandé"
+      }
+    },
+    {
+      "subject": "Streamlit",
+      "predicate": "illustre",
+      "object": "ArchitectureConstruction",
+      "attributes": {
+        "type": "Outil recommandé"
+      }
+    },
+    {
+      "subject": "GitHubCodespaces",
+      "predicate": "illustre",
+      "object": "ArchitectureConstruction",
+      "attributes": {
+        "type": "Outil recommandé"
+      }
+    },
+    {
+      "subject": "ArchitectureInformation",
+      "predicate": "fondement",
+      "object": "Interface",
+      "attributes": {
+        "lien": "Socle théorique du design d'interface"
+      }
+    },
+    {
+      "subject": "VisualisationDonnees",
+      "predicate": "enabledBy",
+      "object": "ArchitectureConstruction",
+      "attributes": {
+        "lien": "Nécessite une posture de construction"
+      }
+    },
+    {
+      "subject": "ConsommateurDonnees",
+      "predicate": "opposeDe",
+      "object": "ConstructeurDonnees",
+      "attributes": {
+        "tension": "Consommez-vous ou construisez-vous?"
+      }
+    },
+
+    {"subject": "ArchitectureConsommation", "predicate": "composeDe", "object": "Feed", "attributes": {"role": "Composant central — flux de contenus"}},
+    {"subject": "ArchitectureConsommation", "predicate": "composeDe", "object": "CarteContenu", "attributes": {"role": "Unité atomique du feed"}},
+    {"subject": "ArchitectureConsommation", "predicate": "composeDe", "object": "Notification", "attributes": {"role": "Rappel attentionnel — ramène dans le flux"}},
+    {"subject": "ArchitectureConsommation", "predicate": "composeDe", "object": "BarreRecherche", "attributes": {"role": "Filtrage dans les données exposées"}},
+    {"subject": "ArchitectureConsommation", "predicate": "composeDe", "object": "Recommandation", "attributes": {"role": "Prolonge la session de consommation"}},
+
+    {"subject": "ArchitectureConstruction", "predicate": "composeDe", "object": "Formulaire", "attributes": {"role": "Composant central — saisie structurée"}},
+    {"subject": "ArchitectureConstruction", "predicate": "composeDe", "object": "Canvas", "attributes": {"role": "Manipulation visuelle libre"}},
+    {"subject": "ArchitectureConstruction", "predicate": "composeDe", "object": "Terminal", "attributes": {"role": "Commandes directes sur les données"}},
+    {"subject": "ArchitectureConstruction", "predicate": "composeDe", "object": "TableauEditable", "attributes": {"role": "Vue et édition simultanées"}},
+    {"subject": "ArchitectureConstruction", "predicate": "composeDe", "object": "PanneauRequete", "attributes": {"role": "Interrogation structurée du stock"}},
+    {"subject": "ArchitectureConstruction", "predicate": "composeDe", "object": "BarreRecherche", "attributes": {"role": "Recherche dans le stock de données"}},
+
+    {"subject": "ConsommateurDonnees", "predicate": "declenche", "object": "Scroller", "attributes": {"frequence": "Continue"}},
+    {"subject": "ConsommateurDonnees", "predicate": "declenche", "object": "Liker", "attributes": {"frequence": "Fréquente"}},
+    {"subject": "ConsommateurDonnees", "predicate": "declenche", "object": "Partager", "attributes": {"frequence": "Occasionnelle"}},
+    {"subject": "ConsommateurDonnees", "predicate": "declenche", "object": "Sauvegarder", "attributes": {"frequence": "Rare — transition flux→stock"}},
+
+    {"subject": "ConstructeurDonnees", "predicate": "declenche", "object": "Creer", "attributes": {"frequence": "Centrale"}},
+    {"subject": "ConstructeurDonnees", "predicate": "declenche", "object": "Transformer", "attributes": {"frequence": "Fréquente"}},
+    {"subject": "ConstructeurDonnees", "predicate": "declenche", "object": "Requeter", "attributes": {"frequence": "Fréquente"}},
+    {"subject": "ConstructeurDonnees", "predicate": "declenche", "object": "Valider", "attributes": {"frequence": "Ponctuelle — marque la fin d'un cycle"}},
+    {"subject": "ConstructeurDonnees", "predicate": "declenche", "object": "Exporter", "attributes": {"frequence": "Ponctuelle"}},
+
+    {"subject": "Feed", "predicate": "representePar", "object": "ListeVerticale", "attributes": {"lien": "Le feed est une liste infinie"}},
+    {"subject": "Recommandation", "predicate": "representePar", "object": "GrilleCartes", "attributes": {"lien": "Suggestions en mosaïque"}},
+    {"subject": "TableauEditable", "predicate": "representePar", "object": "Tableau", "attributes": {"lien": "Grille de données modifiable"}},
+    {"subject": "VisualisationDonnees", "predicate": "representePar", "object": "Graphe", "attributes": {"lien": "Relations entre données"}},
+    {"subject": "VisualisationDonnees", "predicate": "representePar", "object": "Diagramme", "attributes": {"lien": "Synthèse visuelle"}},
+    {"subject": "FluxDonnees", "predicate": "representePar", "object": "Chronologie", "attributes": {"lien": "Ordre temporel du flux"}},
+
+    {"subject": "DonneeBrute", "predicate": "transitionneVers", "object": "DonneeAlgorithmisee", "attributes": {"processus": "Algorithme de flux filtre et priorise", "architecture": "Consommation"}},
+    {"subject": "DonneeAlgorithmisee", "predicate": "transitionneVers", "object": "DonneeAffichee", "attributes": {"processus": "Rendu dans le feed", "architecture": "Consommation"}},
+    {"subject": "DonneeAffichee", "predicate": "transitionneVers", "object": "DonneeConsommee", "attributes": {"processus": "Attention captée, scroll passé", "architecture": "Consommation"}},
+    {"subject": "DonneeBrute", "predicate": "transitionneVers", "object": "DonneeNettoyee", "attributes": {"processus": "Nettoyage par l'utilisateur", "architecture": "Construction"}},
+    {"subject": "DonneeNettoyee", "predicate": "transitionneVers", "object": "DonneeTransformee", "attributes": {"processus": "Restructuration selon modèle cible", "architecture": "Construction"}},
+    {"subject": "DonneeTransformee", "predicate": "transitionneVers", "object": "DonneeStructuree", "attributes": {"processus": "Organisation en schéma formel", "architecture": "Construction"}},
+    {"subject": "DonneeStructuree", "predicate": "transitionneVers", "object": "DonneePubliee", "attributes": {"processus": "Validation et publication", "architecture": "Construction"}},
+
+    {"subject": "AlgorithmeFlux", "predicate": "declenche", "object": "DonneeAlgorithmisee", "attributes": {"lien": "L'algorithme produit des données algorithmisées"}},
+    {"subject": "Scroller", "predicate": "declenche", "object": "DonneeConsommee", "attributes": {"lien": "Le scroll transforme l'affiché en consommé"}},
+    {"subject": "Creer", "predicate": "declenche", "object": "DonneeBrute", "attributes": {"lien": "L'acte de création produit une donnée brute"}},
+    {"subject": "Transformer", "predicate": "declenche", "object": "DonneeTransformee", "attributes": {"lien": "La transformation restructure la donnée"}},
+    {"subject": "Valider", "predicate": "declenche", "object": "DonneePubliee", "attributes": {"lien": "La validation finalise le stock"}},
+
+    {"subject": "Notification", "predicate": "consomme", "object": "Attention", "attributes": {"mecanisme": "Interruption push — capte l'attention"}},
+    {"subject": "Recommandation", "predicate": "consomme", "object": "Attention", "attributes": {"mecanisme": "Prolonge le temps de session"}},
+    {"subject": "Feed", "predicate": "requiert", "object": "AlgorithmeFlux", "attributes": {"lien": "Le feed est ordonné par un algorithme"}},
+    {"subject": "Feed", "predicate": "requiert", "object": "ScrollInfini", "attributes": {"lien": "Le feed est scrollé infiniment"}},
+    {"subject": "PanneauRequete", "predicate": "requiert", "object": "StockDonnees", "attributes": {"lien": "Requêter nécessite un stock"}},
+    {"subject": "Formulaire", "predicate": "requiert", "object": "PipelineITO", "attributes": {"lien": "Le formulaire suit input-traitement-output"}},
+    {"subject": "Sauvegarder", "predicate": "estTransformeEn", "object": "StockDonnees", "attributes": {"lien": "Le bookmark transforme du flux en stock personnel"}},
+
+    {"subject": "Scroller", "predicate": "opposeDe", "object": "Creer", "attributes": {"tension": "Action passive vs action intentionnelle"}},
+    {"subject": "ListeVerticale", "predicate": "opposeDe", "object": "Tableau", "attributes": {"tension": "Flux infini vs grille structurée"}},
+    {"subject": "DonneeConsommee", "predicate": "opposeDe", "object": "DonneePubliee", "attributes": {"tension": "État final consommation vs construction"}}
+  ],
+  "valid_predicates": [
+    "estUnType",
+    "induit",
+    "consomme",
+    "preserve",
+    "utilise",
+    "installeComme",
+    "illustre",
+    "estTransformeEn",
+    "opereSur",
+    "determine",
+    "sousJacente",
+    "fondement",
+    "enabledBy",
+    "opposeDe",
+    "composeDe",
+    "declenche",
+    "representePar",
+    "transitionneVers",
+    "requiert"
+  ]
+}
