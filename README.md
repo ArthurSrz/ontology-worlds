@@ -308,6 +308,41 @@ streamlit run apps/app.py
 
 View the bijection: open `couplage_suisse.html` or visit [arthursrz.github.io/ontology-worlds](https://arthursrz.github.io/ontology-worlds/)
 
+### `court_case_reasoning_world` — Structured evidence reasoning in the RFK assassination case
+
+**Companion to:** Arthur Sarazin, *Ontology Worlds* (2025)
+
+This mini-world encodes the assassination of Robert F. Kennedy (1968) as a formal evidence reasoning ontology. Every claim, contradiction, witness, and forensic finding is a node — Claude must navigate the graph rather than free-associate. The core demonstration: **stubborn facts and actual contradictions can ground legal analysis beyond LLM correlation**.
+
+**Key concepts in the ontology:**
+
+| Concept | What it represents |
+|---|---|
+| Sirhan Sirhan | The convicted shooter — and a central node of evidentiary contradiction |
+| Thomas Noguchi | Chief Medical Examiner — his autopsy findings are a forensic anchor |
+| Thane Eugene Cesar | Security guard — subject of unresolved proximity and weapon claims |
+| Powder burns / bullet trajectory | Physical evidence nodes that constrain what can be asserted about the shooting |
+| Contradiction | Explicit class for documented conflicts between evidence nodes |
+| Evidence Assessment | Structured class for reliability and corroboration scoring |
+
+**13 classes · 59 instances · 146 relations · 20 predicates**
+
+```bash
+cd court_case_reasoning_world
+pip install -r requirements.txt
+claude
+```
+
+Once inside, Claude is constrained to the ontology. Try:
+
+```bash
+python demo.py --summary
+python demo.py --query "What does the physical evidence say about the shooter's position?"
+python map.py
+```
+
+Every claim Claude makes is validated against the knowledge graph. Contradictions between evidence nodes are surfaced explicitly — not smoothed over.
+
 ---
 
 ## License
