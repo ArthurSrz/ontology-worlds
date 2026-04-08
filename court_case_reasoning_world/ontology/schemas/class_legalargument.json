@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance of LegalArgument",
+  "description": "Value constrained to instances of class LegalArgument in the RFK Assassination Case Reasoning ontology",
+  "type": "string",
+  "enum": [
+    "Argument_OfficialNarrative",
+    "Argument_SecondGunHypothesis",
+    "Argument_EvidenceIntegrity",
+    "Argument_LessigReasoning"
+  ],
+  "x-labels": [
+    "Official narrative: Sirhan acted alone",
+    "Second gun hypothesis",
+    "Evidence integrity argument",
+    "Lessig's reasoning: you cannot be in front and kill from behind"
+  ],
+  "x-labels-short": []
+}

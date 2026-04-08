@@ -1,0 +1,805 @@
+{
+  "@context": {
+    "wd": "http://www.wikidata.org/entity/",
+    "wdt": "http://www.wikidata.org/prop/direct/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "schema": "http://schema.org/"
+  },
+  "metadata": {
+    "name": "RFK Assassination Case Reasoning",
+    "name_short": "rfk-case",
+    "description": "Ontology modeling the assassination of Robert F. Kennedy (1968) as a structured evidence reasoning case — demonstrating how stubborn facts and actual contradictions ground legal analysis beyond LLM correlation",
+    "language": "en",
+    "version": "1.0.0",
+    "domain": "court-case-reasoning",
+    "source": "Historical record, autopsy reports, trial transcripts, academic analysis (Arthur Sarazin — Who killed Robert F. Kennedy?, 2026)"
+  },
+  "classes": [
+    {
+      "id": "Person",
+      "label": "Person",
+      "description": "Individual involved in the RFK assassination case — victim, accused, witness, investigator, or analyst"
+    },
+    {
+      "id": "PhysicalEvidence",
+      "label": "Physical Evidence",
+      "description": "Tangible objects or forensic artifacts collected from the crime scene or victims"
+    },
+    {
+      "id": "TestimonialEvidence",
+      "label": "Testimonial Evidence",
+      "description": "Sworn witness statements and testimony given during investigation or trial"
+    },
+    {
+      "id": "ForensicFinding",
+      "label": "Forensic Finding",
+      "description": "Scientific or medical conclusion derived from examination of physical evidence"
+    },
+    {
+      "id": "DocumentaryEvidence",
+      "label": "Documentary Evidence",
+      "description": "Official documents, reports, and records produced during investigation or trial"
+    },
+    {
+      "id": "LegalProceeding",
+      "label": "Legal Proceeding",
+      "description": "Formal legal process — trial, hearing, or petition"
+    },
+    {
+      "id": "LegalArgument",
+      "label": "Legal Argument",
+      "description": "Structured line of reasoning advanced by prosecution, defense, or analysts"
+    },
+    {
+      "id": "Contradiction",
+      "label": "Contradiction",
+      "description": "Identified actual conflict between two or more pieces of evidence or claims — not merely apparent but logically irreconcilable"
+    },
+    {
+      "id": "Claim",
+      "label": "Claim",
+      "description": "Factual assertion about what happened, supported or contradicted by evidence"
+    },
+    {
+      "id": "Verdict",
+      "label": "Verdict",
+      "description": "Formal legal determination or sentence issued by a court"
+    },
+    {
+      "id": "Location",
+      "label": "Location",
+      "description": "Physical place relevant to the case events"
+    },
+    {
+      "id": "Event",
+      "label": "Event",
+      "description": "Specific occurrence in time relevant to the case"
+    },
+    {
+      "id": "EvidenceAssessment",
+      "label": "Evidence Assessment",
+      "description": "Structured evaluation of evidence support, conflict, or reasoning quality — the output of a reasoning workflow applied to case facts"
+    }
+  ],
+  "instances": [
+    {
+      "id": "RobertFKennedy",
+      "class": "Person",
+      "label": "Robert F. Kennedy",
+      "wikidata": "Q9535",
+      "description": "US Senator and presidential candidate, assassinated June 5, 1968 at the Ambassador Hotel in Los Angeles",
+      "properties": {
+        "role": "victim"
+      }
+    },
+    {
+      "id": "SirhanSirhan",
+      "class": "Person",
+      "label": "Sirhan Sirhan",
+      "wikidata": "Q361226",
+      "description": "Convicted assassin of RFK — fired from in front of Kennedy, yet autopsy shows shots came from behind",
+      "properties": {
+        "role": "accused_and_convicted"
+      }
+    },
+    {
+      "id": "ThomasNoguchi",
+      "class": "Person",
+      "label": "Thomas Noguchi",
+      "wikidata": "Q7792274",
+      "description": "Los Angeles County Chief Medical Examiner who performed the autopsy on RFK",
+      "properties": {
+        "role": "forensic_examiner"
+      }
+    },
+    {
+      "id": "KarlUecker",
+      "class": "Person",
+      "label": "Karl Uecker",
+      "description": "Ambassador Hotel maitre d'hotel who was guiding RFK through the pantry and tackled Sirhan — key witness to shooter position and distance",
+      "properties": {
+        "role": "witness"
+      }
+    },
+    {
+      "id": "ThaneEugeneCesar",
+      "class": "Person",
+      "label": "Thane Eugene Cesar",
+      "description": "Ace Guard Service security guard positioned directly behind RFK at the moment of shooting — admitted drawing his gun",
+      "properties": {
+        "role": "witness_and_person_of_interest"
+      }
+    },
+    {
+      "id": "PaulSchrade",
+      "class": "Person",
+      "label": "Paul Schrade",
+      "wikidata": "Q7153856",
+      "description": "United Auto Workers official, shot and wounded in the pantry — later became prominent advocate for case reinvestigation",
+      "properties": {
+        "role": "victim_and_witness"
+      }
+    },
+    {
+      "id": "DeWayneWolfer",
+      "class": "Person",
+      "label": "DeWayne Wolfer",
+      "description": "LAPD criminalist and firearms examiner who conducted the official ballistics analysis",
+      "properties": {
+        "role": "forensic_examiner"
+      }
+    },
+    {
+      "id": "WilliamHarper",
+      "class": "Person",
+      "label": "William Harper",
+      "description": "Independent criminalist who challenged the official ballistics findings, concluding bullet evidence was inconsistent with a single weapon",
+      "properties": {
+        "role": "independent_expert"
+      }
+    },
+    {
+      "id": "LawrenceLessig",
+      "class": "Person",
+      "label": "Lawrence Lessig",
+      "wikidata": "Q722071",
+      "description": "Harvard law professor, author of 'Code and Other Laws of Cyberspace', tested ChatGPT on the RFK case and concluded it gave wishy-washy answers",
+      "properties": {
+        "role": "legal_analyst"
+      }
+    },
+    {
+      "id": "GrantCooper",
+      "class": "Person",
+      "label": "Grant Cooper",
+      "description": "Defense attorney for Sirhan Sirhan at the 1969 trial",
+      "properties": {
+        "role": "defense_counsel"
+      }
+    },
+    {
+      "id": "VincentBugliosi",
+      "class": "Person",
+      "label": "Vincent Bugliosi",
+      "wikidata": "Q2527377",
+      "description": "Prominent attorney and author who analyzed inconsistencies in the RFK assassination case",
+      "properties": {
+        "role": "legal_analyst"
+      }
+    },
+    {
+      "id": "IverJohnsonRevolver",
+      "class": "PhysicalEvidence",
+      "label": "Iver Johnson .22 caliber revolver",
+      "description": "Sirhan's weapon — an 8-round .22 caliber Iver Johnson Cadet revolver, serial number H-53725",
+      "properties": {
+        "evidence_statement": "Sirhan Sirhan possessed and fired an 8-round .22 caliber Iver Johnson Cadet revolver",
+        "context_description": "The weapon was recovered at the scene after Sirhan was tackled by Karl Uecker and others"
+      }
+    },
+    {
+      "id": "BulletFragmentsVictim",
+      "class": "PhysicalEvidence",
+      "label": "Bullet fragments from RFK",
+      "description": "Bullet and bullet fragments recovered from Robert F. Kennedy's body during autopsy",
+      "properties": {
+        "evidence_statement": "Multiple bullet fragments were recovered from RFK's body, entering from behind",
+        "context_description": "Recovered during autopsy by Thomas Noguchi on June 6, 1968"
+      }
+    },
+    {
+      "id": "BulletFragmentsBystanders",
+      "class": "PhysicalEvidence",
+      "label": "Bullet fragments from wounded bystanders",
+      "description": "Bullets and fragments recovered from five other shooting victims in the pantry",
+      "properties": {
+        "evidence_statement": "Five other people were shot in the pantry alongside RFK",
+        "context_description": "Paul Schrade, Ira Goldstein, William Weisel, Elizabeth Evans, and Irwin Stroll were all wounded"
+      }
+    },
+    {
+      "id": "DoorFrameBullets",
+      "class": "PhysicalEvidence",
+      "label": "Door frame bullet holes",
+      "description": "Bullet holes found in the pantry door frames — their number raised questions about whether more than 8 shots were fired",
+      "properties": {
+        "evidence_statement": "Additional bullet holes were found in door frames of the Ambassador Hotel pantry",
+        "context_description": "The door frames were later destroyed by LAPD, eliminating the possibility of independent re-examination"
+      }
+    },
+    {
+      "id": "PowderBurnPatterns",
+      "class": "PhysicalEvidence",
+      "label": "Powder burn patterns",
+      "description": "Gunshot residue patterns found on RFK's clothing and skin near entry wounds",
+      "properties": {
+        "evidence_statement": "Dense powder burn patterns on RFK's coat and skin indicate a muzzle-to-target distance of 1 to 3 inches",
+        "context_description": "Powder tattooing (stippling) is a reliable forensic indicator of firing distance"
+      }
+    },
+    {
+      "id": "UeckerTestimony",
+      "class": "TestimonialEvidence",
+      "label": "Karl Uecker testimony",
+      "description": "Uecker stated under oath that Sirhan never got closer than 1.5 to 2 feet from RFK and was firing from the front",
+      "properties": {
+        "evidence_statement": "Sirhan was in front of RFK and never got closer than 1.5 to 2 feet before being grabbed",
+        "context_description": "Uecker was physically guiding RFK through the pantry and was the first to tackle Sirhan"
+      }
+    },
+    {
+      "id": "CesarTestimony",
+      "class": "TestimonialEvidence",
+      "label": "Thane Cesar testimony",
+      "description": "Security guard Cesar admitted he drew his .22 caliber gun but claimed he did not fire it",
+      "properties": {
+        "evidence_statement": "Cesar, positioned directly behind RFK, admitted drawing his weapon but denied firing",
+        "context_description": "Cesar was holding RFK's right elbow and was knocked down when the shooting started"
+      }
+    },
+    {
+      "id": "WitnessConsensus",
+      "class": "TestimonialEvidence",
+      "label": "Witness consensus on Sirhan position",
+      "description": "Multiple witnesses consistently placed Sirhan in front of and facing RFK at the time of shooting",
+      "properties": {
+        "evidence_statement": "All eyewitnesses who testified placed Sirhan Sirhan in front of Robert F. Kennedy",
+        "context_description": "No witness placed Sirhan behind Kennedy; the consensus is unanimous on the facing direction"
+      }
+    },
+    {
+      "id": "SchradeTestimony",
+      "class": "TestimonialEvidence",
+      "label": "Paul Schrade testimony",
+      "description": "Schrade, himself a victim, testified about the shooting and later spent decades advocating for reinvestigation",
+      "properties": {
+        "evidence_statement": "Schrade stated he was shot by a bullet that could not have come from Sirhan's position",
+        "context_description": "At Sirhan's 2016 parole hearing, Schrade said: 'Sirhan did not shoot Robert Kennedy'"
+      }
+    },
+    {
+      "id": "AutopsyFinding_ShotDirection",
+      "class": "ForensicFinding",
+      "label": "Autopsy: all shots from behind",
+      "description": "Thomas Noguchi determined that all three bullets that struck RFK entered from behind and to the right",
+      "properties": {
+        "evidence_statement": "All bullets entered RFK from behind and slightly to the right, at upward angles",
+        "context_description": "This is the most critical forensic finding — it directly contradicts Sirhan's known position in front of Kennedy"
+      }
+    },
+    {
+      "id": "AutopsyFinding_MuzzleDistance",
+      "class": "ForensicFinding",
+      "label": "Autopsy: muzzle distance 1-3 inches",
+      "description": "Powder burns on RFK's coat and skin indicated the fatal shots were fired from a distance of 1 to 3 inches",
+      "properties": {
+        "evidence_statement": "The muzzle of the gun that killed RFK was 1 to 3 inches from his body",
+        "context_description": "This is essentially contact range — inconsistent with witnesses who placed Sirhan 1.5 to 6 feet away"
+      }
+    },
+    {
+      "id": "AutopsyFinding_FatalShot",
+      "class": "ForensicFinding",
+      "label": "Autopsy: fatal shot behind right ear",
+      "description": "The fatal bullet entered behind RFK's right ear and traveled forward into the brain",
+      "properties": {
+        "evidence_statement": "The fatal wound was a bullet entering behind the right ear, fired at near-contact range from behind",
+        "context_description": "This wound path is physically impossible from Sirhan's known position in front of Kennedy"
+      }
+    },
+    {
+      "id": "AutopsyFinding_ThreeHits",
+      "class": "ForensicFinding",
+      "label": "Autopsy: three bullet entry wounds",
+      "description": "RFK was struck by three separate bullets, all entering from behind",
+      "properties": {
+        "evidence_statement": "Three bullets hit RFK: one behind the right ear (fatal), one in the right armpit, one 1 inch from the armpit wound",
+        "context_description": "A fourth bullet passed through the shoulder pad of his suit coat without entering his body"
+      }
+    },
+    {
+      "id": "BulletCountAnalysis",
+      "class": "ForensicFinding",
+      "label": "Bullet count analysis",
+      "description": "Analysis questioning whether more than 8 bullets were fired — Sirhan's revolver held only 8 rounds",
+      "properties": {
+        "evidence_statement": "Accounting for bullets in victims (7) plus door frame holes (at least 2) suggests more than 8 shots",
+        "context_description": "If the total exceeds 8, a second gun must have been present"
+      }
+    },
+    {
+      "id": "WolferBallisticsReport",
+      "class": "ForensicFinding",
+      "label": "Wolfer ballistics report",
+      "description": "LAPD criminalist DeWayne Wolfer concluded all recovered bullets came from Sirhan's gun",
+      "properties": {
+        "evidence_statement": "Official LAPD ballistics report concluded all bullets matched Sirhan's Iver Johnson revolver",
+        "context_description": "Wolfer's methodology and conclusions were later challenged by independent experts"
+      }
+    },
+    {
+      "id": "HarperBallisticsChallenge",
+      "class": "ForensicFinding",
+      "label": "Harper ballistics challenge",
+      "description": "Independent criminalist William Harper found that the bullet removed from RFK and the bullet removed from Weisel could not have been fired from the same gun",
+      "properties": {
+        "evidence_statement": "Bullet from RFK and bullet from victim Weisel show different rifling characteristics — two guns",
+        "context_description": "Harper filed an affidavit in 1970 challenging Wolfer's single-gun conclusion"
+      }
+    },
+    {
+      "id": "PowderBurnAnalysis",
+      "class": "ForensicFinding",
+      "label": "Powder burn analysis",
+      "description": "Scientific analysis of gunshot residue patterns confirming contact-to-near-contact firing range",
+      "properties": {
+        "evidence_statement": "Powder tattooing around entry wounds confirms firing distance of 1-3 inches maximum",
+        "context_description": "This finding is consistent across both Noguchi's autopsy and independent reviews"
+      }
+    },
+    {
+      "id": "NoguchisAutopsyReport",
+      "class": "DocumentaryEvidence",
+      "label": "Noguchi autopsy report",
+      "description": "Official autopsy report of Robert F. Kennedy by LA County Chief Medical Examiner Thomas Noguchi, dated June 6, 1968",
+      "properties": {
+        "evidence_statement": "Complete post-mortem examination documenting wound paths, bullet recovery, and firing distance",
+        "context_description": "This is the foundational forensic document of the case — its findings have never been disputed"
+      }
+    },
+    {
+      "id": "LAPDInvestigationFiles",
+      "class": "DocumentaryEvidence",
+      "label": "LAPD investigation files",
+      "description": "Los Angeles Police Department case files including witness interviews, evidence logs, and the Special Unit Senator (SUS) investigation records",
+      "properties": {
+        "evidence_statement": "LAPD conducted the primary investigation, filing over 50,000 pages of documents",
+        "context_description": "Many files were sealed for 20 years; some evidence (door frames, ceiling panels) was destroyed"
+      }
+    },
+    {
+      "id": "TrialTranscripts",
+      "class": "DocumentaryEvidence",
+      "label": "Trial transcripts — People v. Sirhan (1969)",
+      "description": "Complete trial record of People of the State of California v. Sirhan Bishara Sirhan",
+      "properties": {
+        "evidence_statement": "Trial proceedings including all testimony, cross-examination, and legal arguments",
+        "context_description": "Sirhan's defense did not contest that he fired a gun — they pursued a diminished capacity defense"
+      }
+    },
+    {
+      "id": "LessigChatGPTExperiment",
+      "class": "DocumentaryEvidence",
+      "label": "Lessig ChatGPT experiment",
+      "description": "Lawrence Lessig's published conversation testing ChatGPT on 'Did Sirhan Sirhan kill RFK?' — the model called the contradiction merely 'apparent' and gave a non-committal answer",
+      "properties": {
+        "evidence_statement": "ChatGPT acknowledged the contradiction but called it merely 'apparent' rather than 'actual'",
+        "context_description": "Lessig wrote this convinced him to 'stop worrying about AI' — LLMs correlate words but don't reason with stubborn facts"
+      }
+    },
+    {
+      "id": "PeopleVSirhan1969",
+      "class": "LegalProceeding",
+      "label": "People v. Sirhan (1969)",
+      "description": "Criminal trial of Sirhan Sirhan for the first-degree murder of Robert F. Kennedy, held in Los Angeles Superior Court",
+      "properties": {}
+    },
+    {
+      "id": "ParoleHearings",
+      "class": "LegalProceeding",
+      "label": "Parole hearings",
+      "description": "Multiple parole hearings for Sirhan Sirhan over decades, including the notable 2016 hearing where Paul Schrade testified",
+      "properties": {}
+    },
+    {
+      "id": "ReinvestigationPetitions",
+      "class": "LegalProceeding",
+      "label": "Reinvestigation petitions",
+      "description": "Various legal petitions filed to reopen and reinvestigate the RFK assassination case based on forensic contradictions",
+      "properties": {}
+    },
+    {
+      "id": "Argument_OfficialNarrative",
+      "class": "LegalArgument",
+      "label": "Official narrative: Sirhan acted alone",
+      "description": "The prosecution's position that Sirhan Sirhan was the sole shooter and that his conviction is sound",
+      "properties": {}
+    },
+    {
+      "id": "Argument_SecondGunHypothesis",
+      "class": "LegalArgument",
+      "label": "Second gun hypothesis",
+      "description": "The argument that physical and forensic evidence is fundamentally inconsistent with Sirhan as the sole shooter — a second gun fired from behind RFK",
+      "properties": {}
+    },
+    {
+      "id": "Argument_EvidenceIntegrity",
+      "class": "LegalArgument",
+      "label": "Evidence integrity argument",
+      "description": "The argument that the chain of custody and handling of physical evidence was compromised — LAPD destroyed door frames and ceiling panels",
+      "properties": {}
+    },
+    {
+      "id": "Argument_LessigReasoning",
+      "class": "LegalArgument",
+      "label": "Lessig's reasoning: you cannot be in front and kill from behind",
+      "description": "The simple logical argument from Lawrence Lessig: if you are in front of someone, you cannot shoot them from behind — this is an actual contradiction, not an apparent one",
+      "properties": {}
+    },
+    {
+      "id": "Contradiction_DirectionOfFire",
+      "class": "Contradiction",
+      "label": "Direction of fire contradiction",
+      "description": "ACTUAL CONTRADICTION: The autopsy conclusively determined all shots entered RFK from behind. All witnesses unanimously placed Sirhan in front of RFK. You cannot be in front of someone and shoot them from behind.",
+      "properties": {
+        "evidence_statement": "Autopsy: shots from behind. Witnesses: Sirhan was in front. These two facts cannot both be true if Sirhan was the only shooter.",
+        "context_description": "This is the central contradiction of the case — the one Lessig highlighted and ChatGPT dismissed as merely 'apparent'"
+      }
+    },
+    {
+      "id": "Contradiction_MuzzleDistance",
+      "class": "Contradiction",
+      "label": "Muzzle distance contradiction",
+      "description": "ACTUAL CONTRADICTION: Autopsy shows muzzle distance of 1-3 inches (contact range). Witnesses say Sirhan was never closer than 1.5 to 2 feet (18-24 inches).",
+      "properties": {
+        "evidence_statement": "The gun that killed RFK was 1-3 inches away. Sirhan was 18-72 inches away. The gun and Sirhan were not in the same place.",
+        "context_description": "Powder burn evidence is among the most reliable forensic indicators — it cannot be faked or misinterpreted"
+      }
+    },
+    {
+      "id": "Contradiction_BulletCount",
+      "class": "Contradiction",
+      "label": "Bullet count contradiction",
+      "description": "POSSIBLE CONTRADICTION: Total bullet holes and fragments may exceed the 8-round capacity of Sirhan's revolver",
+      "properties": {
+        "evidence_statement": "7 bullets in victims + at least 2 in door frames = 9+ bullets from an 8-round gun",
+        "context_description": "Definitive resolution is impossible because LAPD destroyed the door frames"
+      }
+    },
+    {
+      "id": "Contradiction_BallisticsMismatch",
+      "class": "Contradiction",
+      "label": "Ballistics evidence mismatch",
+      "description": "ACTUAL CONTRADICTION: Independent criminalist Harper found that bullets from RFK and from bystander Weisel show different rifling characteristics — inconsistent with a single weapon",
+      "properties": {
+        "evidence_statement": "Wolfer says one gun. Harper says two guns. Both based on the same physical bullets.",
+        "context_description": "Harper filed a formal affidavit; Wolfer's methodology was later criticized by multiple experts"
+      }
+    },
+    {
+      "id": "Claim_SirhanSoleShooter",
+      "class": "Claim",
+      "label": "Sirhan was the sole shooter",
+      "description": "The official claim, upheld by the conviction, that Sirhan Sirhan alone fired all shots that struck RFK and bystanders",
+      "properties": {}
+    },
+    {
+      "id": "Claim_SirhanFiredFromFront",
+      "class": "Claim",
+      "label": "Sirhan fired from the front",
+      "description": "Established fact supported by all eyewitnesses: Sirhan was positioned in front of and facing Robert F. Kennedy when he fired",
+      "properties": {}
+    },
+    {
+      "id": "Claim_ShotsFromBehind",
+      "class": "Claim",
+      "label": "RFK was shot from behind",
+      "description": "Autopsy conclusion: all three bullets that struck RFK entered from behind and to the right, at upward angles",
+      "properties": {}
+    },
+    {
+      "id": "Claim_SecondGunman",
+      "class": "Claim",
+      "label": "A second gunman was present",
+      "description": "Hypothesis that another person fired from behind RFK — potentially Thane Cesar or an unknown individual",
+      "properties": {}
+    },
+    {
+      "id": "Claim_MoreThan8Bullets",
+      "class": "Claim",
+      "label": "More than 8 bullets were fired",
+      "description": "Claim that the total number of bullet impacts exceeds the 8-round capacity of Sirhan's revolver",
+      "properties": {}
+    },
+    {
+      "id": "Claim_ContactRange",
+      "class": "Claim",
+      "label": "Fatal shots fired at contact range",
+      "description": "Autopsy finding: powder burns indicate the gun was 1 to 3 inches from RFK when fatal shots were fired",
+      "properties": {}
+    },
+    {
+      "id": "Claim_SirhanDistance",
+      "class": "Claim",
+      "label": "Sirhan was 1.5 to 6 feet away",
+      "description": "Witness testimony: Sirhan was never closer than 1.5 feet from RFK according to the closest witness (Uecker), and further according to others",
+      "properties": {}
+    },
+    {
+      "id": "Verdict_SirhanGuilty",
+      "class": "Verdict",
+      "label": "Guilty — first-degree murder",
+      "description": "Sirhan Sirhan was found guilty of first-degree murder of Robert F. Kennedy on April 17, 1969",
+      "properties": {}
+    },
+    {
+      "id": "Verdict_DeathSentence",
+      "class": "Verdict",
+      "label": "Death sentence (commuted to life)",
+      "description": "Sirhan was sentenced to death, later commuted to life imprisonment when California abolished the death penalty in 1972",
+      "properties": {}
+    },
+    {
+      "id": "AmbassadorHotel",
+      "class": "Location",
+      "label": "Ambassador Hotel, Los Angeles",
+      "wikidata": "Q4740067",
+      "description": "Historic hotel where RFK gave his California primary victory speech and was assassinated in the kitchen pantry",
+      "properties": {}
+    },
+    {
+      "id": "AmbassadorHotelPantry",
+      "class": "Location",
+      "label": "Ambassador Hotel kitchen pantry",
+      "description": "Narrow kitchen pantry corridor where the shooting occurred — RFK was taking a shortcut to the press room",
+      "properties": {}
+    },
+    {
+      "id": "RFKShootingEvent",
+      "class": "Event",
+      "label": "RFK shooting — June 5, 1968",
+      "description": "At approximately 12:15 AM on June 5, 1968, Robert F. Kennedy was shot in the kitchen pantry of the Ambassador Hotel moments after his California primary victory speech",
+      "properties": {}
+    },
+    {
+      "id": "CaliforniaPrimaryVictorySpeech",
+      "class": "Event",
+      "label": "California primary victory speech",
+      "description": "RFK's victory speech in the Ambassador Hotel ballroom after winning the California Democratic presidential primary — delivered minutes before the shooting",
+      "properties": {}
+    },
+    {
+      "id": "Assessment_AutopsyVsWitnesses",
+      "class": "EvidenceAssessment",
+      "label": "Assessment: autopsy vs. witness positions",
+      "description": "Structured fact-check: the autopsy findings CANNOT be reconciled with Sirhan's known position. This is not a matter of interpretation — it is a physical impossibility.",
+      "properties": {
+        "evidence_statement": "If Sirhan was in front of RFK (all witnesses agree), and RFK was shot from behind (autopsy proves), then Sirhan could not have fired the fatal shots",
+        "context_description": "This assessment follows a Case Record Fact Check workflow: gather evidence, assess support/conflicts, format conclusion"
+      }
+    },
+    {
+      "id": "Assessment_StructuredFactsVsLLM",
+      "class": "EvidenceAssessment",
+      "label": "Assessment: structured facts vs. LLM correlation",
+      "description": "When asked 'Did Sirhan kill RFK?', a standard LLM gives a wishy-washy answer because it correlates words rather than reasoning with stubborn facts. With structured evidence objects and reasoning workflows, the contradiction is unavoidable.",
+      "properties": {
+        "evidence_statement": "ChatGPT called the contradiction 'apparent'. With structured facts, it is clearly 'actual'. Words matter in law.",
+        "context_description": "This is the thesis of the article: LLMs correlate words with words in a promethean manner, but correlation is not always what you need — you need stubborn facts"
+      }
+    },
+    {
+      "id": "Assessment_CesarPosition",
+      "class": "EvidenceAssessment",
+      "label": "Assessment: Cesar's position matches forensic evidence",
+      "description": "Thane Eugene Cesar was positioned directly behind RFK, held a .22 caliber gun, and admitted drawing it — his position is consistent with the autopsy's direction-of-fire finding",
+      "properties": {
+        "evidence_statement": "Cesar was behind RFK (matching shot direction), at contact distance (matching powder burns), carrying a .22 (matching bullet caliber)",
+        "context_description": "This does not prove Cesar fired, but his position satisfies the forensic constraints that Sirhan's position does not"
+      }
+    }
+  ],
+  "relations": [
+    {"subject": "RobertFKennedy", "predicate": "instanceOf", "object": "Person"},
+    {"subject": "SirhanSirhan", "predicate": "instanceOf", "object": "Person"},
+    {"subject": "ThomasNoguchi", "predicate": "instanceOf", "object": "Person"},
+    {"subject": "KarlUecker", "predicate": "instanceOf", "object": "Person"},
+    {"subject": "ThaneEugeneCesar", "predicate": "instanceOf", "object": "Person"},
+    {"subject": "PaulSchrade", "predicate": "instanceOf", "object": "Person"},
+    {"subject": "DeWayneWolfer", "predicate": "instanceOf", "object": "Person"},
+    {"subject": "WilliamHarper", "predicate": "instanceOf", "object": "Person"},
+    {"subject": "LawrenceLessig", "predicate": "instanceOf", "object": "Person"},
+    {"subject": "GrantCooper", "predicate": "instanceOf", "object": "Person"},
+    {"subject": "VincentBugliosi", "predicate": "instanceOf", "object": "Person"},
+    {"subject": "IverJohnsonRevolver", "predicate": "instanceOf", "object": "PhysicalEvidence"},
+    {"subject": "BulletFragmentsVictim", "predicate": "instanceOf", "object": "PhysicalEvidence"},
+    {"subject": "BulletFragmentsBystanders", "predicate": "instanceOf", "object": "PhysicalEvidence"},
+    {"subject": "DoorFrameBullets", "predicate": "instanceOf", "object": "PhysicalEvidence"},
+    {"subject": "PowderBurnPatterns", "predicate": "instanceOf", "object": "PhysicalEvidence"},
+    {"subject": "UeckerTestimony", "predicate": "instanceOf", "object": "TestimonialEvidence"},
+    {"subject": "CesarTestimony", "predicate": "instanceOf", "object": "TestimonialEvidence"},
+    {"subject": "WitnessConsensus", "predicate": "instanceOf", "object": "TestimonialEvidence"},
+    {"subject": "SchradeTestimony", "predicate": "instanceOf", "object": "TestimonialEvidence"},
+    {"subject": "AutopsyFinding_ShotDirection", "predicate": "instanceOf", "object": "ForensicFinding"},
+    {"subject": "AutopsyFinding_MuzzleDistance", "predicate": "instanceOf", "object": "ForensicFinding"},
+    {"subject": "AutopsyFinding_FatalShot", "predicate": "instanceOf", "object": "ForensicFinding"},
+    {"subject": "AutopsyFinding_ThreeHits", "predicate": "instanceOf", "object": "ForensicFinding"},
+    {"subject": "BulletCountAnalysis", "predicate": "instanceOf", "object": "ForensicFinding"},
+    {"subject": "WolferBallisticsReport", "predicate": "instanceOf", "object": "ForensicFinding"},
+    {"subject": "HarperBallisticsChallenge", "predicate": "instanceOf", "object": "ForensicFinding"},
+    {"subject": "PowderBurnAnalysis", "predicate": "instanceOf", "object": "ForensicFinding"},
+    {"subject": "NoguchisAutopsyReport", "predicate": "instanceOf", "object": "DocumentaryEvidence"},
+    {"subject": "LAPDInvestigationFiles", "predicate": "instanceOf", "object": "DocumentaryEvidence"},
+    {"subject": "TrialTranscripts", "predicate": "instanceOf", "object": "DocumentaryEvidence"},
+    {"subject": "LessigChatGPTExperiment", "predicate": "instanceOf", "object": "DocumentaryEvidence"},
+    {"subject": "PeopleVSirhan1969", "predicate": "instanceOf", "object": "LegalProceeding"},
+    {"subject": "ParoleHearings", "predicate": "instanceOf", "object": "LegalProceeding"},
+    {"subject": "ReinvestigationPetitions", "predicate": "instanceOf", "object": "LegalProceeding"},
+    {"subject": "Argument_OfficialNarrative", "predicate": "instanceOf", "object": "LegalArgument"},
+    {"subject": "Argument_SecondGunHypothesis", "predicate": "instanceOf", "object": "LegalArgument"},
+    {"subject": "Argument_EvidenceIntegrity", "predicate": "instanceOf", "object": "LegalArgument"},
+    {"subject": "Argument_LessigReasoning", "predicate": "instanceOf", "object": "LegalArgument"},
+    {"subject": "Contradiction_DirectionOfFire", "predicate": "instanceOf", "object": "Contradiction"},
+    {"subject": "Contradiction_MuzzleDistance", "predicate": "instanceOf", "object": "Contradiction"},
+    {"subject": "Contradiction_BulletCount", "predicate": "instanceOf", "object": "Contradiction"},
+    {"subject": "Contradiction_BallisticsMismatch", "predicate": "instanceOf", "object": "Contradiction"},
+    {"subject": "Claim_SirhanSoleShooter", "predicate": "instanceOf", "object": "Claim"},
+    {"subject": "Claim_SirhanFiredFromFront", "predicate": "instanceOf", "object": "Claim"},
+    {"subject": "Claim_ShotsFromBehind", "predicate": "instanceOf", "object": "Claim"},
+    {"subject": "Claim_SecondGunman", "predicate": "instanceOf", "object": "Claim"},
+    {"subject": "Claim_MoreThan8Bullets", "predicate": "instanceOf", "object": "Claim"},
+    {"subject": "Claim_ContactRange", "predicate": "instanceOf", "object": "Claim"},
+    {"subject": "Claim_SirhanDistance", "predicate": "instanceOf", "object": "Claim"},
+    {"subject": "Verdict_SirhanGuilty", "predicate": "instanceOf", "object": "Verdict"},
+    {"subject": "Verdict_DeathSentence", "predicate": "instanceOf", "object": "Verdict"},
+    {"subject": "AmbassadorHotel", "predicate": "instanceOf", "object": "Location"},
+    {"subject": "AmbassadorHotelPantry", "predicate": "instanceOf", "object": "Location"},
+    {"subject": "RFKShootingEvent", "predicate": "instanceOf", "object": "Event"},
+    {"subject": "CaliforniaPrimaryVictorySpeech", "predicate": "instanceOf", "object": "Event"},
+    {"subject": "Assessment_AutopsyVsWitnesses", "predicate": "instanceOf", "object": "EvidenceAssessment"},
+    {"subject": "Assessment_StructuredFactsVsLLM", "predicate": "instanceOf", "object": "EvidenceAssessment"},
+    {"subject": "Assessment_CesarPosition", "predicate": "instanceOf", "object": "EvidenceAssessment"},
+
+    {"subject": "AutopsyFinding_ShotDirection", "predicate": "supports", "object": "Claim_ShotsFromBehind",
+      "attributes": {"evidence_statement": "Autopsy by Noguchi concluded all three bullets entered RFK from behind at close range", "context_description": "Official autopsy performed June 6, 1968 at LA County Coroner's office"}},
+    {"subject": "AutopsyFinding_MuzzleDistance", "predicate": "supports", "object": "Claim_ContactRange",
+      "attributes": {"evidence_statement": "Powder burns indicate 1-3 inch muzzle distance", "context_description": "Powder tattooing is a reliable forensic indicator of firing distance"}},
+    {"subject": "AutopsyFinding_FatalShot", "predicate": "supports", "object": "Claim_ShotsFromBehind",
+      "attributes": {"evidence_statement": "Fatal bullet entered behind right ear, traveling forward", "context_description": "Wound path is physically impossible from a frontal shooter position"}},
+    {"subject": "AutopsyFinding_ThreeHits", "predicate": "supports", "object": "Claim_ShotsFromBehind"},
+    {"subject": "PowderBurnPatterns", "predicate": "supports", "object": "Claim_ContactRange"},
+    {"subject": "PowderBurnAnalysis", "predicate": "supports", "object": "Claim_ContactRange"},
+
+    {"subject": "WitnessConsensus", "predicate": "supports", "object": "Claim_SirhanFiredFromFront",
+      "attributes": {"evidence_statement": "All eyewitnesses placed Sirhan in front of Kennedy", "context_description": "No witness placed Sirhan behind Kennedy — the consensus is unanimous"}},
+    {"subject": "UeckerTestimony", "predicate": "supports", "object": "Claim_SirhanFiredFromFront"},
+    {"subject": "UeckerTestimony", "predicate": "supports", "object": "Claim_SirhanDistance"},
+    {"subject": "WitnessConsensus", "predicate": "supports", "object": "Claim_SirhanDistance"},
+
+    {"subject": "Claim_ShotsFromBehind", "predicate": "contradicts", "object": "Claim_SirhanFiredFromFront",
+      "attributes": {"evidence_statement": "You cannot be in front of someone and shoot them from behind", "context_description": "This is an ACTUAL contradiction — not apparent, not complex, but logically irreconcilable"}},
+    {"subject": "Claim_ContactRange", "predicate": "contradicts", "object": "Claim_SirhanDistance",
+      "attributes": {"evidence_statement": "1-3 inches vs 18-72 inches — the gun and Sirhan were not in the same place", "context_description": "Powder burns cannot be faked; witness testimony on distance was consistent"}},
+
+    {"subject": "Claim_SirhanSoleShooter", "predicate": "inconsistentWith", "object": "Contradiction_DirectionOfFire"},
+    {"subject": "Claim_SirhanSoleShooter", "predicate": "inconsistentWith", "object": "Contradiction_MuzzleDistance"},
+    {"subject": "Claim_SirhanSoleShooter", "predicate": "inconsistentWith", "object": "Contradiction_BulletCount"},
+
+    {"subject": "Contradiction_DirectionOfFire", "predicate": "composedOf", "object": "Claim_ShotsFromBehind"},
+    {"subject": "Contradiction_DirectionOfFire", "predicate": "composedOf", "object": "Claim_SirhanFiredFromFront"},
+    {"subject": "Contradiction_MuzzleDistance", "predicate": "composedOf", "object": "Claim_ContactRange"},
+    {"subject": "Contradiction_MuzzleDistance", "predicate": "composedOf", "object": "Claim_SirhanDistance"},
+    {"subject": "Contradiction_BulletCount", "predicate": "composedOf", "object": "Claim_MoreThan8Bullets"},
+    {"subject": "Contradiction_BallisticsMismatch", "predicate": "composedOf", "object": "WolferBallisticsReport"},
+    {"subject": "Contradiction_BallisticsMismatch", "predicate": "composedOf", "object": "HarperBallisticsChallenge"},
+
+    {"subject": "Contradiction_DirectionOfFire", "predicate": "groundedIn", "object": "AutopsyFinding_ShotDirection"},
+    {"subject": "Contradiction_DirectionOfFire", "predicate": "groundedIn", "object": "WitnessConsensus"},
+    {"subject": "Contradiction_MuzzleDistance", "predicate": "groundedIn", "object": "AutopsyFinding_MuzzleDistance"},
+    {"subject": "Contradiction_MuzzleDistance", "predicate": "groundedIn", "object": "UeckerTestimony"},
+
+    {"subject": "BulletCountAnalysis", "predicate": "supports", "object": "Claim_MoreThan8Bullets"},
+    {"subject": "DoorFrameBullets", "predicate": "supports", "object": "Claim_MoreThan8Bullets"},
+    {"subject": "HarperBallisticsChallenge", "predicate": "supports", "object": "Claim_SecondGunman"},
+    {"subject": "Contradiction_DirectionOfFire", "predicate": "supports", "object": "Claim_SecondGunman"},
+    {"subject": "Contradiction_MuzzleDistance", "predicate": "supports", "object": "Claim_SecondGunman"},
+
+    {"subject": "NoguchisAutopsyReport", "predicate": "performedBy", "object": "ThomasNoguchi"},
+    {"subject": "AutopsyFinding_ShotDirection", "predicate": "documentedIn", "object": "NoguchisAutopsyReport"},
+    {"subject": "AutopsyFinding_MuzzleDistance", "predicate": "documentedIn", "object": "NoguchisAutopsyReport"},
+    {"subject": "AutopsyFinding_FatalShot", "predicate": "documentedIn", "object": "NoguchisAutopsyReport"},
+    {"subject": "AutopsyFinding_ThreeHits", "predicate": "documentedIn", "object": "NoguchisAutopsyReport"},
+    {"subject": "WolferBallisticsReport", "predicate": "performedBy", "object": "DeWayneWolfer"},
+    {"subject": "HarperBallisticsChallenge", "predicate": "performedBy", "object": "WilliamHarper"},
+    {"subject": "WolferBallisticsReport", "predicate": "challengedBy", "object": "WilliamHarper"},
+
+    {"subject": "UeckerTestimony", "predicate": "attestedBy", "object": "KarlUecker"},
+    {"subject": "CesarTestimony", "predicate": "attestedBy", "object": "ThaneEugeneCesar"},
+    {"subject": "SchradeTestimony", "predicate": "attestedBy", "object": "PaulSchrade"},
+    {"subject": "LessigChatGPTExperiment", "predicate": "attestedBy", "object": "LawrenceLessig"},
+
+    {"subject": "SirhanSirhan", "predicate": "accusedOf", "object": "RFKShootingEvent"},
+    {"subject": "SirhanSirhan", "predicate": "convictedIn", "object": "PeopleVSirhan1969"},
+    {"subject": "SirhanSirhan", "predicate": "defendedBy", "object": "GrantCooper"},
+    {"subject": "PeopleVSirhan1969", "predicate": "resultsIn", "object": "Verdict_SirhanGuilty"},
+    {"subject": "Verdict_SirhanGuilty", "predicate": "resultsIn", "object": "Verdict_DeathSentence"},
+
+    {"subject": "NoguchisAutopsyReport", "predicate": "presentedIn", "object": "PeopleVSirhan1969"},
+    {"subject": "UeckerTestimony", "predicate": "presentedIn", "object": "PeopleVSirhan1969"},
+    {"subject": "CesarTestimony", "predicate": "presentedIn", "object": "PeopleVSirhan1969"},
+    {"subject": "WolferBallisticsReport", "predicate": "presentedIn", "object": "PeopleVSirhan1969"},
+    {"subject": "TrialTranscripts", "predicate": "documentedIn", "object": "PeopleVSirhan1969"},
+
+    {"subject": "RFKShootingEvent", "predicate": "locatedAt", "object": "AmbassadorHotelPantry"},
+    {"subject": "AmbassadorHotelPantry", "predicate": "locatedAt", "object": "AmbassadorHotel"},
+    {"subject": "CaliforniaPrimaryVictorySpeech", "predicate": "locatedAt", "object": "AmbassadorHotel"},
+
+    {"subject": "RobertFKennedy", "predicate": "involvedIn", "object": "RFKShootingEvent"},
+    {"subject": "SirhanSirhan", "predicate": "involvedIn", "object": "RFKShootingEvent"},
+    {"subject": "ThaneEugeneCesar", "predicate": "involvedIn", "object": "RFKShootingEvent"},
+    {"subject": "KarlUecker", "predicate": "involvedIn", "object": "RFKShootingEvent"},
+    {"subject": "PaulSchrade", "predicate": "involvedIn", "object": "RFKShootingEvent"},
+    {"subject": "RobertFKennedy", "predicate": "involvedIn", "object": "CaliforniaPrimaryVictorySpeech"},
+
+    {"subject": "Argument_OfficialNarrative", "predicate": "supports", "object": "Claim_SirhanSoleShooter"},
+    {"subject": "Argument_SecondGunHypothesis", "predicate": "supports", "object": "Claim_SecondGunman"},
+    {"subject": "Argument_SecondGunHypothesis", "predicate": "groundedIn", "object": "Contradiction_DirectionOfFire"},
+    {"subject": "Argument_SecondGunHypothesis", "predicate": "groundedIn", "object": "Contradiction_MuzzleDistance"},
+    {"subject": "Argument_SecondGunHypothesis", "predicate": "groundedIn", "object": "Contradiction_BulletCount"},
+    {"subject": "Argument_SecondGunHypothesis", "predicate": "groundedIn", "object": "Contradiction_BallisticsMismatch"},
+    {"subject": "Argument_EvidenceIntegrity", "predicate": "groundedIn", "object": "DoorFrameBullets"},
+    {"subject": "Argument_EvidenceIntegrity", "predicate": "groundedIn", "object": "LAPDInvestigationFiles"},
+    {"subject": "Argument_LessigReasoning", "predicate": "groundedIn", "object": "Contradiction_DirectionOfFire"},
+    {"subject": "WolferBallisticsReport", "predicate": "supports", "object": "Argument_OfficialNarrative"},
+    {"subject": "HarperBallisticsChallenge", "predicate": "supports", "object": "Argument_SecondGunHypothesis"},
+    {"subject": "SchradeTestimony", "predicate": "supports", "object": "Argument_SecondGunHypothesis"},
+
+    {"subject": "Verdict_SirhanGuilty", "predicate": "consistentWith", "object": "Argument_OfficialNarrative"},
+    {"subject": "Verdict_SirhanGuilty", "predicate": "inconsistentWith", "object": "Contradiction_DirectionOfFire"},
+    {"subject": "Verdict_SirhanGuilty", "predicate": "inconsistentWith", "object": "Contradiction_MuzzleDistance"},
+
+    {"subject": "Assessment_AutopsyVsWitnesses", "predicate": "groundedIn", "object": "AutopsyFinding_ShotDirection"},
+    {"subject": "Assessment_AutopsyVsWitnesses", "predicate": "groundedIn", "object": "WitnessConsensus"},
+    {"subject": "Assessment_AutopsyVsWitnesses", "predicate": "identifiedBy", "object": "Contradiction_DirectionOfFire"},
+    {"subject": "Assessment_StructuredFactsVsLLM", "predicate": "groundedIn", "object": "LessigChatGPTExperiment"},
+    {"subject": "Assessment_StructuredFactsVsLLM", "predicate": "groundedIn", "object": "Contradiction_DirectionOfFire"},
+    {"subject": "Assessment_CesarPosition", "predicate": "groundedIn", "object": "CesarTestimony"},
+    {"subject": "Assessment_CesarPosition", "predicate": "groundedIn", "object": "AutopsyFinding_ShotDirection"},
+    {"subject": "Assessment_CesarPosition", "predicate": "groundedIn", "object": "AutopsyFinding_MuzzleDistance"},
+    {"subject": "Assessment_CesarPosition", "predicate": "consistentWith", "object": "Claim_ShotsFromBehind"},
+    {"subject": "Assessment_CesarPosition", "predicate": "consistentWith", "object": "Claim_ContactRange"}
+  ],
+  "valid_predicates": [
+    "instanceOf",
+    "supports",
+    "contradicts",
+    "attestedBy",
+    "performedBy",
+    "presentedIn",
+    "challengedBy",
+    "consistentWith",
+    "inconsistentWith",
+    "accusedOf",
+    "convictedIn",
+    "defendedBy",
+    "prosecutedBy",
+    "resultsIn",
+    "documentedIn",
+    "involvedIn",
+    "locatedAt",
+    "composedOf",
+    "identifiedBy",
+    "groundedIn"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de Institution",
+  "description": "Valeur contrainte aux instances de la classe Institution dans l'ontologie Open Data France",
+  "type": "string",
+  "enum": [
+    "Etalab",
+    "DINUM",
+    "DINSIC",
+    "CodeGouvFr",
+    "CADA",
+    "CNIL"
+  ],
+  "x-labels": [
+    "Etalab",
+    "Direction Interministérielle du Numérique",
+    "Direction Interministérielle du Numérique et du Système d'Information",
+    "code.gouv.fr",
+    "Commission d'Accès aux Documents Administratifs",
+    "Commission Nationale de l'Informatique et des Libertés"
+  ],
+  "x-labels-short": [
+    "DINUM",
+    "DINSIC",
+    "CADA",
+    "CNIL"
+  ]
+}

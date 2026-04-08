@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance of Location",
+  "description": "Value constrained to instances of class Location in the RFK Assassination Case Reasoning ontology",
+  "type": "string",
+  "enum": [
+    "AmbassadorHotel",
+    "AmbassadorHotelPantry"
+  ],
+  "x-labels": [
+    "Ambassador Hotel, Los Angeles",
+    "Ambassador Hotel kitchen pantry"
+  ],
+  "x-labels-short": []
+}

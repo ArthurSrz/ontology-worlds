@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance of LegalProceeding",
+  "description": "Value constrained to instances of class LegalProceeding in the RFK Assassination Case Reasoning ontology",
+  "type": "string",
+  "enum": [
+    "PeopleVSirhan1969",
+    "ParoleHearings",
+    "ReinvestigationPetitions"
+  ],
+  "x-labels": [
+    "People v. Sirhan (1969)",
+    "Parole hearings",
+    "Reinvestigation petitions"
+  ],
+  "x-labels-short": []
+}

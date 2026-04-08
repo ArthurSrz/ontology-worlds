@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance of Event",
+  "description": "Value constrained to instances of class Event in the RFK Assassination Case Reasoning ontology",
+  "type": "string",
+  "enum": [
+    "RFKShootingEvent",
+    "CaliforniaPrimaryVictorySpeech"
+  ],
+  "x-labels": [
+    "RFK shooting — June 5, 1968",
+    "California primary victory speech"
+  ],
+  "x-labels-short": []
+}

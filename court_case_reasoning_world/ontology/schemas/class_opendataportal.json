@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de OpenDataPortal",
+  "description": "Valeur contrainte aux instances de la classe OpenDataPortal dans l'ontologie Open Data France",
+  "type": "string",
+  "enum": [
+    "DataGouvFr",
+    "InspireGouvFr",
+    "PortailARA",
+    "PortailNormandie",
+    "PortailHDF",
+    "PortailGrandEst",
+    "PortailNantes"
+  ],
+  "x-labels": [
+    "data.gouv.fr",
+    "inspire.gouv.fr",
+    "opendata.auvergnerhonealpes.eu",
+    "opendata.normandie.fr",
+    "opendata.hautsdefrance.fr",
+    "data.grandest.fr",
+    "data.nantesmetropole.fr"
+  ],
+  "x-labels-short": []
+}

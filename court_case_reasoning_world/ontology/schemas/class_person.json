@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance of Person",
+  "description": "Value constrained to instances of class Person in the RFK Assassination Case Reasoning ontology",
+  "type": "string",
+  "enum": [
+    "RobertFKennedy",
+    "SirhanSirhan",
+    "ThomasNoguchi",
+    "KarlUecker",
+    "ThaneEugeneCesar",
+    "PaulSchrade",
+    "DeWayneWolfer",
+    "WilliamHarper",
+    "LawrenceLessig",
+    "GrantCooper",
+    "VincentBugliosi"
+  ],
+  "x-labels": [
+    "Robert F. Kennedy",
+    "Sirhan Sirhan",
+    "Thomas Noguchi",
+    "Karl Uecker",
+    "Thane Eugene Cesar",
+    "Paul Schrade",
+    "DeWayne Wolfer",
+    "William Harper",
+    "Lawrence Lessig",
+    "Grant Cooper",
+    "Vincent Bugliosi"
+  ],
+  "x-labels-short": []
+}

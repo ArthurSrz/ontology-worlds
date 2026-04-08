@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance of Verdict",
+  "description": "Value constrained to instances of class Verdict in the RFK Assassination Case Reasoning ontology",
+  "type": "string",
+  "enum": [
+    "Verdict_SirhanGuilty",
+    "Verdict_DeathSentence"
+  ],
+  "x-labels": [
+    "Guilty — first-degree murder",
+    "Death sentence (commuted to life)"
+  ],
+  "x-labels-short": []
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance of DocumentaryEvidence",
+  "description": "Value constrained to instances of class DocumentaryEvidence in the RFK Assassination Case Reasoning ontology",
+  "type": "string",
+  "enum": [
+    "NoguchisAutopsyReport",
+    "LAPDInvestigationFiles",
+    "TrialTranscripts",
+    "LessigChatGPTExperiment"
+  ],
+  "x-labels": [
+    "Noguchi autopsy report",
+    "LAPD investigation files",
+    "Trial transcripts — People v. Sirhan (1969)",
+    "Lessig ChatGPT experiment"
+  ],
+  "x-labels-short": []
+}
