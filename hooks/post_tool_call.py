@@ -159,8 +159,8 @@ def refresh_live_map_if_stale(world_root: Path):
         pass
 
 
-def write_map_file(graph: OntologyGraph, log_path: Path, current_entities: list[str], world_root: Path):
-    """Write a plain-text map (no ANSI) to .live_map for Claude to read."""
+def build_map_text(graph: OntologyGraph, log_path: Path, current_entities: list[str]) -> str:
+    """Build the plain-text map (no ANSI). Used by both .live_map and stdout emission."""
     visited: Counter = Counter()
     interactions = 0
     if log_path.exists():
@@ -207,11 +207,18 @@ def write_map_file(graph: OntologyGraph, log_path: Path, current_entities: list[
 
     lines.append(f"└──────────────────────────────────────────────────┘")
 
+    return "\n".join(lines) + "\n"
+
+
+def write_map_file(graph: OntologyGraph, log_path: Path, current_entities: list[str], world_root: Path) -> str:
+    """Write plain-text map to .live_map and return the text."""
+    text = build_map_text(graph, log_path, current_entities)
     try:
         with open(world_root / ".live_map", "w", encoding="utf-8") as f:
-            f.write("\n".join(lines) + "\n")
+            f.write(text)
     except Exception:
         pass
+    return text
 
 
 # ---------------------------------------------------------------------------
@@ -289,6 +296,8 @@ def main():
         sys.exit(2)
 
     # ─── LIVE MAP ─── renders after every valid interaction
+    # The hook writes .live_map; the Claude Code statusline reads that file
+    # (see hooks/statusline.py + .claude/settings.json → "statusLine").
     current_entities = response_to_validate.get("entities_mentioned", [])
     render_live_map(graph, log_path, current_entities)
     write_map_file(graph, log_path, current_entities, ROOT)
