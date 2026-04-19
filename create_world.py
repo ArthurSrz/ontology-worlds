@@ -70,6 +70,11 @@ def create_world(
     claude_dir = world_dir / ".claude"
     claude_dir.mkdir(parents=True, exist_ok=True)
     settings = {
+        "statusLine": {
+            "type": "command",
+            "command": "python hooks/statusline.py",
+            "padding": 0
+        },
         "hooks": {
             "PreToolUse": [{
                 "matcher": ".*",
