@@ -118,6 +118,8 @@ No command needed — it just appears. Run `python map.py` for the full view:
 
 The map reads from `validation_log.jsonl`, written by the PostToolUse hook after every constrained generation. Coverage grows as Claude traverses the ontology.
 
+**Contribution to wikidata:** at the end of the session claude code and the user get to contribute to wikidata following a grill-me like process.
+
 ---
 
 ## How it works
