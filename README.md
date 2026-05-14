@@ -22,7 +22,7 @@
 
 ---
 
-Each world is a self-contained Claude Code environment where **every LLM response is grounded in a closed ontology**. No hallucination — only facts that exist in the knowledge graph.
+Each world is a self-contained Claude Code environment where **every LLM response is grounded in a closed ontology**, and eventually becomes a contribution session to Wikidata's environment. 
 
 ## Watch an LLM navigate a formal world
 
