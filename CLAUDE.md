@@ -4,12 +4,75 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-This repo is a **world factory**. It creates self-contained Claude Code environments
-where every LLM response is grounded in a closed ontology — no hallucination possible.
+`ontology-worlds` is a **Claude Code plugin** that turns every chat turn into a
+Wikidata-constrained mini-world of meaning. Two hooks wrap the conversation:
 
-Each "world" is a subfolder (`<domain>_world/`) with its own ontology, hooks,
-validation, and CLAUDE.md. Open Claude Code inside a world to have a fully
-constrained conversation about that domain.
+- **`UserPromptSubmit`** (`hooks/user_prompt_submit.py`): extracts entities from
+  the user's prompt, expands them into a domain subgraph via live SPARQL on
+  Wikidata, detects missing edges (gap detection), and injects all of this
+  into the model context via `additionalContext`.
+- **`Stop`** (`hooks/stop.py`): re-extracts entities from Claude's response,
+  scores in-domain coverage, blocks-and-rewords if below threshold, and stages
+  any `[PROPOSE <S> <P> <O>: "<reasoning>"]` tags as **Wikidata
+  contribution candidates** (renderable as QuickStatements via `/contribute`).
+
+The plugin manifest is at `.claude-plugin/plugin.json`. Slash commands live
+under `commands/` (`/world`, `/gaps`, `/contribute`).
+
+Goal: turn vibe-coding into vibe-contributing. Every grounded conversation
+surfaces ontology gaps and seeds candidate Wikidata edits.
+
+### Architecture
+
+```
+prompt
+  ↓
+entity_extractor.py  → wbsearchentities (+ gerund-augmented)
+  ↓
+disambiguator.py     → mutual-context joint optimisation
+                       • candidates per surface (top-K wbsearch)
+                       • batched ancestor-set SPARQL
+                       • exhaustive search picks the assignment with
+                         max (label_exact_matches, ancestor_overlap)
+  ↓
+sparql_expander.py   → batched BFS over P31/P279/P361/P527/P2283/…
+  ↓
+domain_builder.py    → JITDomain (ephemeral, in-memory)
+  ↓
+gap_detector.py      → class-cone reachability check:
+                       • walks UP P31/P279 hierarchy from both seeds
+                       • only flags pairs where no class-cone path exists
+                         AND neighbourhood-majority sibling evidence
+                         suggests a property
+  ↓
+hooks/user_prompt_submit.py → additionalContext into Claude (uses one
+                       SparqlSession per turn: 60-query / 55-second
+                       budget, in-process cache, Retry-After honoured)
+  ↓
+Claude responds (may emit [PROPOSE …] tags during debate)
+  ↓
+hooks/stop.py
+  ├─ domain_validator.py    → in-domain score (block + reword if low)
+  └─ contribution_recorder.py → stage QuickStatements in contributions/
+```
+
+### Rate-limit compliance
+
+`src/sparql_session.py` is the single SPARQL gateway. It:
+- sends a Wikimedia-policy-compliant User-Agent
+  (`ontology-worlds-bot/0.3 (<repo>; <email>) httpx/0.27`),
+- caps each turn at 60 queries / 55 s wall time
+  (Wikidata's published limit is 60 s processing per (UA+IP) per 60 s),
+- caches by query string within a turn so duplicate work is free,
+- honours `Retry-After` strictly: ≤ 12 s → one retry; > 12 s → cool the
+  whole turn rather than risk an IP ban.
+
+### Legacy: world-factory mode
+
+The original pre-built-world workflow (`create_world.py`, `<domain>_world/`
+folders, `src/ontology_builder.py`) is **still in the repo** and still works
+for offline domain construction. It is **no longer the primary surface**.
+New work should go through the plugin's JIT pipeline.
 
 ---
 
@@ -20,7 +83,26 @@ constrained conversation about that domain.
 uv pip install -r requirements.txt   # or: pip install -r requirements.txt
 ```
 
-### Create a world (main workflow)
+### Install the plugin (primary workflow)
+```bash
+# From any Claude Code session:
+/plugin install /Users/arthursarazin/Documents/ontology-worlds
+# Then chat normally. Each prompt builds a fresh JIT Wikidata domain.
+```
+
+Slash commands available after install:
+- `/world` — inspect the JIT domain built for the most recent prompt
+- `/gaps` — list detected Wikidata gaps + their debate questions
+- `/contribute` — render staged contributions as QuickStatements
+
+### Run tests
+```bash
+python3 -m pytest tests/test_jit_pipeline.py -v
+```
+
+### Legacy world-factory commands
+
+### Create a world (legacy workflow)
 ```bash
 python create_world.py "<domain>" --language <lang> --limit <n>
 # Example:
