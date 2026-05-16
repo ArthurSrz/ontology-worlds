@@ -22,6 +22,16 @@
 
 ---
 
+> ### 🛠 Major refactor (v0.3.0)
+>
+> The project was reformatted from a **per-world factory** (run `create_world.py`, `cd` into a generated folder, then `claude`) into a **Claude Code plugin** that builds a fresh Wikidata-grounded mini-world on every prompt — no precomputed world directory required.
+>
+> The new pipeline lives in `.claude-plugin/`, `hooks/{user_prompt_submit,stop}.py`, and `src/{entity_extractor,disambiguator,sparql_session,sparql_expander,domain_builder,gap_detector,domain_validator,contribution_recorder}.py`. Slash commands: `/world`, `/gaps`, `/contribute`.
+>
+> Install with `/plugin install /path/to/ontology-worlds` from any Claude Code session. The legacy world-factory workflow described below still works for offline domain construction, but new development targets the JIT plugin path. See `CLAUDE.md` for the full architecture.
+
+---
+
 Each world is a self-contained Claude Code environment where **every LLM response is grounded in a closed ontology**. No hallucination — only facts that exist in the knowledge graph.
 
 ## Watch an LLM navigate a formal world
