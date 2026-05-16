@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de ActionUtilisateur",
+  "description": "Valeur contrainte aux instances de la classe ActionUtilisateur dans l'ontologie Data Design Interfaces",
+  "type": "string",
+  "enum": [
+    "Scroller",
+    "Liker",
+    "Partager",
+    "Sauvegarder",
+    "Creer",
+    "Transformer",
+    "Requeter",
+    "Valider",
+    "Exporter"
+  ],
+  "x-labels": [
+    "Scroller",
+    "Liker / Réagir",
+    "Partager",
+    "Sauvegarder / Bookmarker",
+    "Créer",
+    "Transformer",
+    "Requêter",
+    "Valider / Publier",
+    "Exporter"
+  ],
+  "x-labels-short": []
+}

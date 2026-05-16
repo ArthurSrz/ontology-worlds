@@ -11,5 +11,7 @@ validation_log.jsonl
 .live_map
 .claude/settings.local.json
 *_world/
+!mini-worlds/*_world/
 uv.lock
 mcp/.venv/
+**/.venv/

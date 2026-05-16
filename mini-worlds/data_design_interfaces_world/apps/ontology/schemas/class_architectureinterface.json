@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de ArchitectureInterface",
+  "description": "Valeur contrainte aux instances de la classe ArchitectureInterface dans l'ontologie Data Design Interfaces",
+  "type": "string",
+  "enum": [
+    "ArchitectureConsommation",
+    "ArchitectureConstruction"
+  ],
+  "x-labels": [
+    "Architecture de consommation de données",
+    "Architecture de construction de données"
+  ],
+  "x-labels-short": []
+}
