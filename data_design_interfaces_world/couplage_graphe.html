@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Couplage de Graphe — Ontologie ↔ Application</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #0e1117;
+    --bg-subtle: #161b22;
+    --bg-card: #1c2129;
+    --border: #2d333b;
+    --text: #e6edf3;
+    --text-dim: #8b949e;
+    --text-muted: #484f58;
+
+    --blue-1: #4facfe;
+    --blue-2: #00f2fe;
+    --blue-3: #7b9cf7;
+    --blue-4: #a78bfa;
+    --blue-glow: rgba(79, 172, 254, 0.15);
+
+    --green-1: #34d399;
+    --green-2: #6ee7b7;
+    --green-3: #a7f3d0;
+    --green-4: #10b981;
+    --green-glow: rgba(52, 211, 153, 0.15);
+
+    --gold: #f59e0b;
+    --gold-dim: rgba(245, 158, 11, 0.3);
+    --gold-glow: rgba(245, 158, 11, 0.08);
+
+    --conso: #f87171;
+    --build: #60a5fa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header {
+    text-align: center;
+    padding: 48px 24px 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 2.4rem;
+    letter-spacing: 0.02em;
+    background: linear-gradient(135deg, var(--blue-1), var(--gold), var(--green-1));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+
+  header .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    letter-spacing: 0.03em;
+  }
+
+  header .fig-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 12px;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    padding: 16px 24px 8px;
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+  }
+
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .legend-line {
+    width: 28px;
+    height: 2px;
+    background: var(--gold);
+    position: relative;
+  }
+
+  .legend-line::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: repeating-linear-gradient(90deg, var(--gold) 0 6px, transparent 6px 10px);
+  }
+
+  /* Main graph container */
+  #graph-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 16px 48px;
+  }
+
+  svg#coupling-graph {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Category labels */
+  .cat-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* Node styling */
+  .node-group { cursor: pointer; }
+  .node-group:hover .node-bg { filter: brightness(1.3); }
+
+  .node-bg {
+    rx: 5;
+    ry: 5;
+    transition: filter 0.2s, opacity 0.2s;
+  }
+
+  .node-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10.5px;
+    font-weight: 400;
+    fill: var(--text);
+    pointer-events: none;
+  }
+
+  .node-text-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 300;
+    fill: var(--text);
+    pointer-events: none;
+  }
+
+  /* Coupling edges */
+  .coupling-edge {
+    stroke: var(--gold);
+    stroke-width: 1;
+    stroke-dasharray: 6 4;
+    fill: none;
+    opacity: 0.25;
+    transition: opacity 0.3s, stroke-width 0.3s;
+  }
+
+  .coupling-edge.highlighted {
+    opacity: 0.9;
+    stroke-width: 2;
+    animation: dash-flow 1s linear infinite;
+  }
+
+  @keyframes dash-flow {
+    to { stroke-dashoffset: -10; }
+  }
+
+  /* Dimming */
+  .node-group.dimmed .node-bg { opacity: 0.15; }
+  .node-group.dimmed .node-text,
+  .node-group.dimmed .node-text-code { opacity: 0.15; }
+  .coupling-edge.dimmed { opacity: 0.04; }
+  .cat-label.dimmed { opacity: 0.15; }
+
+  /* Tooltip */
+  #tooltip {
+    position: fixed;
+    pointer-events: none;
+    background: var(--bg-card);
+    border: 1px solid var(--gold-dim);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    max-width: 340px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 100;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(245,158,11,0.1);
+  }
+
+  #tooltip.visible { opacity: 1; }
+
+  #tooltip .tt-category {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  #tooltip .tt-left {
+    color: var(--blue-1);
+    font-weight: 500;
+  }
+
+  #tooltip .tt-arrow {
+    color: var(--gold);
+    margin: 0 6px;
+  }
+
+  #tooltip .tt-right {
+    color: var(--green-1);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+  }
+
+  #tooltip .tt-detail {
+    color: var(--text-dim);
+    font-size: 0.7rem;
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  /* Section dividers */
+  .section-divider {
+    stroke: var(--border);
+    stroke-width: 0.5;
+    stroke-dasharray: 2 4;
+  }
+
+  /* Architecture zone labels */
+  .zone-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    font-style: italic;
+    letter-spacing: 0.08em;
+  }
+
+  /* Column headers */
+  .col-header {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.05em;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 16px 24px 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  footer p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 8px 24px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 1.6rem;
+    background: linear-gradient(135deg, var(--blue-1), var(--green-1));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="fig-label">Fig. 1 &mdash; Isomorphisme structurel</div>
+  <h1>Couplage de Graphe &mdash; Ontologie &harr; Application</h1>
+  <p class="subtitle">Bijection entre le graphe conceptuel et le graphe computationnel</p>
+</header>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-val">63</div><div class="stat-label">N&oelig;uds ontologiques</div></div>
+  <div class="stat"><div class="stat-val">40</div><div class="stat-label">Couplages</div></div>
+  <div class="stat"><div class="stat-val">79</div><div class="stat-label">Relations</div></div>
+  <div class="stat"><div class="stat-val">19</div><div class="stat-label">Pr&eacute;dicats</div></div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--blue-1)"></div> Graphe conceptuel (ontologie)</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--green-1)"></div> Graphe computationnel (code)</div>
+  <div class="legend-item"><div class="legend-line"></div> Couplage (bijection)</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--conso); opacity:0.6"></div> Consommation</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--build); opacity:0.6"></div> Construction</div>
+</div>
+
+<div id="graph-container">
+  <svg id="coupling-graph" viewBox="0 0 1360 1580" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="grad-blue" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#1e3a5f" />
+        <stop offset="100%" stop-color="#1a2744" />
+      </linearGradient>
+      <linearGradient id="grad-green" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#134e3a" />
+        <stop offset="100%" stop-color="#1a2e28" />
+      </linearGradient>
+      <linearGradient id="grad-conso" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="rgba(248,113,113,0.08)" />
+        <stop offset="100%" stop-color="rgba(248,113,113,0)" />
+      </linearGradient>
+      <linearGradient id="grad-build" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="rgba(96,165,250,0.08)" />
+        <stop offset="100%" stop-color="rgba(96,165,250,0)" />
+      </linearGradient>
+      <filter id="glow-gold">
+        <feGaussianBlur stdDeviation="3" result="blur" />
+        <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+      </filter>
+    </defs>
+  </svg>
+</div>
+
+<div id="tooltip">
+  <div class="tt-category"></div>
+  <div><span class="tt-left"></span><span class="tt-arrow">&harr;</span><span class="tt-right"></span></div>
+  <div class="tt-detail"></div>
+</div>
+
+<footer>
+  <p>&laquo; Chaque composant, action et transition de ces applications correspond &agrave; un n&oelig;ud
+  ou une relation dans l'ontologie. Les apps ne sont pas inspir&eacute;es de l'ontologie &mdash;
+  elles en sont l'instanciation directe. &raquo;</p>
+</footer>
+
+<script>
+const data = {
+  categories: [
+    {
+      id: 'arch',
+      label: 'ARCHITECTURES',
+      zone: 'both',
+      pairs: [
+        { left: 'ArchitectureConsommation', right: 'app_consommation.py', detail: "L'app entière instancie l'architecture", zone: 'conso' },
+        { left: 'ArchitectureConstruction', right: 'app_construction.py', detail: "L'app entière instancie l'architecture", zone: 'build' },
+      ]
+    },
+    {
+      id: 'role',
+      label: 'RÔLES',
+      zone: 'both',
+      pairs: [
+        { left: 'ConsommateurDonnees', right: 'consumed_ids, liked_ids', detail: 'Sets passifs — tracking implicite', zone: 'conso' },
+        { left: 'ConstructeurDonnees', right: 'dataset_id, pipeline_stage', detail: 'État actif — choix intentionnel', zone: 'build' },
+      ]
+    },
+    {
+      id: 'concept',
+      label: 'CONCEPTS',
+      zone: 'both',
+      pairs: [
+        { left: 'Attention', right: 'scroll drain / conscious intent', detail: 'consomme() vs preserve()', zone: 'both' },
+        { left: 'FluxDonnees', right: 'feed_items table', detail: 'opereSur(Consommation)', zone: 'conso' },
+        { left: 'StockDonnees', right: 'datasets + dataset_rows', detail: 'opereSur(Construction)', zone: 'build' },
+        { left: 'TemporaliteContinue', right: 'infinite scroll loop', detail: 'induit(Consommation) — pas de fin', zone: 'conso' },
+        { left: 'TemporaliteDiscrete', right: '5-stage pipeline', detail: 'induit(Construction) — début/fin', zone: 'build' },
+      ]
+    },
+    {
+      id: 'meca',
+      label: 'MÉCANISMES',
+      zone: 'both',
+      pairs: [
+        { left: 'AlgorithmeFlux', right: 'algorithme_flux()', detail: 'Trie par score/tendance/personnalisé', zone: 'conso' },
+        { left: 'ScrollInfini', right: 'feed_offset pagination', detail: 'Charger plus → offset += batch', zone: 'conso' },
+        { left: 'Categories', right: 'st.multiselect("Catégories")', detail: 'Filtre dans les données exposées', zone: 'conso' },
+        { left: 'PipelineITO', right: 'advance_pipeline()', detail: 'Input → Traitement → Output discret', zone: 'build' },
+      ]
+    },
+    {
+      id: 'comp-c',
+      label: 'COMPOSANTS · CONSOMMATION',
+      zone: 'conso',
+      pairs: [
+        { left: 'Feed', right: 'visible_items loop', detail: 'composeDe(Consommation) — flux central', zone: 'conso' },
+        { left: 'CarteContenu', right: 'render_carte_contenu()', detail: 'Unité atomique du feed', zone: 'conso' },
+        { left: 'Notification', right: 'render_notification_bar()', detail: 'st.toast() — interruption push', zone: 'conso' },
+        { left: 'BarreRecherche', right: 'render_search_bar()', detail: 'Filtrage dans le flux', zone: 'conso' },
+        { left: 'Recommandation', right: 'render_recommandations()', detail: 'Prolonge la session', zone: 'conso' },
+      ]
+    },
+    {
+      id: 'comp-b',
+      label: 'COMPOSANTS · CONSTRUCTION',
+      zone: 'build',
+      pairs: [
+        { left: 'Formulaire', right: 'render_formulaire()', detail: 'composeDe(Construction) — saisie', zone: 'build' },
+        { left: 'TableauEditable', right: 'render_tableau_editable()', detail: 'st.data_editor() — grille CRUD', zone: 'build' },
+        { left: 'PanneauRequete', right: 'render_panneau_requete()', detail: 'SQL via DuckDB', zone: 'build' },
+        { left: 'Canvas', right: 'st.data_editor()', detail: 'Espace 2D interactif', zone: 'build' },
+        { left: 'Terminal', right: 'SQL text_area', detail: 'Ligne de commande données', zone: 'build' },
+      ]
+    },
+    {
+      id: 'act-c',
+      label: 'ACTIONS · CONSOMMATION',
+      zone: 'conso',
+      pairs: [
+        { left: 'Scroller', right: 'feed_offset + "Charger plus"', detail: 'Effort cognitif: faible', zone: 'conso' },
+        { left: 'Liker', right: 'handle_like()', detail: 'Feedback minimal', zone: 'conso' },
+        { left: 'Partager', right: 'handle_share()', detail: 'Redistribuer dans le flux', zone: 'conso' },
+        { left: 'Sauvegarder', right: 'handle_save()', detail: 'Transition flux → stock !', zone: 'conso' },
+      ]
+    },
+    {
+      id: 'act-b',
+      label: 'ACTIONS · CONSTRUCTION',
+      zone: 'build',
+      pairs: [
+        { left: 'Créer', right: 'st.form("create_dataset")', detail: 'Effort cognitif: élevé', zone: 'build' },
+        { left: 'Transformer', right: 'pipeline nettoyee→transformee', detail: 'Restructuration consciente', zone: 'build' },
+        { left: 'Requêter', right: 'duckdb.sql(query)', detail: 'Interrogation intentionnelle', zone: 'build' },
+        { left: 'Valider', right: 'advance_pipeline("publiee")', detail: 'Marque la fin d\'un cycle', zone: 'build' },
+        { left: 'Exporter', right: 'st.download_button()', detail: 'CSV / JSON / Parquet', zone: 'build' },
+      ]
+    },
+    {
+      id: 'etat-c',
+      label: 'ÉTATS · CONSOMMATION',
+      zone: 'conso',
+      pairs: [
+        { left: 'DonneeBrute', right: "etat='brute'", detail: 'Donnée non traitée', zone: 'conso' },
+        { left: 'DonneeAlgorithmisee', right: "etat='algorithmisee'", detail: 'Filtrée par AlgorithmeFlux', zone: 'conso' },
+        { left: 'DonneeAffichee', right: "etat='affichee'", detail: 'Rendue dans le feed', zone: 'conso' },
+        { left: 'DonneeConsommee', right: "etat='consommee'", detail: 'Attention captée — état terminal', zone: 'conso' },
+      ]
+    },
+    {
+      id: 'etat-b',
+      label: 'ÉTATS · CONSTRUCTION',
+      zone: 'build',
+      pairs: [
+        { left: 'DonneeBrute', right: "etat='brute'", detail: 'Donnée ingérée brute', zone: 'build' },
+        { left: 'DonneeNettoyee', right: "etat='nettoyee'", detail: 'Nettoyée par l\'utilisateur', zone: 'build' },
+        { left: 'DonneeTransformee', right: "etat='transformee'", detail: 'Restructurée selon modèle', zone: 'build' },
+        { left: 'DonneeStructuree', right: "etat='structuree'", detail: 'Schéma formel appliqué', zone: 'build' },
+        { left: 'DonneePubliee', right: "etat='publiee'", detail: 'Stock finalisé — état terminal', zone: 'build' },
+      ]
+    }
+  ]
+};
+
+// Layout constants
+const LEFT_X = 80;
+const RIGHT_X = 830;
+const NODE_W = 220;
+const NODE_H = 28;
+const CAT_GAP = 14;
+const PAIR_GAP = 6;
+const START_Y = 50;
+
+const svg = document.getElementById('coupling-graph');
+const tooltip = document.getElementById('tooltip');
+
+let allNodes = [];
+let allEdges = [];
+let allCatLabels = [];
+let currentY = START_Y;
+
+// Column headers
+addText(LEFT_X + NODE_W / 2, 25, 'GRAPHE CONCEPTUEL', 'col-header', 'var(--blue-1)', 'middle');
+addText(RIGHT_X + NODE_W / 2, 25, 'GRAPHE COMPUTATIONNEL', 'col-header', 'var(--green-1)', 'middle');
+
+// Build layout
+data.categories.forEach((cat, ci) => {
+  const catY = currentY;
+
+  // Category label — centered
+  const catLabelEl = addText(680, catY + 10, cat.label, 'cat-label', 'var(--gold)', 'middle');
+  catLabelEl.dataset.catId = cat.id;
+  allCatLabels.push(catLabelEl);
+
+  currentY += 28;
+
+  // Zone background tint
+  const zoneH = cat.pairs.length * (NODE_H + PAIR_GAP) + 4;
+  if (cat.zone === 'conso' || cat.pairs[0]?.zone === 'conso') {
+    addRect(0, currentY - 4, 1360, zoneH + 8, 'rgba(248,113,113,0.02)', 0);
+  }
+
+  cat.pairs.forEach((pair, pi) => {
+    const y = currentY;
+    const pairId = `${cat.id}-${pi}`;
+
+    // Left node (conceptual)
+    const leftBorder = pair.zone === 'conso' ? 'rgba(248,113,113,0.3)' : pair.zone === 'build' ? 'rgba(96,165,250,0.3)' : 'rgba(167,139,250,0.3)';
+    const leftNode = addNode(LEFT_X, y, NODE_W, NODE_H, pair.left, 'url(#grad-blue)', leftBorder, 'node-text', pairId, 'left');
+
+    // Right node (computational)
+    const rightBorder = pair.zone === 'conso' ? 'rgba(248,113,113,0.3)' : pair.zone === 'build' ? 'rgba(96,165,250,0.3)' : 'rgba(167,139,250,0.3)';
+    const rightNode = addNode(RIGHT_X, y, NODE_W, NODE_H, pair.right, 'url(#grad-green)', rightBorder, 'node-text-code', pairId, 'right');
+
+    // Coupling edge
+    const edgePath = createCouplingEdge(LEFT_X + NODE_W, y + NODE_H / 2, RIGHT_X, y + NODE_H / 2, pairId);
+
+    allNodes.push({ el: leftNode, pairId, side: 'left', data: pair, cat: cat });
+    allNodes.push({ el: rightNode, pairId, side: 'right', data: pair, cat: cat });
+    allEdges.push({ el: edgePath, pairId });
+
+    currentY += NODE_H + PAIR_GAP;
+  });
+
+  currentY += CAT_GAP;
+
+  // Divider line after category
+  if (ci < data.categories.length - 1) {
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', 60);
+    line.setAttribute('x2', 1300);
+    line.setAttribute('y1', currentY);
+    line.setAttribute('y2', currentY);
+    line.setAttribute('class', 'section-divider');
+    svg.appendChild(line);
+    currentY += CAT_GAP;
+  }
+});
+
+// Adjust viewBox to content
+svg.setAttribute('viewBox', `0 0 1360 ${currentY + 20}`);
+
+// Pipeline arrows within states
+addPipelineArrows('etat-c', [0, 1, 2, 3], 'left');
+addPipelineArrows('etat-b', [0, 1, 2, 3, 4], 'left');
+addPipelineArrows('etat-c', [0, 1, 2, 3], 'right');
+addPipelineArrows('etat-b', [0, 1, 2, 3, 4], 'right');
+
+// --- Interaction ---
+
+svg.addEventListener('mouseover', (e) => {
+  const nodeGroup = e.target.closest('.node-group');
+  if (!nodeGroup) return;
+
+  const pairId = nodeGroup.dataset.pairId;
+  highlightPair(pairId);
+
+  const nodeData = allNodes.find(n => n.el === nodeGroup);
+  if (nodeData) showTooltip(e, nodeData);
+});
+
+svg.addEventListener('mousemove', (e) => {
+  if (tooltip.classList.contains('visible')) {
+    tooltip.style.left = (e.clientX + 16) + 'px';
+    tooltip.style.top = (e.clientY - 10) + 'px';
+  }
+});
+
+svg.addEventListener('mouseout', (e) => {
+  const nodeGroup = e.target.closest('.node-group');
+  if (!nodeGroup) return;
+
+  // Check if we're moving to another element in the same group
+  if (e.relatedTarget && nodeGroup.contains(e.relatedTarget)) return;
+
+  resetHighlights();
+  tooltip.classList.remove('visible');
+});
+
+function highlightPair(pairId) {
+  allNodes.forEach(n => {
+    if (n.pairId !== pairId) n.el.classList.add('dimmed');
+    else n.el.classList.remove('dimmed');
+  });
+  allEdges.forEach(edge => {
+    if (edge.pairId !== pairId) {
+      edge.el.classList.add('dimmed');
+      edge.el.classList.remove('highlighted');
+    } else {
+      edge.el.classList.remove('dimmed');
+      edge.el.classList.add('highlighted');
+    }
+  });
+  allCatLabels.forEach(l => {
+    const catNodes = allNodes.filter(n => n.cat.id === l.dataset.catId);
+    const match = catNodes.some(n => n.pairId === pairId);
+    if (!match) l.classList.add('dimmed');
+    else l.classList.remove('dimmed');
+  });
+}
+
+function resetHighlights() {
+  allNodes.forEach(n => n.el.classList.remove('dimmed'));
+  allEdges.forEach(e => { e.el.classList.remove('dimmed'); e.el.classList.remove('highlighted'); });
+  allCatLabels.forEach(l => l.classList.remove('dimmed'));
+}
+
+function showTooltip(e, nodeData) {
+  const tt = tooltip;
+  tt.querySelector('.tt-category').textContent = nodeData.cat.label;
+  tt.querySelector('.tt-left').textContent = nodeData.data.left;
+  tt.querySelector('.tt-right').textContent = nodeData.data.right;
+  tt.querySelector('.tt-detail').textContent = nodeData.data.detail;
+  tt.style.left = (e.clientX + 16) + 'px';
+  tt.style.top = (e.clientY - 10) + 'px';
+  tt.classList.add('visible');
+}
+
+// --- Drawing helpers ---
+
+function addNode(x, y, w, h, label, fill, stroke, textClass, pairId, side) {
+  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  g.setAttribute('class', 'node-group');
+  g.dataset.pairId = pairId;
+  g.dataset.side = side;
+
+  const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  rect.setAttribute('x', x);
+  rect.setAttribute('y', y);
+  rect.setAttribute('width', w);
+  rect.setAttribute('height', h);
+  rect.setAttribute('fill', fill);
+  rect.setAttribute('stroke', stroke);
+  rect.setAttribute('stroke-width', '1');
+  rect.setAttribute('class', 'node-bg');
+
+  const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  text.setAttribute('x', x + 10);
+  text.setAttribute('y', y + h / 2 + 4);
+  text.setAttribute('class', textClass);
+
+  // Truncate if needed
+  let displayLabel = label;
+  const maxChars = textClass === 'node-text-code' ? 28 : 30;
+  if (displayLabel.length > maxChars) displayLabel = displayLabel.substring(0, maxChars - 1) + '…';
+  text.textContent = displayLabel;
+
+  g.appendChild(rect);
+  g.appendChild(text);
+  svg.appendChild(g);
+  return g;
+}
+
+function createCouplingEdge(x1, y1, x2, y2, pairId) {
+  const midX = (x1 + x2) / 2;
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  const d = `M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y2}, ${x2} ${y2}`;
+  path.setAttribute('d', d);
+  path.setAttribute('class', 'coupling-edge');
+  path.dataset.pairId = pairId;
+  // Insert before nodes so edges are behind
+  svg.insertBefore(path, svg.firstChild.nextSibling);
+  allEdges.push({ el: path, pairId });
+  return path;
+}
+
+function addText(x, y, text, className, fill, anchor) {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  el.setAttribute('x', x);
+  el.setAttribute('y', y);
+  el.setAttribute('class', className);
+  el.setAttribute('fill', fill);
+  el.setAttribute('text-anchor', anchor || 'start');
+  el.textContent = text;
+  svg.appendChild(el);
+  return el;
+}
+
+function addRect(x, y, w, h, fill, r) {
+  const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  rect.setAttribute('x', x);
+  rect.setAttribute('y', y);
+  rect.setAttribute('width', w);
+  rect.setAttribute('height', h);
+  rect.setAttribute('fill', fill);
+  rect.setAttribute('rx', r || 0);
+  svg.insertBefore(rect, svg.firstChild.nextSibling);
+  return rect;
+}
+
+function addPipelineArrows(catId, indices, side) {
+  const catNodes = allNodes.filter(n => n.cat.id === catId && n.side === side);
+  for (let i = 0; i < indices.length - 1; i++) {
+    const from = catNodes[indices[i]];
+    const to = catNodes[indices[i + 1]];
+    if (!from || !to) continue;
+
+    const fromRect = from.el.querySelector('rect');
+    const toRect = to.el.querySelector('rect');
+    const fx = parseFloat(fromRect.getAttribute('x'));
+    const fy = parseFloat(fromRect.getAttribute('y')) + NODE_H;
+    const ty = parseFloat(toRect.getAttribute('y'));
+    const mx = fx + (side === 'left' ? -12 : NODE_W + 12);
+
+    const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    const d = `M ${fx + NODE_W / 2} ${fy} L ${fx + NODE_W / 2} ${ty}`;
+    arrow.setAttribute('d', d);
+    arrow.setAttribute('stroke', 'var(--text-muted)');
+    arrow.setAttribute('stroke-width', '1');
+    arrow.setAttribute('stroke-dasharray', '2 3');
+    arrow.setAttribute('fill', 'none');
+    arrow.setAttribute('marker-end', '');
+    svg.insertBefore(arrow, svg.firstChild.nextSibling);
+
+    // Small arrow head
+    const arrowHead = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    const ahx = fx + NODE_W / 2;
+    const ahy = ty - 1;
+    arrowHead.setAttribute('points', `${ahx-3},${ahy-5} ${ahx},${ahy} ${ahx+3},${ahy-5}`);
+    arrowHead.setAttribute('fill', 'var(--text-muted)');
+    svg.insertBefore(arrowHead, svg.firstChild.nextSibling);
+  }
+}
+</script>
+</body>
+</html>

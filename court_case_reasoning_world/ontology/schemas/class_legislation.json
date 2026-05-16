@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de Legislation",
+  "description": "Valeur contrainte aux instances de la classe Legislation dans l'ontologie Open Data France",
+  "type": "string",
+  "enum": [
+    "LoiLemaire",
+    "LoiValter",
+    "LoiCADA",
+    "DirectivePSI",
+    "ReglementOpenData"
+  ],
+  "x-labels": [
+    "Loi pour une République Numérique",
+    "Loi Valter",
+    "Loi CADA",
+    "Directive PSI",
+    "Règlement Open Data UE 2022/868"
+  ],
+  "x-labels-short": [
+    "Loi Lemaire"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance of PhysicalEvidence",
+  "description": "Value constrained to instances of class PhysicalEvidence in the RFK Assassination Case Reasoning ontology",
+  "type": "string",
+  "enum": [
+    "IverJohnsonRevolver",
+    "BulletFragmentsVictim",
+    "BulletFragmentsBystanders",
+    "DoorFrameBullets",
+    "PowderBurnPatterns"
+  ],
+  "x-labels": [
+    "Iver Johnson .22 caliber revolver",
+    "Bullet fragments from RFK",
+    "Bullet fragments from wounded bystanders",
+    "Door frame bullet holes",
+    "Powder burn patterns"
+  ],
+  "x-labels-short": []
+}

@@ -1,0 +1,8 @@
+{
+  "ontology": "ontology/court_case_reasoning_ontology.json",
+  "tool_name": "ontology_grounded_response",
+  "validation_threshold": 0.5,
+  "max_retries": 3,
+  "language": "en",
+  "log_file": "validation_log.jsonl"
+}

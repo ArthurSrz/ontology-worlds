@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de ComposantInterface",
+  "description": "Valeur contrainte aux instances de la classe ComposantInterface dans l'ontologie Data Design Interfaces",
+  "type": "string",
+  "enum": [
+    "Feed",
+    "CarteContenu",
+    "Notification",
+    "BarreRecherche",
+    "Recommandation",
+    "Formulaire",
+    "Canvas",
+    "Terminal",
+    "TableauEditable",
+    "PanneauRequete"
+  ],
+  "x-labels": [
+    "Feed",
+    "Carte de contenu",
+    "Notification",
+    "Barre de recherche",
+    "Recommandation",
+    "Formulaire de saisie",
+    "Canvas",
+    "Terminal / Console",
+    "Tableau éditable",
+    "Panneau de requête"
+  ],
+  "x-labels-short": []
+}

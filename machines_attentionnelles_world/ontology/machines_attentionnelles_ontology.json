@@ -1,0 +1,603 @@
+{
+  "@context": {
+    "wd": "http://www.wikidata.org/entity/",
+    "schema": "http://schema.org/",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "metadata": {
+    "name": "Machines attentionnelles",
+    "name_short": "Attention",
+    "description": "Ontologie des machines attentionnelles à la puissance 2 — d'après l'article d'Arthur Sarazin sur les traces numériques, les fenêtres d'attention et la critique de l'épistémologie des données des réseaux sociaux (réf. Yves Citton, Pour une écologie de l'attention).",
+    "language": "fr",
+    "version": "1.0.0",
+    "domain": "machines attentionnelles",
+    "source": "Article LinkedIn + Wikidata"
+  },
+  "classes": [
+    {
+      "id": "ConceptAttentionnel",
+      "label": "Concept attentionnel",
+      "description": "Concepts liés à l'économie et l'écologie de l'attention"
+    },
+    {
+      "id": "MecanismeAttentionnel",
+      "label": "Mécanisme attentionnel",
+      "description": "Filtres, boucles et machines qui captent ou orientent l'attention"
+    },
+    {
+      "id": "SourceDeDonnees",
+      "label": "Source de données",
+      "description": "Types de traces numériques analysables sur les réseaux"
+    },
+    {
+      "id": "ActeurTheorique",
+      "label": "Acteur théorique",
+      "description": "Auteurs et chercheurs clés du champ"
+    },
+    {
+      "id": "ProblemeEpistemologique",
+      "label": "Problème épistémologique",
+      "description": "Questions sur le statut de la connaissance extraite des données numériques"
+    }
+  ],
+  "instances": [
+    {
+      "id": "MachineAttentionnelle",
+      "class": "MecanismeAttentionnel",
+      "label": "Machine attentionnelle à la puissance 2",
+      "description": "Combinaison de deux filtres attentionnels (individuel + réseau) branchés en circuit fermé, s'amplifiant mutuellement. Concept central d'Yves Citton.",
+      "wikidata": ""
+    },
+    {
+      "id": "FiltreIndividuel",
+      "class": "MecanismeAttentionnel",
+      "label": "Filtre attentionnel individuel",
+      "description": "Premier filtre : l'individu condense son attention sur un flux d'information en particulier (« je m'intéresse à ça, donc je fais cette recherche »).",
+      "wikidata": ""
+    },
+    {
+      "id": "FiltreReseau",
+      "class": "MecanismeAttentionnel",
+      "label": "Filtre attentionnel du réseau",
+      "description": "Deuxième filtre : le réseau renvoie les contenus les plus pertinents relativement à ce que les anciens utilisateurs ayant effectué des recherches analogues ont prêté attention.",
+      "wikidata": ""
+    },
+    {
+      "id": "BoucleDeRetroaction",
+      "class": "MecanismeAttentionnel",
+      "label": "Boucle de rétroaction",
+      "description": "Le filtre individuel nourrit le filtre réseau qui nourrit le filtre individuel — circuit fermé amplifiant.",
+      "wikidata": "Q213208"
+    },
+    {
+      "id": "AlgorithmeRecommandation",
+      "class": "MecanismeAttentionnel",
+      "label": "Algorithme de recommandation",
+      "description": "Mécanisme technique du filtre réseau : classe et propose les contenus selon l'attention passée d'utilisateurs similaires.",
+      "wikidata": ""
+    },
+    {
+      "id": "FenetreAttention",
+      "class": "ConceptAttentionnel",
+      "label": "Fenêtre d'attention",
+      "description": "Ce que les données des réseaux sociaux dessinent réellement : un espace attentionnel dans lequel un chercheur ou designer peut positionner une invention.",
+      "wikidata": ""
+    },
+    {
+      "id": "EconomieAttention",
+      "class": "ConceptAttentionnel",
+      "label": "Économie de l'attention",
+      "description": "Champ théorique étudiant l'attention comme ressource rare dans un environnement de surcharge informationnelle.",
+      "wikidata": "Q295287"
+    },
+    {
+      "id": "CaptationAttention",
+      "class": "ConceptAttentionnel",
+      "label": "Captation de l'attention",
+      "description": "Stratégies et dispositifs visant à capter et retenir l'attention des utilisateurs sur les réseaux sociaux.",
+      "wikidata": ""
+    },
+    {
+      "id": "SusceptibiliteAttentionnelle",
+      "class": "ConceptAttentionnel",
+      "label": "Susceptibilité attentionnelle",
+      "description": "Ce à quoi un groupe est susceptible de prêter attention — ce que les données révèlent réellement, par opposition aux besoins profonds.",
+      "wikidata": ""
+    },
+    {
+      "id": "BulleDeFiltre",
+      "class": "ConceptAttentionnel",
+      "label": "Bulle de filtre",
+      "description": "Isolement intellectuel provoqué par les algorithmes de personnalisation qui enferment l'utilisateur dans un univers informationnel filtré.",
+      "wikidata": "Q1415581"
+    },
+    {
+      "id": "ChambreEcho",
+      "class": "ConceptAttentionnel",
+      "label": "Chambre d'écho",
+      "description": "Phénomène médiatique où les croyances sont amplifiées par communication et répétition à l'intérieur d'un système fermé.",
+      "wikidata": "Q3334446"
+    },
+    {
+      "id": "SurchargeInformationnelle",
+      "class": "ConceptAttentionnel",
+      "label": "Surcharge informationnelle",
+      "description": "Difficulté à comprendre un sujet et à prendre des décisions efficaces lorsqu'on dispose de trop d'information.",
+      "wikidata": "Q1130191"
+    },
+    {
+      "id": "Doomscrolling",
+      "class": "ConceptAttentionnel",
+      "label": "Doomscrolling",
+      "description": "Consommation compulsive de grandes quantités de contenu négatif en ligne, manifestation extrême de la captation attentionnelle.",
+      "wikidata": "Q101244400"
+    },
+    {
+      "id": "Clickbait",
+      "class": "ConceptAttentionnel",
+      "label": "Clickbait",
+      "description": "Contenu web dont l'objectif principal est d'inciter les utilisateurs à cliquer — stratégie de captation de l'attention.",
+      "wikidata": "Q17649781"
+    },
+    {
+      "id": "SystemeRecommandation",
+      "class": "MecanismeAttentionnel",
+      "label": "Système de recommandation",
+      "description": "Système de filtrage de l'information prédisant les préférences des utilisateurs à partir de leurs traces numériques.",
+      "wikidata": "Q554950"
+    },
+    {
+      "id": "CapitalismesSurveillance",
+      "class": "ProblemeEpistemologique",
+      "label": "Capitalisme de surveillance",
+      "description": "Modèle économique fondé sur la monétisation de l'information personnelle extraite des traces numériques.",
+      "wikidata": "Q29096967"
+    },
+    {
+      "id": "TracesNumeriques",
+      "class": "SourceDeDonnees",
+      "label": "Traces numériques",
+      "description": "Données laissées par les individus sur les réseaux (recherches, clics, vues, likes) — aussi appelées digital traces.",
+      "wikidata": "Q1474447"
+    },
+    {
+      "id": "MetadonneesYoutube",
+      "class": "SourceDeDonnees",
+      "label": "Métadonnées YouTube",
+      "description": "Titres, nombre de vues, commentaires des vidéos YouTube — source de données analysée dans l'article sur les effets d'Instagram.",
+      "wikidata": "Q180160"
+    },
+    {
+      "id": "PostsLinkedin",
+      "class": "SourceDeDonnees",
+      "label": "Posts LinkedIn",
+      "description": "Publications LinkedIn contenant les mots « économie de l'attention » + « réseaux sociaux » — source de données scrappée.",
+      "wikidata": ""
+    },
+    {
+      "id": "ArticlesDePresse",
+      "class": "SourceDeDonnees",
+      "label": "Articles de presse",
+      "description": "Listes d'articles contenant « captation » ou « économie » + « attention » — troisième source de données.",
+      "wikidata": ""
+    },
+    {
+      "id": "TikTok",
+      "class": "SourceDeDonnees",
+      "label": "TikTok",
+      "description": "Réseau social chinois de partage de vidéos courtes — machine attentionnelle dont l'algorithme de recommandation (For You Page) est particulièrement puissant.",
+      "wikidata": "Q48938223"
+    },
+    {
+      "id": "ReseauxSociaux",
+      "class": "SourceDeDonnees",
+      "label": "Réseaux sociaux",
+      "description": "Plateformes numériques (YouTube, Instagram, LinkedIn) où les machines attentionnelles opèrent.",
+      "wikidata": "Q2003370"
+    },
+    {
+      "id": "BigData",
+      "class": "SourceDeDonnees",
+      "label": "Big data",
+      "description": "Volumes massifs de données émises par des milliers d'individus — promesse et illusion épistémologique.",
+      "wikidata": "Q858810"
+    },
+    {
+      "id": "YvesCitton",
+      "class": "ActeurTheorique",
+      "label": "Yves Citton",
+      "description": "Auteur de « Pour une écologie de l'attention » — propose le concept de machine attentionnelle à la puissance 2.",
+      "wikidata": "Q3573565"
+    },
+    {
+      "id": "SethStephensDavidowitz",
+      "class": "ActeurTheorique",
+      "label": "Seth Stephens-Davidowitz",
+      "description": "Auteur de « Tout le monde ment, et vous aussi » — affirme que les traces numériques sont l'expression de nos besoins profonds (position critiquée dans l'article).",
+      "wikidata": "Q61523873"
+    },
+    {
+      "id": "StatutEpistemologique",
+      "class": "ProblemeEpistemologique",
+      "label": "Statut épistémologique des données",
+      "description": "Question centrale : quelles connaissances l'analyse des données des réseaux peut-elle réellement apporter ?",
+      "wikidata": ""
+    },
+    {
+      "id": "BesoinVsAttention",
+      "class": "ProblemeEpistemologique",
+      "label": "Besoin vs susceptibilité attentionnelle",
+      "description": "Thèse de l'article : les données ne témoignent pas de ce dont les gens ont besoin, mais de ce à quoi ils sont susceptibles de prêter attention dans un groupe.",
+      "wikidata": ""
+    },
+    {
+      "id": "ContexteDeProduction",
+      "class": "ProblemeEpistemologique",
+      "label": "Contexte de production des données",
+      "description": "Le trajet que suit la donnée avant d'arriver dans l'escarcelle du chercheur — entre le besoin initial et la consultation, le besoin se perd.",
+      "wikidata": ""
+    }
+  ],
+  "relations": [
+    {
+      "subject": "MachineAttentionnelle",
+      "predicate": "hasPart",
+      "object": "FiltreIndividuel"
+    },
+    {
+      "subject": "MachineAttentionnelle",
+      "predicate": "hasPart",
+      "object": "FiltreReseau"
+    },
+    {
+      "subject": "FiltreIndividuel",
+      "predicate": "feedsInto",
+      "object": "FiltreReseau"
+    },
+    {
+      "subject": "FiltreReseau",
+      "predicate": "feedsInto",
+      "object": "FiltreIndividuel"
+    },
+    {
+      "subject": "FiltreReseau",
+      "predicate": "hasPart",
+      "object": "AlgorithmeRecommandation"
+    },
+    {
+      "subject": "MachineAttentionnelle",
+      "predicate": "produces",
+      "object": "TracesNumeriques"
+    },
+    {
+      "subject": "MachineAttentionnelle",
+      "predicate": "hasPart",
+      "object": "BoucleDeRetroaction"
+    },
+    {
+      "subject": "TracesNumeriques",
+      "predicate": "reveals",
+      "object": "FenetreAttention"
+    },
+    {
+      "subject": "TracesNumeriques",
+      "predicate": "reveals",
+      "object": "SusceptibiliteAttentionnelle"
+    },
+    {
+      "subject": "TracesNumeriques",
+      "predicate": "revealNot",
+      "object": "BesoinVsAttention"
+    },
+    {
+      "subject": "YvesCitton",
+      "predicate": "proposes",
+      "object": "MachineAttentionnelle"
+    },
+    {
+      "subject": "YvesCitton",
+      "predicate": "studiedBy",
+      "object": "EconomieAttention"
+    },
+    {
+      "subject": "SethStephensDavidowitz",
+      "predicate": "claims",
+      "object": "TracesNumeriques"
+    },
+    {
+      "subject": "BesoinVsAttention",
+      "predicate": "critiques",
+      "object": "SethStephensDavidowitz"
+    },
+    {
+      "subject": "MetadonneesYoutube",
+      "predicate": "instanceOf",
+      "object": "TracesNumeriques"
+    },
+    {
+      "subject": "PostsLinkedin",
+      "predicate": "instanceOf",
+      "object": "TracesNumeriques"
+    },
+    {
+      "subject": "ArticlesDePresse",
+      "predicate": "instanceOf",
+      "object": "TracesNumeriques"
+    },
+    {
+      "subject": "TikTok",
+      "predicate": "instanceOf",
+      "object": "SourceDeDonnees"
+    },
+    {
+      "subject": "TikTok",
+      "predicate": "instanceOf",
+      "object": "TracesNumeriques"
+    },
+    {
+      "subject": "TikTok",
+      "predicate": "instanceOf",
+      "object": "ReseauxSociaux"
+    },
+    {
+      "subject": "TikTok",
+      "predicate": "produces",
+      "object": "TracesNumeriques"
+    },
+    {
+      "subject": "ReseauxSociaux",
+      "predicate": "produces",
+      "object": "TracesNumeriques"
+    },
+    {
+      "subject": "BigData",
+      "predicate": "hasPart",
+      "object": "TracesNumeriques"
+    },
+    {
+      "subject": "BulleDeFiltre",
+      "predicate": "instanceOf",
+      "object": "ConceptAttentionnel"
+    },
+    {
+      "subject": "AlgorithmeRecommandation",
+      "predicate": "produces",
+      "object": "BulleDeFiltre"
+    },
+    {
+      "subject": "BulleDeFiltre",
+      "predicate": "feedsInto",
+      "object": "ChambreEcho"
+    },
+    {
+      "subject": "BulleDeFiltre",
+      "predicate": "partOf",
+      "object": "EconomieAttention"
+    },
+    {
+      "subject": "ChambreEcho",
+      "predicate": "instanceOf",
+      "object": "ConceptAttentionnel"
+    },
+    {
+      "subject": "ChambreEcho",
+      "predicate": "feedsInto",
+      "object": "BoucleDeRetroaction"
+    },
+    {
+      "subject": "SurchargeInformationnelle",
+      "predicate": "instanceOf",
+      "object": "ConceptAttentionnel"
+    },
+    {
+      "subject": "SurchargeInformationnelle",
+      "predicate": "partOf",
+      "object": "EconomieAttention"
+    },
+    {
+      "subject": "SurchargeInformationnelle",
+      "predicate": "influences",
+      "object": "FenetreAttention"
+    },
+    {
+      "subject": "Doomscrolling",
+      "predicate": "instanceOf",
+      "object": "ConceptAttentionnel"
+    },
+    {
+      "subject": "Doomscrolling",
+      "predicate": "partOf",
+      "object": "CaptationAttention"
+    },
+    {
+      "subject": "BoucleDeRetroaction",
+      "predicate": "produces",
+      "object": "Doomscrolling"
+    },
+    {
+      "subject": "Clickbait",
+      "predicate": "instanceOf",
+      "object": "ConceptAttentionnel"
+    },
+    {
+      "subject": "Clickbait",
+      "predicate": "partOf",
+      "object": "CaptationAttention"
+    },
+    {
+      "subject": "Clickbait",
+      "predicate": "influences",
+      "object": "SusceptibiliteAttentionnelle"
+    },
+    {
+      "subject": "SystemeRecommandation",
+      "predicate": "instanceOf",
+      "object": "MecanismeAttentionnel"
+    },
+    {
+      "subject": "AlgorithmeRecommandation",
+      "predicate": "instanceOf",
+      "object": "SystemeRecommandation"
+    },
+    {
+      "subject": "SystemeRecommandation",
+      "predicate": "produces",
+      "object": "BulleDeFiltre"
+    },
+    {
+      "subject": "CapitalismesSurveillance",
+      "predicate": "instanceOf",
+      "object": "ProblemeEpistemologique"
+    },
+    {
+      "subject": "CapitalismesSurveillance",
+      "predicate": "influences",
+      "object": "CaptationAttention"
+    },
+    {
+      "subject": "TracesNumeriques",
+      "predicate": "feedsInto",
+      "object": "CapitalismesSurveillance"
+    },
+    {
+      "subject": "ReseauxSociaux",
+      "predicate": "partOf",
+      "object": "CapitalismesSurveillance"
+    },
+    {
+      "subject": "CaptationAttention",
+      "predicate": "partOf",
+      "object": "EconomieAttention"
+    },
+    {
+      "subject": "FenetreAttention",
+      "predicate": "partOf",
+      "object": "EconomieAttention"
+    },
+    {
+      "subject": "StatutEpistemologique",
+      "predicate": "influences",
+      "object": "ContexteDeProduction"
+    },
+    {
+      "subject": "ContexteDeProduction",
+      "predicate": "reveals",
+      "object": "BesoinVsAttention"
+    },
+    {
+      "subject": "MachineAttentionnelle",
+      "predicate": "instanceOf",
+      "object": "MecanismeAttentionnel"
+    },
+    {
+      "subject": "FiltreIndividuel",
+      "predicate": "instanceOf",
+      "object": "MecanismeAttentionnel"
+    },
+    {
+      "subject": "FiltreReseau",
+      "predicate": "instanceOf",
+      "object": "MecanismeAttentionnel"
+    },
+    {
+      "subject": "BoucleDeRetroaction",
+      "predicate": "instanceOf",
+      "object": "MecanismeAttentionnel"
+    },
+    {
+      "subject": "AlgorithmeRecommandation",
+      "predicate": "instanceOf",
+      "object": "MecanismeAttentionnel"
+    },
+    {
+      "subject": "FenetreAttention",
+      "predicate": "instanceOf",
+      "object": "ConceptAttentionnel"
+    },
+    {
+      "subject": "EconomieAttention",
+      "predicate": "instanceOf",
+      "object": "ConceptAttentionnel"
+    },
+    {
+      "subject": "CaptationAttention",
+      "predicate": "instanceOf",
+      "object": "ConceptAttentionnel"
+    },
+    {
+      "subject": "SusceptibiliteAttentionnelle",
+      "predicate": "instanceOf",
+      "object": "ConceptAttentionnel"
+    },
+    {
+      "subject": "TracesNumeriques",
+      "predicate": "instanceOf",
+      "object": "SourceDeDonnees"
+    },
+    {
+      "subject": "MetadonneesYoutube",
+      "predicate": "instanceOf",
+      "object": "SourceDeDonnees"
+    },
+    {
+      "subject": "PostsLinkedin",
+      "predicate": "instanceOf",
+      "object": "SourceDeDonnees"
+    },
+    {
+      "subject": "ArticlesDePresse",
+      "predicate": "instanceOf",
+      "object": "SourceDeDonnees"
+    },
+    {
+      "subject": "ReseauxSociaux",
+      "predicate": "instanceOf",
+      "object": "SourceDeDonnees"
+    },
+    {
+      "subject": "BigData",
+      "predicate": "instanceOf",
+      "object": "SourceDeDonnees"
+    },
+    {
+      "subject": "YvesCitton",
+      "predicate": "instanceOf",
+      "object": "ActeurTheorique"
+    },
+    {
+      "subject": "SethStephensDavidowitz",
+      "predicate": "instanceOf",
+      "object": "ActeurTheorique"
+    },
+    {
+      "subject": "StatutEpistemologique",
+      "predicate": "instanceOf",
+      "object": "ProblemeEpistemologique"
+    },
+    {
+      "subject": "BesoinVsAttention",
+      "predicate": "instanceOf",
+      "object": "ProblemeEpistemologique"
+    },
+    {
+      "subject": "ContexteDeProduction",
+      "predicate": "instanceOf",
+      "object": "ProblemeEpistemologique"
+    }
+  ],
+  "valid_predicates": [
+    "instanceOf",
+    "subClassOf",
+    "hasPart",
+    "partOf",
+    "feedsInto",
+    "produces",
+    "reveals",
+    "revealNot",
+    "proposes",
+    "claims",
+    "critiques",
+    "studiedBy",
+    "influences"
+  ]
+}

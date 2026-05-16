@@ -1,0 +1,33 @@
+{
+  "name": "ontology-worlds",
+  "version": "0.3.0",
+  "description": "JIT Wikidata-constrained mini-worlds of meaning. Every prompt becomes a domain subgraph via mutual-context disambiguation and class-cone reachability; every chat turn a candidate Wikidata contribution.",
+  "author": "ArthurSrZ",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/user_prompt_submit.py"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/stop.py"
+          }
+        ]
+      }
+    ]
+  },
+  "commands": [
+    "./commands/world.md",
+    "./commands/gaps.md",
+    "./commands/contribute.md"
+  ]
+}

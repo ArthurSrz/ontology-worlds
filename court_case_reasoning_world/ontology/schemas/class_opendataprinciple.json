@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de OpenDataPrinciple",
+  "description": "Valeur contrainte aux instances de la classe OpenDataPrinciple dans l'ontologie Open Data France",
+  "type": "string",
+  "enum": [
+    "Accessibilite",
+    "Interoperabilite",
+    "Reutilisabilite",
+    "Gratuite"
+  ],
+  "x-labels": [
+    "Accessibilité",
+    "Interopérabilité",
+    "Réutilisabilité",
+    "Gratuité"
+  ],
+  "x-labels-short": []
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance of Contradiction",
+  "description": "Value constrained to instances of class Contradiction in the RFK Assassination Case Reasoning ontology",
+  "type": "string",
+  "enum": [
+    "Contradiction_DirectionOfFire",
+    "Contradiction_MuzzleDistance",
+    "Contradiction_BulletCount",
+    "Contradiction_BallisticsMismatch"
+  ],
+  "x-labels": [
+    "Direction of fire contradiction",
+    "Muzzle distance contradiction",
+    "Bullet count contradiction",
+    "Ballistics evidence mismatch"
+  ],
+  "x-labels-short": []
+}

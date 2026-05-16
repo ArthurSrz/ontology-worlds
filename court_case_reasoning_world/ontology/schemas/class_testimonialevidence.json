@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance of TestimonialEvidence",
+  "description": "Value constrained to instances of class TestimonialEvidence in the RFK Assassination Case Reasoning ontology",
+  "type": "string",
+  "enum": [
+    "UeckerTestimony",
+    "CesarTestimony",
+    "WitnessConsensus",
+    "SchradeTestimony"
+  ],
+  "x-labels": [
+    "Karl Uecker testimony",
+    "Thane Cesar testimony",
+    "Witness consensus on Sirhan position",
+    "Paul Schrade testimony"
+  ],
+  "x-labels-short": []
+}

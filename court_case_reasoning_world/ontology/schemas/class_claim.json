@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance of Claim",
+  "description": "Value constrained to instances of class Claim in the RFK Assassination Case Reasoning ontology",
+  "type": "string",
+  "enum": [
+    "Claim_SirhanSoleShooter",
+    "Claim_SirhanFiredFromFront",
+    "Claim_ShotsFromBehind",
+    "Claim_SecondGunman",
+    "Claim_MoreThan8Bullets",
+    "Claim_ContactRange",
+    "Claim_SirhanDistance"
+  ],
+  "x-labels": [
+    "Sirhan was the sole shooter",
+    "Sirhan fired from the front",
+    "RFK was shot from behind",
+    "A second gunman was present",
+    "More than 8 bullets were fired",
+    "Fatal shots fired at contact range",
+    "Sirhan was 1.5 to 6 feet away"
+  ],
+  "x-labels-short": []
+}

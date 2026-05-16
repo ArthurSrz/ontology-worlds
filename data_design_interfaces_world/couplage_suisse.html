@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ONTOLOGY ISOMORPHIC APP</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #fff;
+  color: #000;
+  font-family: 'Helvetica Neue', 'Arial', 'Inter', sans-serif;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  padding: 60px 80px 120px 80px;
+}
+
+.title {
+  font-size: 72px;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 100px;
+  color: #000;
+}
+
+.subtitle span { color: #e30613; }
+
+.section {
+  margin-bottom: 80px;
+}
+
+.section-header {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  margin-bottom: 24px;
+}
+
+.section-number {
+  font-size: 14px;
+  font-weight: 700;
+  color: #999;
+  padding-top: 6px;
+}
+
+.section-title {
+  font-size: 28px;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding-bottom: 12px;
+  border-bottom: 4px solid #000;
+}
+
+.pairs {
+  margin-top: 20px;
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: 60px 280px 1fr 320px;
+  align-items: baseline;
+  padding: 10px 0;
+  cursor: default;
+  position: relative;
+}
+
+.pair-idx {
+  font-size: 11px;
+  color: #ccc;
+  font-weight: 700;
+}
+
+.pair-left {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+}
+
+.pair-rule {
+  position: relative;
+  align-self: center;
+  height: 1px;
+  background: #e30613;
+  margin: 0 20px;
+  transition: height 0.1s;
+}
+
+.pair-right {
+  font-size: 16px;
+  font-weight: 700;
+  color: #e30613;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0;
+}
+
+.pair-note {
+  display: none;
+  position: absolute;
+  top: -22px;
+  left: 340px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #000;
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  white-space: nowrap;
+  letter-spacing: 0;
+}
+
+.pair:hover .pair-left,
+.pair:hover .pair-right {
+  font-weight: 900;
+}
+
+.pair:hover .pair-rule {
+  height: 3px;
+  margin-top: -1px;
+}
+
+.pair:hover .pair-note {
+  display: block;
+}
+
+</style>
+</head>
+<body>
+
+<div class="title">ONTOLOGY ISOMORPHIC APP</div>
+<div class="subtitle">Bijection between conceptual graph <span>&harr;</span> computational graph</div>
+
+<div id="content"></div>
+
+<script>
+const data = [
+  {
+    title: "ARCHITECTURES",
+    pairs: [
+      ["ArchitectureConsommation", "app_consommation.py", "L'app entiere instancie l'architecture"],
+      ["ArchitectureConstruction", "app_construction.py", "L'app entiere instancie l'architecture"],
+    ]
+  },
+  {
+    title: "ROLES",
+    pairs: [
+      ["ConsommateurDonnees", "consumed_ids, liked_ids", "Sets passifs"],
+      ["ConstructeurDonnees", "dataset_id, pipeline_stage", "Etat actif"],
+    ]
+  },
+  {
+    title: "CONCEPTS",
+    pairs: [
+      ["Attention", "scroll drain / conscious intent", "consomme() vs preserve()"],
+      ["FluxDonnees", "feed_items table", "opereSur(Consommation)"],
+      ["StockDonnees", "datasets + dataset_rows", "opereSur(Construction)"],
+      ["TemporaliteContinue", "infinite scroll loop", "induit(Consommation)"],
+      ["TemporaliteDiscrete", "5-stage pipeline", "induit(Construction)"],
+    ]
+  },
+  {
+    title: "MECANISMES",
+    pairs: [
+      ["AlgorithmeFlux", "algorithme_flux()", "Trie par score/tendance"],
+      ["ScrollInfini", "feed_offset pagination", "Charger plus"],
+      ["Categories", "st.multiselect(\"Categories\")", "Filtre"],
+      ["PipelineITO", "advance_pipeline()", "I-T-O discret"],
+    ]
+  },
+  {
+    title: "COMPOSANTS CONSOMMATION",
+    pairs: [
+      ["Feed", "visible_items loop", "Flux central"],
+      ["CarteContenu", "render_carte_contenu()", "Unite atomique"],
+      ["Notification", "render_notification_bar()", "Interruption push"],
+      ["BarreRecherche", "render_search_bar()", "Filtrage"],
+      ["Recommandation", "render_recommandations()", "Prolonge la session"],
+    ]
+  },
+  {
+    title: "COMPOSANTS CONSTRUCTION",
+    pairs: [
+      ["Formulaire", "render_formulaire()", "Saisie structuree"],
+      ["TableauEditable", "render_tableau_editable()", "Grille CRUD"],
+      ["PanneauRequete", "render_panneau_requete()", "SQL DuckDB"],
+      ["Canvas", "st.data_editor()", "Espace 2D"],
+      ["Terminal", "SQL text_area", "Ligne de commande"],
+    ]
+  },
+  {
+    title: "ACTIONS CONSOMMATION",
+    pairs: [
+      ["Scroller", "feed_offset + \"Charger plus\"", "Effort faible"],
+      ["Liker", "handle_like()", "Feedback minimal"],
+      ["Partager", "handle_share()", "Redistribuer"],
+      ["Sauvegarder", "handle_save()", "Flux -> Stock"],
+    ]
+  },
+  {
+    title: "ACTIONS CONSTRUCTION",
+    pairs: [
+      ["Creer", "st.form(\"create_dataset\")", "Effort eleve"],
+      ["Transformer", "pipeline nettoyee->transformee", "Restructuration"],
+      ["Requeter", "duckdb.sql(query)", "Interrogation"],
+      ["Valider", "advance_pipeline(\"publiee\")", "Fin de cycle"],
+      ["Exporter", "st.download_button()", "CSV/JSON/Parquet"],
+    ]
+  },
+  {
+    title: "ETATS CONSOMMATION",
+    pairs: [
+      ["DonneeBrute", "etat='brute'", "Non traitee"],
+      ["DonneeAlgorithmisee", "etat='algorithmisee'", "Filtree"],
+      ["DonneeAffichee", "etat='affichee'", "Rendue"],
+      ["DonneeConsommee", "etat='consommee'", "Terminal"],
+    ]
+  },
+  {
+    title: "ETATS CONSTRUCTION",
+    pairs: [
+      ["DonneeBrute", "etat='brute'", "Ingeree"],
+      ["DonneeNettoyee", "etat='nettoyee'", "Nettoyee"],
+      ["DonneeTransformee", "etat='transformee'", "Restructuree"],
+      ["DonneeStructuree", "etat='structuree'", "Schema formel"],
+      ["DonneePubliee", "etat='publiee'", "Stock finalise"],
+    ]
+  },
+];
+
+const content = document.getElementById('content');
+let globalIdx = 0;
+
+data.forEach((section, si) => {
+  const sNum = String(si + 1).padStart(2, '0');
+  let html = `<div class="section">
+    <div class="section-header">
+      <div class="section-number">${sNum}</div>
+      <div class="section-title">${section.title}</div>
+    </div>
+    <div class="pairs">`;
+
+  section.pairs.forEach((p, pi) => {
+    globalIdx++;
+    const idx = String(globalIdx).padStart(2, '0');
+    html += `<div class="pair">
+      <div class="pair-idx">${idx}</div>
+      <div class="pair-left">${p[0]}</div>
+      <div class="pair-rule"></div>
+      <div class="pair-right">${p[1]}</div>
+      <div class="pair-note">${p[2]}</div>
+    </div>`;
+  });
+
+  html += `</div></div>`;
+  content.innerHTML += html;
+});
+</script>
+</body>
+</html>

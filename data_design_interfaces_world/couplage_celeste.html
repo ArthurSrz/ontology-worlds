@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Couplage de Graphe — Ontologie ↔ Application</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0e1a;color:#c8d0e0;font-family:'Cinzel',serif;overflow:hidden;width:100vw;height:100vh}
+#stars{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
+.star{position:absolute;background:#fff;border-radius:50%}
+@keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1}}
+@keyframes twinkle2{0%,100%{opacity:.6}50%{opacity:.15}}
+@keyframes twinkle3{0%,100%{opacity:.1}40%{opacity:.9}80%{opacity:.3}}
+#grid{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none}
+#main{position:relative;z-index:2;width:100%;height:100%}
+h1{text-align:center;padding:12px 0 2px;font-family:'Cinzel Decorative',serif;font-size:1.4rem;color:#d4af37;text-shadow:0 0 20px rgba(212,175,55,.4);letter-spacing:3px;font-variant:small-caps;z-index:10;position:relative}
+.subtitle{text-align:center;font-size:.7rem;color:#6a7a9a;letter-spacing:5px;text-transform:uppercase;margin-bottom:4px;position:relative;z-index:10}
+.hemisphere-label{position:absolute;top:50px;font-size:.65rem;color:#4a5a7a;letter-spacing:4px;text-transform:uppercase;z-index:10;font-variant:small-caps}
+.hemisphere-label.left{left:20%}
+.hemisphere-label.right{right:15%}
+svg{position:absolute;top:0;left:0;width:100%;height:100%;z-index:3}
+#tooltip{position:fixed;z-index:100;background:rgba(10,14,30,.95);border:1px solid rgba(212,175,55,.4);border-radius:6px;padding:10px 14px;pointer-events:none;display:none;max-width:320px;font-size:.75rem;box-shadow:0 0 20px rgba(0,0,0,.6)}
+#tooltip .tt-concept{color:#7eb8f0;font-variant:small-caps;font-size:.85rem}
+#tooltip .tt-code{color:#5ef0b0;font-family:monospace;font-size:.8rem}
+#tooltip .tt-desc{color:#a0a8c0;margin-top:4px;font-style:italic;font-size:.7rem}
+#tooltip .tt-arrow{color:#d4af37;margin:0 6px}
+.cardinal{position:fixed;font-size:.55rem;color:#2a3a5a;letter-spacing:2px;z-index:5;font-variant:small-caps}
+.cardinal.n{top:8px;left:50%;transform:translateX(-50%)}
+.cardinal.s{bottom:8px;left:50%;transform:translateX(-50%)}
+.cardinal.e{right:10px;top:50%;transform:translateY(-50%)}
+.cardinal.w{left:10px;top:50%;transform:translateY(-50%)}
+.legend{position:fixed;bottom:12px;left:12px;z-index:10;font-size:.6rem;color:#4a5a7a}
+.legend span{margin-right:14px}
+.legend .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px;vertical-align:middle}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+<canvas id="grid"></canvas>
+<h1>Couplage de Graphe -- Ontologie &#8596; Application</h1>
+<div class="subtitle">Cartographie Celeste des Bijections</div>
+<div class="hemisphere-label left">&#9733; Espace Conceptuel</div>
+<div class="hemisphere-label right">&#9733; Espace Computationnel</div>
+<div class="cardinal n">N 90&deg;</div>
+<div class="cardinal s">S -90&deg;</div>
+<div class="cardinal e">E 180&deg;</div>
+<div class="cardinal w">O 0&deg;</div>
+<svg id="svg"></svg>
+<div id="tooltip"></div>
+<div class="legend">
+<span><span class="dot" style="background:#5a9cf0"></span>Conceptuel</span>
+<span><span class="dot" style="background:#3de8a0"></span>Computationnel</span>
+<span><span class="dot" style="background:rgba(212,175,55,.6)"></span>Couplage</span>
+</div>
+
+<script>
+const W=window.innerWidth,H=window.innerHeight;
+
+// Star field
+(function(){
+const c=document.getElementById('stars');
+for(let i=0;i<300;i++){
+const s=document.createElement('div');s.className='star';
+const sz=Math.random()*2+.5;
+s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:${Math.random()*.6+.1};animation:twinkle${1+Math.floor(Math.random()*3)} ${2+Math.random()*5}s ease-in-out ${Math.random()*4}s infinite`;
+c.appendChild(s);
+}
+})();
+
+// Grid
+(function(){
+const cv=document.getElementById('grid'),ctx=cv.getContext('2d');
+cv.width=W;cv.height=H;
+ctx.strokeStyle='rgba(30,50,90,.15)';ctx.lineWidth=.5;
+for(let x=0;x<W;x+=80){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}
+for(let y=0;y<H;y+=80){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+// Center meridian
+ctx.strokeStyle='rgba(60,80,120,.2)';ctx.lineWidth=1;
+ctx.beginPath();ctx.moveTo(W/2,0);ctx.lineTo(W/2,H);ctx.stroke();
+})();
+
+// Data
+const categories=[
+{name:"Architectures",color:"#8050c0",conceptColor:"#a080e0",codeColor:"#40d8a0",size:14,items:[
+{c:"ArchitectureConsommation",k:"app_consommation.py",d:"L'app entiere instancie l'architecture"},
+{c:"ArchitectureConstruction",k:"app_construction.py",d:"L'app entiere instancie l'architecture"},
+]},
+{name:"Roles",color:"#c05080",conceptColor:"#e070a0",codeColor:"#40d8a0",size:11,items:[
+{c:"ConsommateurDonnees",k:"consumed_ids, liked_ids",d:"Sets passifs"},
+{c:"ConstructeurDonnees",k:"dataset_id, pipeline_stage",d:"Etat actif"},
+]},
+{name:"Concepts",color:"#3060c0",conceptColor:"#5090f0",codeColor:"#3de8a0",size:10,items:[
+{c:"Attention",k:"scroll drain / conscious intent",d:"consomme() vs preserve()"},
+{c:"FluxDonnees",k:"feed_items table",d:"opereSur(Consommation)"},
+{c:"StockDonnees",k:"datasets + dataset_rows",d:"opereSur(Construction)"},
+{c:"TemporaliteContinue",k:"infinite scroll loop",d:"induit(Consommation)"},
+{c:"TemporaliteDiscrete",k:"5-stage pipeline",d:"induit(Construction)"},
+]},
+{name:"Mecanismes",color:"#c09030",conceptColor:"#e0b050",codeColor:"#40e8b0",size:9,items:[
+{c:"AlgorithmeFlux",k:"algorithme_flux()",d:"Trie par score/tendance"},
+{c:"ScrollInfini",k:"feed_offset pagination",d:"Charger plus"},
+{c:"Categories",k:'st.multiselect("Categories")',d:"Filtre"},
+{c:"PipelineITO",k:"advance_pipeline()",d:"I-T-O discret"},
+]},
+{name:"Composants Consommation",color:"#2080a0",conceptColor:"#40b0d0",codeColor:"#3de8a0",size:8,items:[
+{c:"Feed",k:"visible_items loop",d:"Flux central"},
+{c:"CarteContenu",k:"render_carte_contenu()",d:"Unite atomique"},
+{c:"Notification",k:"render_notification_bar()",d:"Interruption push"},
+{c:"BarreRecherche",k:"render_search_bar()",d:"Filtrage"},
+{c:"Recommandation",k:"render_recommandations()",d:"Prolonge la session"},
+]},
+{name:"Composants Construction",color:"#208060",conceptColor:"#40c090",codeColor:"#3de8a0",size:8,items:[
+{c:"Formulaire",k:"render_formulaire()",d:"Saisie structuree"},
+{c:"TableauEditable",k:"render_tableau_editable()",d:"Grille CRUD"},
+{c:"PanneauRequete",k:"render_panneau_requete()",d:"SQL DuckDB"},
+{c:"Canvas",k:"st.data_editor()",d:"Espace 2D"},
+{c:"Terminal",k:"SQL text_area",d:"Ligne de commande"},
+]},
+{name:"Actions Consommation",color:"#6050a0",conceptColor:"#8070c0",codeColor:"#40d8a0",size:7,items:[
+{c:"Scroller",k:'feed_offset + "Charger plus"',d:"Effort faible"},
+{c:"Liker",k:"handle_like()",d:"Feedback minimal"},
+{c:"Partager",k:"handle_share()",d:"Redistribuer"},
+{c:"Sauvegarder",k:"handle_save()",d:"Flux -> Stock"},
+]},
+{name:"Actions Construction",color:"#508040",conceptColor:"#70a060",codeColor:"#40e8a0",size:7,items:[
+{c:"Creer",k:'st.form("create_dataset")',d:"Effort eleve"},
+{c:"Transformer",k:"pipeline nettoyee->transformee",d:"Restructuration"},
+{c:"Requeter",k:"duckdb.sql(query)",d:"Interrogation"},
+{c:"Valider",k:'advance_pipeline("publiee")',d:"Fin de cycle"},
+{c:"Exporter",k:"st.download_button()",d:"CSV/JSON/Parquet"},
+]},
+{name:"Etats Consommation",color:"#804040",conceptColor:"#b06060",codeColor:"#40d8a0",size:6,items:[
+{c:"DonneeBrute",k:"etat='brute'",d:"Non traitee"},
+{c:"DonneeAlgorithmisee",k:"etat='algorithmisee'",d:"Filtree"},
+{c:"DonneeAffichee",k:"etat='affichee'",d:"Rendue"},
+{c:"DonneeConsommee",k:"etat='consommee'",d:"Terminal"},
+]},
+{name:"Etats Construction",color:"#406060",conceptColor:"#60a0a0",codeColor:"#40e8a0",size:6,items:[
+{c:"DonneeBrute",k:"etat='brute'",d:"Ingeree"},
+{c:"DonneeNettoyee",k:"etat='nettoyee'",d:"Nettoyee"},
+{c:"DonneeTransformee",k:"etat='transformee'",d:"Restructuree"},
+{c:"DonneeStructuree",k:"etat='structuree'",d:"Schema formel"},
+{c:"DonneePubliee",k:"etat='publiee'",d:"Stock finalise"},
+]},
+];
+
+// Layout: categories stacked vertically, left/right hemispheres
+const svg=document.getElementById('svg');
+const ns='http://www.w3.org/2000/svg';
+const tooltip=document.getElementById('tooltip');
+
+// Compute positions
+const marginTop=80,marginBottom=40,marginX=60;
+const usableH=H-marginTop-marginBottom;
+const totalItems=categories.reduce((s,c)=>s+c.items.length,0);
+let cumY=marginTop;
+const nodes=[];// {cx,cy,cxCode,cyCode,concept,code,desc,cat,size,catColor,conceptColor,codeColor,id}
+
+categories.forEach((cat,ci)=>{
+const catH=(cat.items.length/totalItems)*usableH;
+const catCenterY=cumY+catH/2;
+const spacing=Math.min(catH/(cat.items.length+1),40);
+const startY=catCenterY-((cat.items.length-1)/2)*spacing;
+
+cat.items.forEach((item,ii)=>{
+const y=startY+ii*spacing;
+const lx=marginX+40+Math.random()*((W/2)-marginX-120);
+const rx=(W/2)+40+Math.random()*((W/2)-marginX-120);
+nodes.push({
+cx:lx,cy:y,cxCode:rx,cyCode:y+Math.random()*20-10,
+concept:item.c,code:item.k,desc:item.d,
+cat:cat.name,size:cat.size,
+catColor:cat.color,conceptColor:cat.conceptColor,codeColor:cat.codeColor,
+id:nodes.length
+});
+});
+cumY+=catH;
+});
+
+// Draw nebula clouds per category
+cumY=marginTop;
+categories.forEach(cat=>{
+const catH=(cat.items.length/totalItems)*usableH;
+// Left nebula
+const g1=document.createElementNS(ns,'ellipse');
+g1.setAttribute('cx',W*0.25);g1.setAttribute('cy',cumY+catH/2);
+g1.setAttribute('rx',W*0.18);g1.setAttribute('ry',catH/2+10);
+g1.setAttribute('fill',cat.color);g1.setAttribute('opacity','0.04');
+g1.setAttribute('filter','url(#blur)');
+svg.appendChild(g1);
+// Right nebula
+const g2=document.createElementNS(ns,'ellipse');
+g2.setAttribute('cx',W*0.75);g2.setAttribute('cy',cumY+catH/2);
+g2.setAttribute('rx',W*0.18);g2.setAttribute('ry',catH/2+10);
+g2.setAttribute('fill',cat.color);g2.setAttribute('opacity','0.03');
+g2.setAttribute('filter','url(#blur)');
+svg.appendChild(g2);
+// Cat label
+const t=document.createElementNS(ns,'text');
+t.setAttribute('x','8');t.setAttribute('y',cumY+catH/2+4);
+t.setAttribute('fill',cat.color);t.setAttribute('opacity','0.35');
+t.setAttribute('font-size','9');t.setAttribute('font-family','Cinzel,serif');
+t.setAttribute('font-variant','small-caps');
+t.textContent=cat.name;
+svg.appendChild(t);
+cumY+=catH;
+});
+
+// SVG defs
+const defs=document.createElementNS(ns,'defs');
+const blur=document.createElementNS(ns,'filter');
+blur.setAttribute('id','blur');
+const gb=document.createElementNS(ns,'feGaussianBlur');
+gb.setAttribute('stdDeviation','30');
+blur.appendChild(gb);defs.appendChild(blur);
+
+// Glow filter
+const glow=document.createElementNS(ns,'filter');
+glow.setAttribute('id','glow');glow.setAttribute('x','-50%');glow.setAttribute('y','-50%');
+glow.setAttribute('width','200%');glow.setAttribute('height','200%');
+const gb2=document.createElementNS(ns,'feGaussianBlur');
+gb2.setAttribute('stdDeviation','3');gb2.setAttribute('result','blur');
+glow.appendChild(gb2);
+const merge=document.createElementNS(ns,'feMerge');
+const m1=document.createElementNS(ns,'feMergeNode');m1.setAttribute('in','blur');
+const m2=document.createElementNS(ns,'feMergeNode');m2.setAttribute('in','SourceGraphic');
+merge.appendChild(m1);merge.appendChild(m2);glow.appendChild(merge);
+defs.appendChild(glow);
+svg.appendChild(defs);
+
+// Draw coupling lines
+const lines=[];
+nodes.forEach(n=>{
+const line=document.createElementNS(ns,'line');
+line.setAttribute('x1',n.cx);line.setAttribute('y1',n.cy);
+line.setAttribute('x2',n.cxCode);line.setAttribute('y2',n.cyCode);
+line.setAttribute('stroke','rgba(212,175,55,0.2)');
+line.setAttribute('stroke-width','0.8');
+line.setAttribute('data-id',n.id);
+svg.appendChild(line);
+lines.push(line);
+});
+
+// Draw nodes
+const conceptEls=[],codeEls=[],labelEls=[];
+nodes.forEach(n=>{
+// Concept star (left)
+const c1=document.createElementNS(ns,'circle');
+c1.setAttribute('cx',n.cx);c1.setAttribute('cy',n.cy);
+c1.setAttribute('r',n.size/2+1);
+c1.setAttribute('fill',n.conceptColor);
+c1.setAttribute('opacity','0.9');
+c1.setAttribute('filter','url(#glow)');
+c1.setAttribute('data-id',n.id);
+c1.style.cursor='pointer';
+svg.appendChild(c1);
+conceptEls.push(c1);
+
+// Halo
+const h1=document.createElementNS(ns,'circle');
+h1.setAttribute('cx',n.cx);h1.setAttribute('cy',n.cy);
+h1.setAttribute('r',n.size);
+h1.setAttribute('fill','none');h1.setAttribute('stroke',n.conceptColor);
+h1.setAttribute('stroke-width','0.5');h1.setAttribute('opacity','0.25');
+h1.setAttribute('data-id',n.id);
+svg.appendChild(h1);
+
+// Code star (right)
+const c2=document.createElementNS(ns,'circle');
+c2.setAttribute('cx',n.cxCode);c2.setAttribute('cy',n.cyCode);
+c2.setAttribute('r',n.size/2);
+c2.setAttribute('fill',n.codeColor);
+c2.setAttribute('opacity','0.85');
+c2.setAttribute('filter','url(#glow)');
+c2.setAttribute('data-id',n.id);
+c2.style.cursor='pointer';
+svg.appendChild(c2);
+codeEls.push(c2);
+
+// Labels
+const t1=document.createElementNS(ns,'text');
+t1.setAttribute('x',n.cx+n.size+4);t1.setAttribute('y',n.cy+3);
+t1.setAttribute('fill',n.conceptColor);t1.setAttribute('font-size','9');
+t1.setAttribute('font-family','Cinzel,serif');t1.setAttribute('font-variant','small-caps');
+t1.setAttribute('opacity','0.7');t1.setAttribute('data-id',n.id);
+t1.textContent=n.concept;
+svg.appendChild(t1);
+
+const t2=document.createElementNS(ns,'text');
+t2.setAttribute('x',n.cxCode+n.size+2);t2.setAttribute('y',n.cyCode+3);
+t2.setAttribute('fill',n.codeColor);t2.setAttribute('font-size','8');
+t2.setAttribute('font-family','monospace');
+t2.setAttribute('opacity','0.6');t2.setAttribute('data-id',n.id);
+t2.textContent=n.code.length>28?n.code.slice(0,26)+'..':n.code;
+svg.appendChild(t2);
+
+labelEls.push(t1,t2);
+});
+
+// Interactivity
+const allEls=[...conceptEls,...codeEls,...lines,...labelEls];
+
+function highlight(id){
+allEls.forEach(el=>{
+const eid=parseInt(el.getAttribute('data-id'));
+if(eid===id){
+el.setAttribute('opacity','1');
+if(el.tagName==='line')el.setAttribute('stroke','rgba(212,175,55,0.8)');
+}else{
+const cur=parseFloat(el.getAttribute('opacity')||'1');
+el.setAttribute('opacity',Math.min(cur,0.08).toString());
+if(el.tagName==='line')el.setAttribute('stroke','rgba(212,175,55,0.05)');
+}
+});
+}
+function resetAll(){
+nodes.forEach((n,i)=>{
+conceptEls[i].setAttribute('opacity','0.9');
+codeEls[i].setAttribute('opacity','0.85');
+lines[i].setAttribute('opacity','1');
+lines[i].setAttribute('stroke','rgba(212,175,55,0.2)');
+});
+labelEls.forEach((l,i)=>{
+l.setAttribute('opacity',i%2===0?'0.7':'0.6');
+});
+}
+
+function showTooltip(e,n){
+tooltip.innerHTML=`<span class="tt-concept">${n.concept}</span><span class="tt-arrow">&#8596;</span><span class="tt-code">${n.code}</span><div class="tt-desc">${n.desc} &mdash; ${n.cat}</div>`;
+tooltip.style.display='block';
+const tx=Math.min(e.clientX+14,W-340);
+tooltip.style.left=tx+'px';tooltip.style.top=(e.clientY-50)+'px';
+}
+
+svg.addEventListener('mousemove',e=>{
+const t=e.target;
+if(t.tagName==='circle'||t.tagName==='text'){
+const id=parseInt(t.getAttribute('data-id'));
+if(!isNaN(id)){highlight(id);showTooltip(e,nodes[id]);return}
+}
+resetAll();tooltip.style.display='none';
+});
+svg.addEventListener('mouseleave',()=>{resetAll();tooltip.style.display='none';});
+</script>
+</body>
+</html>

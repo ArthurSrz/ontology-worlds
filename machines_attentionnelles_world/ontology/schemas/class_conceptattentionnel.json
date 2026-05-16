@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de ConceptAttentionnel",
+  "description": "Valeur contrainte aux instances de la classe ConceptAttentionnel dans l'ontologie Machines attentionnelles",
+  "type": "string",
+  "enum": [
+    "FenetreAttention",
+    "EconomieAttention",
+    "CaptationAttention",
+    "SusceptibiliteAttentionnelle"
+  ],
+  "x-labels": [
+    "Fenêtre d'attention",
+    "Économie de l'attention",
+    "Captation de l'attention",
+    "Susceptibilité attentionnelle"
+  ],
+  "x-labels-short": []
+}

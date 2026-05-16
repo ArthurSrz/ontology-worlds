@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de MecanismeAttentionnel",
+  "description": "Valeur contrainte aux instances de la classe MecanismeAttentionnel dans l'ontologie Machines attentionnelles",
+  "type": "string",
+  "enum": [
+    "MachineAttentionnelle",
+    "FiltreIndividuel",
+    "FiltreReseau",
+    "BoucleDeRetroaction",
+    "AlgorithmeRecommandation"
+  ],
+  "x-labels": [
+    "Machine attentionnelle à la puissance 2",
+    "Filtre attentionnel individuel",
+    "Filtre attentionnel du réseau",
+    "Boucle de rétroaction",
+    "Algorithme de recommandation"
+  ],
+  "x-labels-short": []
+}

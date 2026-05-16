@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance of EvidenceAssessment",
+  "description": "Value constrained to instances of class EvidenceAssessment in the RFK Assassination Case Reasoning ontology",
+  "type": "string",
+  "enum": [
+    "Assessment_AutopsyVsWitnesses",
+    "Assessment_StructuredFactsVsLLM",
+    "Assessment_CesarPosition"
+  ],
+  "x-labels": [
+    "Assessment: autopsy vs. witness positions",
+    "Assessment: structured facts vs. LLM correlation",
+    "Assessment: Cesar's position matches forensic evidence"
+  ],
+  "x-labels-short": []
+}

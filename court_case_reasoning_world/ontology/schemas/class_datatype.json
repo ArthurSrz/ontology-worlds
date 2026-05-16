@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de DataType",
+  "description": "Valeur contrainte aux instances de la classe DataType dans l'ontologie Open Data France",
+  "type": "string",
+  "enum": [
+    "DonneesGeographiques",
+    "DonneesSociales",
+    "DonneesEconomiques",
+    "DonneesSante",
+    "DonneesEnvironnementales",
+    "DonneesTransport"
+  ],
+  "x-labels": [
+    "Données Géographiques",
+    "Données Sociales",
+    "Données Économiques",
+    "Données de Santé",
+    "Données Environnementales",
+    "Données Transport"
+  ],
+  "x-labels-short": []
+}

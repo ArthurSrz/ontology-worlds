@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de Licence",
+  "description": "Valeur contrainte aux instances de la classe Licence dans l'ontologie Open Data France",
+  "type": "string",
+  "enum": [
+    "LicenceOuverte",
+    "ODbL",
+    "CCBY"
+  ],
+  "x-labels": [
+    "Licence Ouverte",
+    "Open Database License",
+    "Creative Commons Attribution 4.0"
+  ],
+  "x-labels-short": [
+    "LO v2.0",
+    "ODbL",
+    "CC-BY 4.0"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance of FinanceBusiness",
+  "description": "Value constrained to instances of class FinanceBusiness in the Economics ontology",
+  "type": "string",
+  "enum": [
+    "EconomicsOntology",
+    "EconomicsDepartmentsInstitutesAndResearchCentersInTheWorld",
+    "StwThesaurusForEconomics",
+    "GlossaryOfEconomics",
+    "RepecAuthorService",
+    "Goodrelations",
+    "StatisticalClassificationOfEconomicActivitiesInTheEuropeanCommunityRev22008",
+    "StatisticalClassificationOfEconomicActivitiesInTheEuropeanCommunityRev212025",
+    "BankOntology",
+    "FederalReserveSubjectTaxonomy",
+    "PetrochemicalOntology",
+    "EthereumOntology"
+  ],
+  "x-labels": [
+    "Economics Ontology",
+    "Economics Departments, Institutes and Research Centers in the World",
+    "STW Thesaurus for Economics",
+    "glossary of economics",
+    "RePEc Author Service",
+    "GoodRelations",
+    "Statistical Classification of Economic Activities in the European Community, Rev. 2 (2008)",
+    "Statistical Classification of Economic Activities in the European Community, Rev. 2.1 (2025)",
+    "Bank Ontology",
+    "Federal Reserve Subject Taxonomy",
+    "Petrochemical Ontology",
+    "Ethereum ontology"
+  ],
+  "x-labels-short": []
+}

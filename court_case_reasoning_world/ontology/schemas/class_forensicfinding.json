@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance of ForensicFinding",
+  "description": "Value constrained to instances of class ForensicFinding in the RFK Assassination Case Reasoning ontology",
+  "type": "string",
+  "enum": [
+    "AutopsyFinding_ShotDirection",
+    "AutopsyFinding_MuzzleDistance",
+    "AutopsyFinding_FatalShot",
+    "AutopsyFinding_ThreeHits",
+    "BulletCountAnalysis",
+    "WolferBallisticsReport",
+    "HarperBallisticsChallenge",
+    "PowderBurnAnalysis"
+  ],
+  "x-labels": [
+    "Autopsy: all shots from behind",
+    "Autopsy: muzzle distance 1-3 inches",
+    "Autopsy: fatal shot behind right ear",
+    "Autopsy: three bullet entry wounds",
+    "Bullet count analysis",
+    "Wolfer ballistics report",
+    "Harper ballistics challenge",
+    "Powder burn analysis"
+  ],
+  "x-labels-short": []
+}
