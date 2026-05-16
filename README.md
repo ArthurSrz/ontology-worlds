@@ -22,7 +22,28 @@
 
 ---
 
-Each world is a self-contained Claude Code environment where **every LLM response is grounded in a closed ontology**, and eventually becomes a contribution session to Wikidata's ontology. 
+> ### 🛠 Major refactor (v0.3.0)
+>
+> The repo was reorganised into **three independent, downloadable artifacts**, each operational standalone:
+>
+> 1. **`plugin/`** — Claude Code plugin (JIT Wikidata-grounded conversations).
+>    Install with `/plugin install /path/to/ontology-worlds/plugin`. Adds the
+>    `/world`, `/gaps`, `/contribute` slash commands and wires the
+>    UserPromptSubmit + Stop hooks.
+> 2. **`mini-worlds/`** — Self-contained pre-built worlds with closed
+>    ontologies. `cd mini-worlds/<name>` + `pip install -r requirements.txt`
+>    + `claude`. Hooks block out-of-ontology claims.
+> 3. **`ontology-worlds-plugin.zip`** (on the `main` branch) — Lightweight
+>    cowork bundle (skills + commands, no Python hooks) for Claude Cowork
+>    environments.
+>
+> A Claude Code agent helping you install can consume `AGENT.md` at the repo root
+> for step-by-step instructions. See `CLAUDE.md` for architecture notes and the
+> full JIT pipeline.
+
+---
+
+Each world is a self-contained Claude Code environment where **every LLM response is grounded in a closed ontology**. No hallucination — only facts that exist in the knowledge graph.
 
 ## Watch an LLM navigate a formal world
 
@@ -133,7 +154,7 @@ Clone → Ask for a domain → Enter the world → Constrained conversation
 ```bash
 git clone https://github.com/ArthurSrz/ontology-worlds.git
 cd ontology-worlds
-uv pip install -r requirements.txt   # or: pip install -r requirements.txt
+uv pip install -r plugin/requirements.txt   # or: pip install -r plugin/requirements.txt
 claude
 ```
 
@@ -144,15 +165,15 @@ claude
 Tell Claude a domain — economics, cosmetics regulation, French open data, anything discoverable through the [Open Knowledge Graphs](https://openknowledgegraphs.com):
 
 ```bash
-python create_world.py "economics" --language en --limit 25
+python plugin/create_world.py "economics" --language en --limit 25
 ```
 
-This searches OKG for ontologies, enriches entities from Wikidata, and builds a self-contained `economics_world/` folder.
+This searches OKG for ontologies, enriches entities from Wikidata, and builds a self-contained world folder under `mini-worlds/`.
 
 ### 3. Enter the world
 
 ```bash
-cd economics_world
+cd mini-worlds/economics_world
 claude
 ```
 
@@ -261,7 +282,7 @@ git clone -b subscribers https://github.com/ArthurSrz/ontology-worlds.git
 cd ontology-worlds
 
 # 2. Install dependencies
-cd machines_attentionnelles_world
+cd mini-worlds/machines_attentionnelles_world
 pip install -r requirements.txt   # or: uv pip install -r requirements.txt
 
 # 3. Launch Claude Code inside the world
@@ -304,7 +325,7 @@ Two Streamlit applications that are **structurally identical to their ontology**
 
 Run the apps:
 ```bash
-cd data_design_interfaces_world
+cd mini-worlds/data_design_interfaces_world
 streamlit run apps/app.py
 ```
 
@@ -330,7 +351,7 @@ This mini-world encodes the assassination of Robert F. Kennedy (1968) as a forma
 **13 classes · 59 instances · 146 relations · 20 predicates**
 
 ```bash
-cd court_case_reasoning_world
+cd mini-worlds/court_case_reasoning_world
 pip install -r requirements.txt
 claude
 ```

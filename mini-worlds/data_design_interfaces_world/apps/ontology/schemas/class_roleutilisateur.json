@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Instance de RoleUtilisateur",
+  "description": "Valeur contrainte aux instances de la classe RoleUtilisateur dans l'ontologie Data Design Interfaces",
+  "type": "string",
+  "enum": [
+    "ConsommateurDonnees",
+    "ConstructeurDonnees"
+  ],
+  "x-labels": [
+    "Consommateur de données",
+    "Constructeur de données"
+  ],
+  "x-labels-short": []
+}
